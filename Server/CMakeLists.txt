@@ -1,0 +1,1 @@
+ADD_EXECUTABLE(Yacht_Dice_Client main.cpp)
