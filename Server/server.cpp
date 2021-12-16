@@ -40,7 +40,10 @@ void server::start() {
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}
-	while((valread = read(new_socket ,buffer, 1024)) != 0) {
-		printf("%s\n",buffer);
+	char hello[1024];
+	while(1) {
+		scanf("%[^\n]",hello);
+		getc(stdin);
+		send(new_socket , hello , strlen(hello) , 0 );
 	}
 }

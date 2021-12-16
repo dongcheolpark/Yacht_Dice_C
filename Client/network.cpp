@@ -24,10 +24,10 @@ network::network() {
 }
 
 void network::join() {
-	char hello[1024];
-	while(1) {
-		scanf("%[^\n]",hello);
-		getc(stdin);
-		send(sock , hello , strlen(hello) , 0 );
+}
+char * network::GetStringToServer() {
+	while((valread = read(sock ,buffer, 1024)) != 0) {
+		printf("%s\n",buffer);
+		memset(buffer,0,strlen(buffer)*sizeof(char));
 	}
 }
