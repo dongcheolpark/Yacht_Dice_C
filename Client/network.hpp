@@ -16,4 +16,5 @@ public :
 	network(); 
 	bool join(); 
 	char * GetStringToServer();
+	void SendStringToServer(char *);
 };
