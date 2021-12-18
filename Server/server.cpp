@@ -21,7 +21,7 @@ server::server() {
 	
 	// Forcefully attaching socket to the port 8080
 	if (bind(server_fd, (struct sockaddr *)&address,
-								sizeof(address))<0)
+								sizeof(address)) < 0)
 	{
 		perror("bind failed");
 		exit(EXIT_FAILURE);
@@ -41,9 +41,9 @@ void server::start() {
 		exit(EXIT_FAILURE);
 	}
 	char hello[1024];
-	while(1) {
-		scanf("%[^\n]",hello);
-		getc(stdin);
-		send(new_socket , hello , strlen(hello) , 0 );
-	}
+}
+
+void server::send_string(char * str) {
+	send(new_socket ,str,strlen(str), 0 );
+	return;
 }

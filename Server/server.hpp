@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <pthread.h>
+#include <string>
 
 class server {
 private :
@@ -18,5 +19,6 @@ private :
 public :
 	server(); 
 	void start(); 
+	void send_string(char * str);
 };
 

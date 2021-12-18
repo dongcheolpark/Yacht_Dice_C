@@ -10,24 +10,26 @@ network::network() {
 	serv_addr.sin_port = htons(PORT);
 	
 	// Convert IPv4 and IPv6 addresses from text to binary form
+
+}
+
+bool network::join() {
 	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0)
 	{
 		printf("\nInvalid address/ Address not supported \n");
-		return;
+		return false;
 	}
-
 	if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
 	{
 		printf("\nConnection Failed \n");
-		return;
+		return false;
 	}
-}
-
-void network::join() {
+	return true;
 }
 char * network::GetStringToServer() {
-	while((valread = read(sock ,buffer, 1024)) != 0) {
-		printf("%s\n",buffer);
-		memset(buffer,0,strlen(buffer)*sizeof(char));
+	char * buffer = new char[buff_size];
+	if((valread = read(sock ,buffer, 1024)) != 0) {
+		return buffer;
 	}
+	return NULL;
 }

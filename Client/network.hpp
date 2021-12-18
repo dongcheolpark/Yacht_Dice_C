@@ -8,11 +8,12 @@
 
 class network {
 private : 
-	int sock = 0, valread;
+	int sock = 0;
+	int valread;
+	const int buff_size = 1024;
 	struct sockaddr_in serv_addr;
-	char buffer[1024] = {0};
 public :
 	network(); 
-	void join(); 
+	bool join(); 
 	char * GetStringToServer();
 };
