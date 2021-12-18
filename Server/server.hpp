@@ -9,9 +9,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <string>
-#include <list>
-#include "user.hpp"
-#include "Room.hpp"
+#include "game_server.hpp"
 
 class server {
 private :
@@ -25,9 +23,7 @@ private :
 	char buffer[1024] = {0};
 	fd_set reads, cpy_reads;
 	const int port = 8080;
-
-	std::list<room *> roomList;
-	std::list<user *> userList;
+	game_server game_ser;
 public :
 	server(); 
 	void start(); 

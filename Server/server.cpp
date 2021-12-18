@@ -70,27 +70,10 @@ void server::start() {
                     if (str_len == 0) {   // close request!
                         FD_CLR(i, &reads); // fd_set 테이블에서 파일 디스크립터를 삭제한다.
                         close(i);
-						userList.remove_if([i](user * value) {
-							return value->getuserId() == i;
-						});
+						game_ser.remove_user(i);
                         printf("closed client: %d \n", i);
                     } else {
-						std::vector<std::string> token;
-						std::string tmp;
-						for(int i = 0;i<strlen(buffer);i++) {
-							if(buffer[i] == ' ') {
-								token.push_back(std::string(tmp));
-								tmp.clear();
-							}
-							else tmp.push_back(buffer[i]);
-						}
-						token.push_back(tmp);
-						if(token[0] == "0") {
-							userList.push_back(new user(std::stoi(token[1]),token[2].c_str()));
-						}
-						for(auto item : userList) {
-							printf("%d %s\n",item->getuserId(),item->getuserName());
-						}
+						game_ser.parseString(buffer);
                     }
                 }
             }

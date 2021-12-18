@@ -1,6 +1,4 @@
 #include "network.hpp"
-#include "user.hpp"
-#include "Room.hpp"
 #include <iostream>
 #include <string>
 #include <thread>
@@ -9,7 +7,6 @@ using std::thread;
 using namespace std;
 
 void func1(network * net) {
-	puts("start thread");
 	while(1)
 	{
 		printf("%s\n",net->GetStringToServer());
