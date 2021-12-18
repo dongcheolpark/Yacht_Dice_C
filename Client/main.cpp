@@ -30,12 +30,12 @@ int main(int argc, char const *argv[])
 		}
 	}
 	thread t1(func1,net);
-	t1.join();
 	char name[20];
 	cout<<"사용할 닉네임을 정해주세요. (20자 제한)";
 	cin>>name;
 	char buffer[1024]; 
-	sprintf(buffer,"%d %s",id,name);
+	sprintf(buffer,"0 %d %s",id,name);
 	net->SendStringToServer(buffer);
+	t1.join();
 	return 0;
 }
