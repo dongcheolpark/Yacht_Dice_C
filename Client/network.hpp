@@ -14,7 +14,7 @@ private :
 	struct sockaddr_in serv_addr;
 public :
 	network(); 
-	bool join(); 
+	int join(); 
 	char * GetStringToServer();
 	void SendStringToServer(char *);
 };

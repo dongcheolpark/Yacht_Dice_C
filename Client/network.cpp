@@ -1,4 +1,5 @@
 #include "network.hpp"
+#include <cstdlib>
 
 network::network() {
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -13,19 +14,21 @@ network::network() {
 
 }
 
-bool network::join() {
+int network::join() {
 	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0)
 	{
 		printf("\nInvalid address/ Address not supported \n");
-		return false;
+		return 0;
 	}
 	puts("1");
 	if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
 	{
 		printf("\nConnection Failed \n");
-		return false;
+		return 0;
 	}
-	return true;
+	char buffer[10];
+	read(sock,buffer,buff_size);
+	return atoi(buffer);
 }
 char * network::GetStringToServer() {
 	char * buffer = new char[buff_size];

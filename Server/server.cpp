@@ -59,6 +59,9 @@ void server::start() {
                     if (fd_max < clnt_sock)
                         fd_max = clnt_sock;
                     printf("connected client: %d \n", clnt_sock);
+					char num[10];
+					sprintf(num,"%d",clnt_sock);
+					send(clnt_sock,num,10,0);
                 }
                 // 클라이언트와 연결된 소켓에 이벤트 발생
                 else {   // read message!
@@ -68,10 +71,6 @@ void server::start() {
                         close(i);
                         printf("closed client: %d \n", i);
                     } else {
-						printf("%s\n",buffer);
-						for(int j = 0;j<fd_max+1;j++) {
-							send(j,buffer,buffer_size,0);
-						}
                     }
                 }
             }

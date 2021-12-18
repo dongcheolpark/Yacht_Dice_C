@@ -1,5 +1,8 @@
 #include "network.hpp"
+#include "user.hpp"
+#include "Room.hpp"
 #include <iostream>
+#include <string>
 #include <thread>
 using std::thread;
 
@@ -16,7 +19,8 @@ void func1(network * net) {
 int main(int argc, char const *argv[])
 {
 	network * net = new network();
-	while(!net->join()) {
+	int id = 0;
+	while((id = net->join()) == 0) {
 		char a;
 		cout<<"서버와 다시 연결 하시겠습니까? Y/N"<<endl;
 		cin>>a;
@@ -26,14 +30,12 @@ int main(int argc, char const *argv[])
 		}
 	}
 	thread t1(func1,net);
-	thread t2([](network *net){
-		while(1) {
-			char * buffer = new char[1024];
-			scanf("%s",buffer);
-			net->SendStringToServer(buffer);
-		}
-	},net);
 	t1.join();
-	t2.join();
+	char name[20];
+	cout<<"사용할 닉네임을 정해주세요. (20자 제한)";
+	cin>>name;
+	char buffer[1024]; 
+	sprintf(buffer,"%d %s",id,name);
+	net->SendStringToServer(buffer);
 	return 0;
 }
