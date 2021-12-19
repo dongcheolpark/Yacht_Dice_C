@@ -2,4 +2,9 @@
  id // 유저 ID
   userName // 유저이름
 1
-  
+ 0
+  userlist_count
+   {
+	   user->id
+	   user->name
+   } 

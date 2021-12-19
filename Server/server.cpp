@@ -73,7 +73,11 @@ void server::start() {
 						game_ser.remove_user(i);
                         printf("closed client: %d \n", i);
                     } else {
-						game_ser.parseString(buffer);
+						send_struct * data = game_ser.parseString(buffer);
+						for(auto item : *(data->list)) {
+							send_string(item->getuserId(),data->str->c_str());
+						}
+						delete data;
                     }
                 }
             }
@@ -81,7 +85,7 @@ void server::start() {
 	}
 }
 
-void server::send_string(char * str) {
-	send(clnt_sock,str,strlen(str), 0 );
+void server::send_string(int num,const char * str) {
+	send(num,str,strlen(str), 0 );
 	return;
 }

@@ -1,4 +1,5 @@
 #include "network.hpp"
+#include "game.hpp"
 #include <iostream>
 #include <string>
 #include <thread>
@@ -6,10 +7,10 @@ using std::thread;
 
 using namespace std;
 
-void func1(network * net) {
+void recive_from_server(network * net,game * _game) {
 	while(1)
 	{
-		printf("%s\n",net->GetStringToServer());
+		_game->parseString(net->GetStringToServer());
 	}
 }
 
@@ -26,13 +27,15 @@ int main(int argc, char const *argv[])
 			return 0;
 		}
 	}
-	thread t1(func1,net);
+	game * _game = new game();
+	thread t1(recive_from_server,net,_game);
 	char name[20];
-	cout<<"사용할 닉네임을 정해주세요. (20자 제한)";
+	cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n";
 	cin>>name;
 	char buffer[1024]; 
 	sprintf(buffer,"0 %d %s",id,name);
 	net->SendStringToServer(buffer);
+	_game->start(net);
 	t1.join();
 	return 0;
 }
