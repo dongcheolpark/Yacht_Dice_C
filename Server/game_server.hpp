@@ -2,6 +2,7 @@
 #include "../common/Room.hpp"
 #include "../common/user.hpp"
 #include "send_struct.hpp"
+#include <cstring>
 #include <string>
 #include <vector>
 #include <list>
