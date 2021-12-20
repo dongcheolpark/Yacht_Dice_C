@@ -14,7 +14,7 @@
 #include "send_struct.hpp"
 
 class server {
-private :
+private:
 	int server_fd,clnt_sock,valread;
 	struct sockaddr_in address;
 	struct timeval timeout;
