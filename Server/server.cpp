@@ -66,18 +66,32 @@ void server::start() {
                 }
                 // 클라이언트와 연결된 소켓에 이벤트 발생
                 else {   // read message!
+					if(strlen(buffer))memset(buffer,0,strlen(buffer));
                     str_len = read(i, buffer, buffer_size);
                     if (str_len == 0) {   // close request!
                         FD_CLR(i, &reads); // fd_set 테이블에서 파일 디스크립터를 삭제한다.
                         close(i);
 						game_ser.remove_user(i);
+						send_string(game_ser.processing(1));
                         printf("closed client: %d \n", i);
                     } else {
-						send_struct * data = game_ser.parseString(buffer);
-						for(auto item : *(data->list)) {
-							send_string(item->getuserId(),data->str->c_str());
+						std::list<std::string> str;
+						std::string tmp;
+						for(int i = 0;i<strlen(buffer);i++) {
+							if(strncmp(buffer+i,"<end>",5) == 0) {
+								str.push_back(tmp);
+								tmp.clear();
+								i+=4;
+							}
+							else tmp.push_back(buffer[i]);
 						}
-						delete data;
+						if(!tmp.empty())	str.push_back(tmp);
+						for(auto item : str) {
+							//puts(item.c_str());
+							send_struct * data = game_ser.parseString(item.c_str());
+							send_string(data);
+							//data->print_data();
+						}
                     }
                 }
             }
@@ -85,7 +99,11 @@ void server::start() {
 	}
 }
 
-void server::send_string(int num,const char * str) {
-	send(num,str,strlen(str), 0 );
+void server::send_string(send_struct * data) {
+	data->str->append("<end>");
+	for(auto item : *(data->list)) {
+		send(item->getuserId(),data->str->c_str(),data->str->size(),0);
+	}
+	delete data;
 	return;
 }

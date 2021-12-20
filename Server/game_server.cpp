@@ -1,9 +1,10 @@
 #include "game_server.hpp"
+#include "game_server_parse.hpp"
 #include <string>
-send_struct * game_server::parseString(char * buffer) {
+send_struct * game_server::parseString(const char * buffer) {
 	std::vector<std::string> token;
 	std::string tmp;
-	send_struct * data = new send_struct();
+	game_server_parse * parse = NULL;
 	for(int i = 0;i<strlen(buffer);i++) {
 		if(buffer[i] == ' ') {
 			token.push_back(std::string(tmp));
@@ -14,15 +15,48 @@ send_struct * game_server::parseString(char * buffer) {
 	token.push_back(tmp);
 	if(token[0] == "0") {
 		//유저 리스트에 추가
-		user * _user = new user(std::stoi(token[1]),token[2].c_str());
-		userList.push_back(_user);
-		//유저 리스트 전송
-		data->str->append(data->format_string("1 0 %d ",userList.size()));
-		for(auto item : userList) {
-			data->list->push_back(item);
-			data->str->append(data->format_string("%d %s ",item->getuserId(),item->getuserName()));
+		if(token[0] == "0") {
+			user * _user = new user(std::stoi(token[2]),token[3].c_str());
+			userList.push_back(_user);
+			parse = new game_server_send_userList(this);
 		}
 	}
+	else if(token[0] == "1") {
+		if(token[1] == "0") {
+			parse = new game_server_send_chatList(this);
+		}
+		else if(token[1] == "1") {
+			if(chatList.size() >= 5) {
+				chatList.pop_front();
+			}
+			char buff[1024];
+			int id = std::stoi(token[2]);
+			user * _user = NULL;
+			for(auto item : userList) {
+				if(id == item->getuserId()) {
+					_user = item;
+					break;
+				}
+			}
+			sprintf(buff,"%s %s",_user->getuserName(),token[3].c_str());
+			//puts(buff);
+			chatList.push_back(buff);
+			parse = new game_server_send_chatList(this);
+		}
+	}
+	auto * data = parse->doParse();
+	delete parse;
+	//printf("%s\n",data->str->c_str());
+	return data;
+}
+
+send_struct * game_server::processing(int index) {
+	game_server_parse * parse = NULL;
+	if(index == 1) {
+		parse = new game_server_send_userList(this);
+	}
+	auto data = parse->doParse();
+	delete parse;
 	return data;
 }
 

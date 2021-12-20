@@ -20,7 +20,6 @@ int network::join() {
 		printf("\nInvalid address/ Address not supported \n");
 		return 0;
 	}
-	puts("1");
 	if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
 	{
 		printf("\nConnection Failed \n");
@@ -38,5 +37,7 @@ char * network::GetStringToServer() {
 	return NULL;
 }
 void network::SendStringToServer(char* str) {
-	send(sock,str,buff_size,0);
+	strcat(str,"<end>");
+	puts(str);
+	send(sock,str,strlen(str),0);
 }

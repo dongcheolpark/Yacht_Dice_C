@@ -28,4 +28,10 @@ public:
 		snprintf(buffer.get(), size, format.c_str(), args ...);
 		return std::string(buffer.get(), buffer.get() + size - 1);
 	}
+	void print_data() {
+		for(auto item : *list) {
+			printf("%d %s\n",item->getuserId(),item->getuserName());
+		}
+		printf("%s\n",str->c_str());
+	}
 };

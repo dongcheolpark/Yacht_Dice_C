@@ -29,6 +29,6 @@ private :
 public :
 	server(); 
 	void start(); 
-	void send_string(int num,const char * str);
+	void send_string(send_struct * data);
 };
 
