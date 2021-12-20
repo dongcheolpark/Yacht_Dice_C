@@ -23,7 +23,7 @@ void game::set_chatString(int x) {
 void game::graphic() {
 	system("clear");
 	for(auto item : userList) {
-		std::cout<<item->getuserName()<<' ';
+		printf("%20s ",item->getuserName());
 	}
 	std::cout<<std::endl;
 	for(auto item : chatList) {
