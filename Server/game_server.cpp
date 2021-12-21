@@ -11,8 +11,9 @@ send_struct * game_server::parseString(const char * buffer) {
 			tmp.clear();
 		}
 		else tmp.push_back(buffer[i]);
-	}
+	}//문자열을 스페이스바를 기준으로 토큰화 한다.
 	token.push_back(tmp);
+	//토큰을 분석해준다.
 	if(token[0] == "0") {
 		//유저 리스트에 추가
 		if(token[0] == "0") {
@@ -44,13 +45,13 @@ send_struct * game_server::parseString(const char * buffer) {
 			parse = new game_server_send_chatList(this);
 		}
 	}
-	auto * data = parse->doParse();
+	auto * data = parse->doParse();//전송 데이터를 가져온다.
 	delete parse;
 	//printf("%s\n",data->str->c_str());
 	return data;
 }
 
-send_struct * game_server::processing(int index) {
+send_struct * game_server::processing(int index) {//바뀐 정보를 바로바로 전송할 때 사용한다.
 	game_server_parse * parse = NULL;
 	if(index == 1) {
 		parse = new game_server_send_userList(this);

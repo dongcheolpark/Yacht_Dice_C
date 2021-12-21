@@ -13,6 +13,7 @@ send_struct * game_server_send_userList::doParse() {
 	return data;
 }
 send_struct * game_server_send_chatList::doParse() {
+	//채팅 리스트 전송
 	auto chatList = server->getChatList();
 	for(auto item : userList) {
 		data->list->push_back(item);

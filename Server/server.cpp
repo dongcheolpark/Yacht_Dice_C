@@ -1,7 +1,7 @@
 #include "server.hpp"
 #include <vector>
 
-server::server() {
+server::server() {//서버 설정
 	// Creating socket file descriptor
 	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
@@ -38,7 +38,7 @@ server::server() {
 	fd_max = server_fd;
 }
 
-void server::start() {
+void server::start() {//멀티 플렉싱 서버
 	while(1) {
 		cpy_reads = reads;
         timeout.tv_sec = 5;
@@ -84,12 +84,12 @@ void server::start() {
 								i+=4;
 							}
 							else tmp.push_back(buffer[i]);
-						}
+						}//클라이언트에서 들어오는 값들을 <end>까지 입력받는다
 						if(!tmp.empty())	str.push_back(tmp);
 						for(auto item : str) {
 							//puts(item.c_str());
-							send_struct * data = game_ser.parseString(item.c_str());
-							send_string(data);
+							send_struct * data = game_ser.parseString(item.c_str()); //클라이언트에서 들어온 문자열을 파싱한다.
+							send_string(data);//클라이언트에 필요한 정보를 전달한다.
 							//data->print_data();
 						}
                     }

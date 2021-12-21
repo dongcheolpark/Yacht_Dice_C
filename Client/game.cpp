@@ -5,7 +5,7 @@ void game::start(network * net) {
 	graphic();
 }
 
-void game::set_chatString(int x) {
+void game::set_chatString(int x) {//채팅 문자열 관리
 	if(x == 127) {
 		if(!(chat_str.empty())) {
 			chat_str.pop_back();
@@ -20,7 +20,7 @@ void game::set_chatString(int x) {
 	graphic();
 }
 
-void game::graphic() {
+void game::graphic() {//콘솔에 정보들을 띄워준다
 	system("clear");
 	for(auto item : userList) {
 		printf("%20s ",item->getuserName());
@@ -36,6 +36,7 @@ void game::graphic() {
 }
 
 void game::parseString(const char * buffer) {
+	//서버에서 들어온 문자열을 분석한다.
 	//std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
@@ -74,5 +75,6 @@ void game::parseString(const char * buffer) {
 			}
 		}
 	}
+	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
 	graphic();
 }
