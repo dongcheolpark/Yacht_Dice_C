@@ -15,7 +15,7 @@ network::network() {
 }
 
 int network::join() {
-	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0)
+	if(inet_pton(AF_INET, this->ip_adress , &serv_addr.sin_addr)<=0)
 	{
 		printf("\nInvalid address/ Address not supported \n");
 		return 0;

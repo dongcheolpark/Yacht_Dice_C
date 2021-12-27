@@ -54,17 +54,23 @@ void input(network * net,game * _game) {
 		if(x == 10) {
 			const std::u16string& chat_str = _game->get_chatString();
 			if(chat_str.empty()) continue;
-			char buf[1024];
-			int i = 0;
-			for (const auto& c: chat_str) {
-				if(c==' ') buf[i++] = '_';
-				else buf[i++] = c;
+			if(chat_str == u"ready") {
+				char buffer[1024];
+				sprintf(buffer,"2 0 %d",id);
+				net->SendStringToServer(buffer);
 			}
-			buf[i] = '\0';
-			char buffer[1024]; 
-			sprintf(buffer,"1 1 %d %s",id,buf);
-			net->SendStringToServer(buffer);
-
+			else {
+				char buf[1024];
+				int i = 0;
+				for (const auto& c: chat_str) {
+					if(c==' ') buf[i++] = '_';
+					else buf[i++] = c;
+				}
+				buf[i] = '\0';
+				char buffer[1024]; 
+				sprintf(buffer,"1 1 %d %s",id,buf);
+				net->SendStringToServer(buffer);
+			}
 		}
 		_game->set_chatString(x);
 	}

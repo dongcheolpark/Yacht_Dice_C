@@ -9,6 +9,9 @@
  1
  id // 유저 ID
  chatText
+2 //게임
+ 0// 레디
+  id
 </client to server>
 
 <server to client>
