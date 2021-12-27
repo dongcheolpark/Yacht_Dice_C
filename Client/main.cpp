@@ -26,7 +26,7 @@ int getch(void)
 	return ch;
 }
 
-void recive_from_server(network * net,game * _game) {
+void recive_from_server(network * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
 	while(1)
 	{
 		char * buffer = net->GetStringToServer();
@@ -42,13 +42,13 @@ void recive_from_server(network * net,game * _game) {
 		}
 		if(!tmp.empty())	str.push_back(tmp);
 		for(auto item : str) {
-			_game->parseString(item.c_str());
+			_game->parseString(item.c_str());//문자열 분석부
 		}
 		delete buffer;
 	}
 }
 
-void input(network * net,game * _game) {
+void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
 	while(1) {
 		int x = getch();
 		if(x == 10) {
@@ -63,12 +63,12 @@ void input(network * net,game * _game) {
 				char buf[1024];
 				int i = 0;
 				for (const auto& c: chat_str) {
-					if(c==' ') buf[i++] = '_';
+					if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
 					else buf[i++] = c;
 				}
 				buf[i] = '\0';
 				char buffer[1024]; 
-				sprintf(buffer,"1 1 %d %s",id,buf);
+				sprintf(buffer,"1 1 %d %s",id,buf)다
 				net->SendStringToServer(buffer);
 			}
 		}
@@ -87,7 +87,7 @@ int main(int argc, char const *argv[])
 			cout<<"종료합니다."<<endl;
 			return 0;
 		}
-	}
+	}//서버와 연결을 시도한다.
 	game * _game = new game();
 	thread t1(recive_from_server,net,_game);
 	char name[20];
