@@ -9,4 +9,5 @@ public:
 	int getuserId();
 	char * getuserName();
 	bool getUserReady() { return isReady;}
+	void switchUserReady() {isReady = !isReady;}
 };

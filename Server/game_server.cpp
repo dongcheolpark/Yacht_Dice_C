@@ -45,6 +45,16 @@ send_struct * game_server::parseString(const char * buffer) {
 			parse = new game_server_send_chatList(this);
 		}
 	}
+	else if(token[0] == "2") {
+		if(token[1] == "0") {
+			for(auto item : userList) {
+				if(item->getuserId() == stoi(token[2])) {
+					item->switchUserReady();
+				} 
+			}
+			parse = new game_server_send_userList(this);
+		}
+	}
 	auto * data = parse->doParse();//전송 데이터를 가져온다.
 	delete parse;
 	//printf("%s\n",data->str->c_str());

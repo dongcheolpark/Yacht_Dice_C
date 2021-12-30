@@ -54,6 +54,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 		if(x == 10) {
 			const std::u16string& chat_str = _game->get_chatString();
 			if(chat_str.empty()) continue;
+			//문자열에 따라 채팅 구별(나중에 함수로 빼야함)
 			if(chat_str == u"ready") {
 				char buffer[1024];
 				sprintf(buffer,"2 0 %d",id);
@@ -68,7 +69,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 				}
 				buf[i] = '\0';
 				char buffer[1024]; 
-				sprintf(buffer,"1 1 %d %s",id,buf)다
+				sprintf(buffer,"1 1 %d %s",id,buf);
 				net->SendStringToServer(buffer);
 			}
 		}
