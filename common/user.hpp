@@ -3,8 +3,10 @@ class user {
 private:
 	int userId;
 	char * userName;
+	bool isReady = false;
 public:
-	user(int,const char *);
+	user(int,const char *,int);
 	int getuserId();
 	char * getuserName();
+	bool getUserReady() { return isReady;}
 };

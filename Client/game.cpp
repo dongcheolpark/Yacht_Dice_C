@@ -26,6 +26,10 @@ void game::graphic() {//콘솔에 정보들을 띄워준다
 		printf("%20s ",item->getuserName());
 	}
 	std::cout<<std::endl;
+	for(auto item : userList) {
+		printf("%20s ",item->getUserReady() ? "Ready" : " ");
+	}
+	std::cout<<std::endl;
 	for(auto item : chatList) {
 		std::cout<<item<<std::endl;
 	}
@@ -37,7 +41,7 @@ void game::graphic() {//콘솔에 정보들을 띄워준다
 
 void game::parseString(const char * buffer) {
 	//서버에서 들어온 문자열을 분석한다.
-	//std::cout<<buffer<<std::endl;
+	std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
 	for(int i = 0;i<strlen(buffer);i++) {
@@ -54,8 +58,8 @@ void game::parseString(const char * buffer) {
 			int j = 3;
 			userList.clear();
 			for(int i = 3;i<3+n;i++) {
-				userList.push_back(new user(std::stoi(token[j]),token[j+1].c_str()));
-				j+=2;
+				userList.push_back(new user(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
+				j+=3;
 			}
 		}
 		if(token[1] == "-1") {

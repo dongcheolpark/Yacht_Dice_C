@@ -17,7 +17,7 @@ send_struct * game_server::parseString(const char * buffer) {
 	if(token[0] == "0") {
 		//유저 리스트에 추가
 		if(token[0] == "0") {
-			user * _user = new user(std::stoi(token[2]),token[3].c_str());
+			user * _user = new user(std::stoi(token[2]),token[3].c_str(),false);
 			userList.push_back(_user);
 			parse = new game_server_send_userList(this);
 		}
