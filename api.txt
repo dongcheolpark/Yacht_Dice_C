@@ -3,12 +3,17 @@
  0
   id // 유저 ID
    userName // 유저이름
+ 1 //레디 여부
+   id
 1 //채팅 
  0//채팅리스트 요청
 
  1
  id // 유저 ID
  chatText
+2 //게임
+ 0// 레디
+  id
 </client to server>
 
 <server to client>
@@ -18,6 +23,7 @@
    {
 	user->id
 	user->name
+   user->isReady
    } 
 1
  0 // chat 정보

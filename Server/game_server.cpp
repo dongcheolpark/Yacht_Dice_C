@@ -17,7 +17,7 @@ send_struct * game_server::parseString(const char * buffer) {
 	if(token[0] == "0") {
 		//유저 리스트에 추가
 		if(token[0] == "0") {
-			user * _user = new user(std::stoi(token[2]),token[3].c_str());
+			user * _user = new user(std::stoi(token[2]),token[3].c_str(),false);
 			userList.push_back(_user);
 			parse = new game_server_send_userList(this);
 		}
@@ -43,6 +43,16 @@ send_struct * game_server::parseString(const char * buffer) {
 			//puts(buff);
 			chatList.push_back(buff);
 			parse = new game_server_send_chatList(this);
+		}
+	}
+	else if(token[0] == "2") {
+		if(token[1] == "0") {
+			for(auto item : userList) {
+				if(item->getuserId() == stoi(token[2])) {
+					item->switchUserReady();
+				} 
+			}
+			parse = new game_server_send_userList(this);
 		}
 	}
 	auto * data = parse->doParse();//전송 데이터를 가져온다.
