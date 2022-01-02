@@ -1,7 +1,130 @@
 #include "game.hpp"
 #include <iostream>
+#include <thread>
+#include <termios.h>
+
+int getch(void)
+{
+	int ch;
+	struct termios old;
+	struct termios new_;
+	tcgetattr(0, &old);
+	new_ = old;
+	new_.c_lflag &= ~(ICANON | ECHO);
+	new_.c_cc[VMIN] = 1;
+	new_.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSAFLUSH, &new_);
+	ch = getchar();
+	tcsetattr(0, TCSAFLUSH, &old);
+	return ch;
+}
+
+void recive_from_server(network * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
+	while(1)
+	{
+		char * buffer = net->GetStringToServer();
+		std::list<std::string> str;
+		std::string tmp;
+		for(int i = 0;i<strlen(buffer);i++) {
+			if(strncmp(buffer+i,"<end>",5) == 0) {
+				str.push_back(tmp);
+				tmp.clear();
+				i+=4;
+			}
+			else tmp.push_back(buffer[i]);
+		}
+		if(!tmp.empty())	str.push_back(tmp);
+		for(auto item : str) {
+			_game->parseString(item.c_str());//문자열 분석부
+		}
+		delete buffer;
+	}
+}
+
+void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
+	while(1) {
+		int x = getch();
+		if(x == 10) {
+			const std::u16string& chat_str = _game->get_chatString();
+			if(chat_str.empty()) continue;
+			//문자열에 따라 채팅 구별(나중에 함수로 빼야함)
+			if(chat_str == u"ready") {
+				char buffer[1024];
+				sprintf(buffer,"3 2 %d %d",_game->get_roomId(),_game->get_userId());
+				net->SendStringToServer(buffer);
+			}
+			else {
+				char buf[1024];
+				int i = 0;
+				for (const auto& c: chat_str) {
+					if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
+					else buf[i++] = c;
+				}
+				buf[i] = '\0';
+				char buffer[1024]; 
+				sprintf(buffer,"1 1 %d %d %s",_game->get_roomId(),_game->get_userId(),buf);
+				net->SendStringToServer(buffer);
+			}
+		}
+		_game->set_chatString(x);
+	}
+}
 
 void game::start(network * net) {
+	std::thread t1(recive_from_server,net,this);
+	//채팅 리스트 받아오기
+	char name[20];
+	//cout<<getch();
+	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n";
+	std::cin>>name;
+	char buffer[1024]; 
+	//유저 정보 전송
+	sprintf(buffer,"0 0 %d %s",id,name);
+	net->SendStringToServer(buffer);
+	do {
+		std::cout<<"게임 입장\n";
+		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
+		int choice = 0;
+		std::cin>>choice;
+		if(choice == 1) {
+			std::cout<<"방 제목을 입력해주세요.\n";
+			char buff[1024];
+			std::cin>>buff;
+			int max_num = 8;
+			do {
+				std::cout<<"방 최대 인원을 입력해 주세요. (2명 이상 4명 이하)\n";
+				std::cin>>max_num;
+				if(max_num < 2 || max_num > 4) {
+					std::cout<<"다시 입력해 주세요.\n";
+				}
+				break;
+			}while(1);
+			sprintf(buffer,"3 0 %s %d",buff,max_num);
+			net->SendStringToServer(buffer);
+		}
+		else if(choice == 2) {
+			char buff[1024];
+			sprintf(buffer,"3 3 %d",id);
+			net->SendStringToServer(buffer);
+			while(1) {
+				if(!roomList.empty()) break;
+			}
+			do {
+				break;
+			}while(1);
+		}
+		else if (choice == 3) {
+
+		}
+		else {
+			std::cout<<"잘못 입력하셨습니다. 다시 입력 해 주세요.\n";
+			continue;
+		}
+		break;
+	}while(1);
+	std::thread t2(input,net,this);
+	t1.join();
+	t2.join();
 	graphic();
 }
 
@@ -22,6 +145,8 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 
 void game::graphic() {//콘솔에 정보들을 띄워준다
 	system("clear");
+	auto userList = _room->getUserList();
+	auto chatList = _room->getChatList();
 	for(auto item : userList) {
 		printf("%20s ",item->getuserName());
 	}
@@ -44,6 +169,8 @@ void game::parseString(const char * buffer) {
 	std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
+	auto userList = _room->getUserList();
+	auto chatList = _room->getChatList();
 	for(int i = 0;i<strlen(buffer);i++) {
 		if(buffer[i] == ' ') {
 			token.push_back(std::string(tmp));
@@ -54,6 +181,20 @@ void game::parseString(const char * buffer) {
 	token.push_back(tmp);
 	if(token[0] == "0") {
 		if(token[1] == "0") {
+			_room = new room(stoi(token[2]),token[3].c_str(),stoi(token[4]));
+		}
+		else if(token[1] == "1") {
+			int n = std::stoi(token[2]);
+			int j = 3;
+			roomList.clear();
+			for(int i = 3;i<3+n;i++) {
+				roomList.push_back(new room(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
+				j+=3;
+			}
+		}
+	}
+	else if(token[0] == "1") {
+		if(token[1] == "0") {
 			int n = std::stoi(token[2]);
 			int j = 3;
 			userList.clear();
@@ -62,12 +203,7 @@ void game::parseString(const char * buffer) {
 				j+=3;
 			}
 		}
-		if(token[1] == "-1") {
-			
-		}
-	}
-	else if(token[0] == "1") {
-		if(token[1] == "0") {
+		if(token[1] == "1") {
 			chatList.clear();
 			int n = std::stoi(token[2]);
 			int j = 3;
@@ -77,6 +213,9 @@ void game::parseString(const char * buffer) {
 				chatList.push_back(buff);
 				j+=2;
 			}
+		}
+		if(token[1] == "-1") {
+			
 		}
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.

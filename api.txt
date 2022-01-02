@@ -3,30 +3,55 @@
  0
   id // 유저 ID
    userName // 유저이름
- 1 //레디 여부
-   id
+
 1 //채팅 
  0//채팅리스트 요청
+  roomid
 
  1
+ roomid
  id // 유저 ID
  chatText
 2 //게임
- 0// 레디
-  id
+
+3 //방 시스템
+ 0 // 방 만들기
+  userid
+  roomName
+  roomMaxPeople
+ 1 // 사람 참가
+  roomid
+  userid
+ 2 // 레디
+  roomid
+  userid
+ 3 // 방 리스트 요청
+  userid
 </client to server>
 
 <server to client>
 0
  0 // room 정보
+  roomid
+  roomName
+  roomMaxPeople
+ 1 // roomList
+  roomList_count
+  {
+   roomid
+   roomName
+   roomMaxPeople
+  }
+1
+ 0 //userlist
   userlist_count
    {
 	user->id
 	user->name
    user->isReady
    } 
-1
- 0 // chat 정보
+
+ 1 // chat 정보
   chatlist_count
    {
 	chat_str
