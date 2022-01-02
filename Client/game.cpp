@@ -165,7 +165,7 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 }
 
 void game::graphic() {//콘솔에 정보들을 띄워준다
-	//system("clear");
+	system("clear");
 	auto userList = _room->getUserList();
 	auto chatList = _room->getChatList();
 	printf("| %s | %ld/%d\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
@@ -188,7 +188,7 @@ void game::graphic() {//콘솔에 정보들을 띄워준다
 
 void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
-	std::cout<<buffer<<std::endl;
+	//std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
 	for(int i = 0;i<buffer.size();i++) {
