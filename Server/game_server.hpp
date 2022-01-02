@@ -14,7 +14,7 @@ private:
 public: 
 	send_struct * parseString(const char *);
 	send_struct * processing(int index,int roomId);
-	void remove_user(int id);
+	send_struct * remove_user(int id);
 	room * getRoom(int roomId);
 	std::list<room*> & getRoomList() {return roomList;}
 };

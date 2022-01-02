@@ -11,10 +11,11 @@ private :
 	void graphic();
 	std::u16string chat_str;
 	int id = 0;
-	room * _room;
+	room * _room = NULL;
 public :
 	std::list<room*> roomList;
-	void parseString(const char * buffer);
+	game(int id) : id(id) {}
+	void parseString(std::string buffer);
 	void start(network * net);
 	void set_chatString(int x);
 	void set_roomId(room * _room) {this->_room = _room;}

@@ -6,7 +6,7 @@
 	"configurations": [
 		{
 			"name": "g++ - 활성 파일 빌드 및 디버그",
-			"type": "lldb",
+			"type": "cppdbg",
 			"request": "launch",
 			"program": "${fileDirname}/${fileBasenameNoExtension}",
 			"args": [],

@@ -22,7 +22,7 @@ public :
 	~game_server_parse() {
 	}
 	virtual send_struct * doParse() {
-		return data;
+		return NULL;
 	}
 };
 class game_server_send_userList : public game_server_parse {

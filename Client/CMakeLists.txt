@@ -9,4 +9,5 @@ ADD_EXECUTABLE(Yacht_Dice_Client
 				main.cpp
 				network.cpp
 				../common/user.cpp
+				../common/Room.cpp
 				game.cpp)

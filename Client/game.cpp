@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include <iostream>
 #include <thread>
+#include <stdlib.h>
 #include <termios.h>
 
 int getch(void)
@@ -35,9 +36,8 @@ void recive_from_server(network * net,game * _game) {//서버에서 들어오는
 		}
 		if(!tmp.empty())	str.push_back(tmp);
 		for(auto item : str) {
-			_game->parseString(item.c_str());//문자열 분석부
+			_game->parseString(item);//문자열 분석부
 		}
-		delete buffer;
 	}
 }
 
@@ -54,7 +54,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 				net->SendStringToServer(buffer);
 			}
 			else {
-				char buf[1024];
+				char buf[1008];
 				int i = 0;
 				for (const auto& c: chat_str) {
 					if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
@@ -72,9 +72,8 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 
 void game::start(network * net) {
 	std::thread t1(recive_from_server,net,this);
-	//채팅 리스트 받아오기
+	t1.detach();
 	char name[20];
-	//cout<<getch();
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n";
 	std::cin>>name;
 	char buffer[1024]; 
@@ -88,7 +87,7 @@ void game::start(network * net) {
 		std::cin>>choice;
 		if(choice == 1) {
 			std::cout<<"방 제목을 입력해주세요.\n";
-			char buff[1024];
+			char buff[1008];
 			std::cin>>buff;
 			int max_num = 8;
 			do {
@@ -99,22 +98,37 @@ void game::start(network * net) {
 				}
 				break;
 			}while(1);
-			sprintf(buffer,"3 0 %s %d",buff,max_num);
+			sprintf(buffer,"3 0 %d %s %d",id,buff,max_num);
+			net->SendStringToServer(buffer);
+			while(1) {
+				if(_room != NULL) break;
+			}
+			sprintf(buffer,"3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
 		}
 		else if(choice == 2) {
-			char buff[1024];
+			char buff[1008];
 			sprintf(buffer,"3 3 %d",id);
 			net->SendStringToServer(buffer);
 			while(1) {
 				if(!roomList.empty()) break;
 			}
 			do {
+				for(auto item : roomList) {
+					std::cout<<item->getRoomName()<<" | "<<item->getRoomMaxPeople()<<std::endl;
+				}
+				int a;
+				std::cin>>a;
+				int i = 0;
+				std::list<room *>::iterator itor;
+				for(itor = roomList.begin();i<a-1;i++,itor++);
+				sprintf(buffer,"3 1 %d %d",(*itor)->getRoomId(),id);
+				net->SendStringToServer(buffer);
 				break;
 			}while(1);
 		}
 		else if (choice == 3) {
-
+			exit(1);
 		}
 		else {
 			std::cout<<"잘못 입력하셨습니다. 다시 입력 해 주세요.\n";
@@ -122,8 +136,15 @@ void game::start(network * net) {
 		}
 		break;
 	}while(1);
+	while(1) {
+		if(_room != NULL) break;
+	}
+
+	sprintf(buffer,"1 0 %d",_room->getRoomId());
+	net->SendStringToServer(buffer);
+	sprintf(buffer,"0 1 %d",_room->getRoomId());
+	net->SendStringToServer(buffer);
 	std::thread t2(input,net,this);
-	t1.join();
 	t2.join();
 	graphic();
 }
@@ -144,9 +165,10 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 }
 
 void game::graphic() {//콘솔에 정보들을 띄워준다
-	system("clear");
+	//system("clear");
 	auto userList = _room->getUserList();
 	auto chatList = _room->getChatList();
+	printf("| %s | %ld/%d\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
 	for(auto item : userList) {
 		printf("%20s ",item->getuserName());
 	}
@@ -164,14 +186,12 @@ void game::graphic() {//콘솔에 정보들을 띄워준다
 	std::cout<<std::endl;
 }
 
-void game::parseString(const char * buffer) {
+void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
 	std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
-	auto userList = _room->getUserList();
-	auto chatList = _room->getChatList();
-	for(int i = 0;i<strlen(buffer);i++) {
+	for(int i = 0;i<buffer.size();i++) {
 		if(buffer[i] == ' ') {
 			token.push_back(std::string(tmp));
 			tmp.clear();
@@ -181,7 +201,8 @@ void game::parseString(const char * buffer) {
 	token.push_back(tmp);
 	if(token[0] == "0") {
 		if(token[1] == "0") {
-			_room = new room(stoi(token[2]),token[3].c_str(),stoi(token[4]));
+			_room = new room(std::stoi(token[2]),token[3].c_str(),std::stoi(token[4]));
+			return;
 		}
 		else if(token[1] == "1") {
 			int n = std::stoi(token[2]);
@@ -191,12 +212,14 @@ void game::parseString(const char * buffer) {
 				roomList.push_back(new room(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
 				j+=3;
 			}
+			return;
 		}
 	}
 	else if(token[0] == "1") {
 		if(token[1] == "0") {
 			int n = std::stoi(token[2]);
 			int j = 3;
+			std::list<user*>& userList = _room->getUserList();
 			userList.clear();
 			for(int i = 3;i<3+n;i++) {
 				userList.push_back(new user(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
@@ -204,6 +227,7 @@ void game::parseString(const char * buffer) {
 			}
 		}
 		if(token[1] == "1") {
+			std::list<std::string>& chatList = _room->getChatList();
 			chatList.clear();
 			int n = std::stoi(token[2]);
 			int j = 3;

@@ -1,6 +1,8 @@
 #pragma once
 #include <list>
 #include "user.hpp"
+#include <string>
+#include <list>
 class room {
 private:
 	int roomId;
