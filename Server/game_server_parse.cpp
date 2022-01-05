@@ -20,7 +20,6 @@ send_struct * game_server_send_chatList::doParse() {
 	auto _room = server->getRoom(roomId);
 	auto chatList = _room->getChatList();
 	auto userList = _room->getUserList();
-	printf("%ld\n",chatList.size());
 	for(auto item : userList) {
 		data->list->push_back(item);
 	}
