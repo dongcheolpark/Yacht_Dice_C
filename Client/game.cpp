@@ -85,6 +85,7 @@ void game::start(network * net) {
 		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
 		int choice = 0;
 		std::cin>>choice;
+		bool check_while = false;
 		if(choice == 1) {
 			std::cout<<"방 제목을 입력해주세요.\n";
 			char buff[1008];
@@ -114,12 +115,20 @@ void game::start(network * net) {
 				if(!roomList.empty()) break;
 			}
 			do {
+				std::cout<<"숫자 : 참가할 방 , q : 뒤로가기"<<std::endl;
+				int i = 1;
 				for(auto item : roomList) {
-					std::cout<<item->getRoomName()<<" | "<<item->getRoomMaxPeople()<<std::endl;
+					std::cout<<i<<" | "<<item->getRoomName()<<" | "<<item->getRoomMaxPeople()<<std::endl;
+					i++;
 				}
-				int a;
+				char a;
 				std::cin>>a;
-				int i = 0;
+				if(a == 'q' || a == 'Q') {
+					check_while = true;
+					break;
+				}
+				a -= '0';
+				i = 0;
 				std::list<room *>::iterator itor;
 				for(itor = roomList.begin();i<a-1;i++,itor++);
 				sprintf(buffer,"3 1 %d %d",(*itor)->getRoomId(),id);
@@ -134,6 +143,7 @@ void game::start(network * net) {
 			std::cout<<"잘못 입력하셨습니다. 다시 입력 해 주세요.\n";
 			continue;
 		}
+		if(check_while) continue;
 		break;
 	}while(1);
 	while(1) {
