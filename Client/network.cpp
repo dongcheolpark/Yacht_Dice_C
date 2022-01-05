@@ -38,6 +38,6 @@ char * network::GetStringToServer() {
 }
 void network::SendStringToServer(char* str) {
 	strcat(str,"<end>");
-	puts(str);
+	//puts(str);
 	send(sock,str,strlen(str),0);
 }
