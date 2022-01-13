@@ -47,11 +47,11 @@ jobs:
           target: "~/yacht_dice_server"
           
       - name : run_yacht_dice_server
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.HOST }}
-            username: ubuntu
-            key: ${{ secrets.OCI_KEY_FILE }}
-            script: |
-              cd ~/yacht_dice_server
-              /start.sh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.OCI_KEY_FILE }}
+          script: |
+            cd ~/yacht_dice_server
+            /start.sh
