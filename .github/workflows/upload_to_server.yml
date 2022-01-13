@@ -35,4 +35,9 @@ jobs:
           
       - name: run_yacht_dice_server
         run : |
-          ./start.sh
+          if [ -f program.pid ]; then
+            kill -9 `cat program.pid`
+          fi
+
+          nohup ./Yacht_Dice_Server > nohup.out 2>&1 & echo $! > program.pid
+          disown -a
