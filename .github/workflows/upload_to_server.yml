@@ -37,11 +37,21 @@ jobs:
           cmake ..
           make
           
-      - name: run_yacht_dice_server
-        run : |
-          if [ -f program.pid ]; then
-            kill -9 `cat program.pid`
-          fi
-
-          nohup ./Yacht_Dice_Server > nohup.out 2>&1 & echo $! > program.pid
-          disown -a
+      - name : send_file_to_server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.OCI_KEY_FILE }}
+          source: "Yacht_Dice_Server"
+          target: "~/yacht_dice_server"
+          
+      - name : run_yacht_dice_server
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ubuntu
+            key: ${{ secrets.OCI_KEY_FILE }}
+            script: |
+              cd ~/yacht_dice_server
+              /start.sh
