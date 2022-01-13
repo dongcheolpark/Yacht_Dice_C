@@ -36,7 +36,16 @@ jobs:
           cd $dir
           cmake ..
           make
-          
+      - name : run_yacht_dice_server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.OCI_KEY_FILE }}
+          strip_components: 1
+          script: |
+            cd ~/yacht_dice_server
+            /start.sh    
       - name : send_file_to_server
         uses: appleboy/scp-action@v0.0.10
         with:
@@ -47,13 +56,4 @@ jobs:
           strip_components: 1
           target: "/home/ubuntu/yacht_dice_server"
           
-      - name : run_yacht_dice_server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ubuntu
-          key: ${{ secrets.OCI_KEY_FILE }}
-          strip_components: 1
-          script: |
-            cd ~/yacht_dice_server
-            /start.sh
+      
