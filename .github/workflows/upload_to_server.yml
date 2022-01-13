@@ -41,7 +41,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
-          key: ${{ secrets.OCI_KEY_FILE }}
+          password: ${{ secrets.PASSWORD }}
           script: |
             cd ~/yacht_dice_server
             /start.sh    
@@ -50,7 +50,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
-          key: ${{ secrets.OCI_KEY_FILE }}
+          password: ${{ secrets.PASSWORD }}
           source: "Yacht_Dice_Server"
           target: "/home/ubuntu/yacht_dice_server"
           
