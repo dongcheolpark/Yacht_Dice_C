@@ -45,7 +45,7 @@ jobs:
           key: ${{ secrets.OCI_KEY_FILE }}
           source: "Yacht_Dice_Server"
           strip_components: 1
-          target: "~/yacht_dice_server"
+          target: "/home/ubuntu/yacht_dice_server"
           
       - name : run_yacht_dice_server
         uses: appleboy/ssh-action@master
