@@ -29,7 +29,7 @@ jobs:
       - name: build_yacht_dice_server
         run: |
           git pull origin master
-          dir = Server/bin
+          dir=Server/bin
           if [ ! -d $dir ]; then
             mkdir $dir
           fi
