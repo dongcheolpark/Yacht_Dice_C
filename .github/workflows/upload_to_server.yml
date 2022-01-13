@@ -42,7 +42,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.OCI_KEY_FILE }}
-          strip_components: 1
           script: |
             cd ~/yacht_dice_server
             /start.sh    
@@ -53,7 +52,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.OCI_KEY_FILE }}
           source: "Yacht_Dice_Server"
-          strip_components: 1
           target: "/home/ubuntu/yacht_dice_server"
           
       
