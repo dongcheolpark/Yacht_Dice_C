@@ -28,7 +28,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: build_yacht_dice_server
         run: |
-          cd ~/yacht_dice_server/Server/bin/
+          cd /Users/parkdongcheol/programming/yacht_dice_C/Server/bin
           git pull origin master
           cmake ..
           make
