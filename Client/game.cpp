@@ -3,6 +3,7 @@
 #include <thread>
 #include <stdlib.h>
 #include <termios.h>
+#include <regex>
 
 int getch(void)
 {
@@ -240,8 +241,8 @@ void game::parseString(std::string buffer) {
 			int n = std::stoi(token[2]);
 			int j = 3;
 			for(int i = 3;i<3+n;i++) {
-				char buff[1024];
-				sprintf(buff,"%s : %s",token[j].c_str(),token[j+1].c_str());
+				std::string buff = ydc::format_string("%s : %s",token[j].c_str(),
+					std::regex_replace(token[j+1].c_str(),std::regex("_")," ").c_str());
 				chatList.push_back(buff);
 				j+=2;
 			}
