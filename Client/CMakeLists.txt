@@ -5,6 +5,9 @@ SET (CMAKE_CXX_FLAGS "-pthread")
 SET (CMAKE_CXX_FLAGS_DEBUG "-DDEBUG -DC_FLAGS" )
 SET (CMAKE_CXX_FLAGS_RELEASE "-DRELEASE -DC_FLAGS" )
 
+enable_testing()
+add_subdirectory(tests)
+
 ADD_EXECUTABLE(Yacht_Dice_Client
 				main.cpp
 				network.cpp
@@ -12,4 +15,6 @@ ADD_EXECUTABLE(Yacht_Dice_Client
 				../common/Room.cpp
 				game.cpp
 				graphic.cpp
+				../common/dice_game.cpp
+				../common/scoreboard.cpp
 				)

@@ -19,3 +19,8 @@ public:
 	lobbygraphic(game * _game) : graphic(_game) {}
 	virtual void run();
 };
+
+class gamegraphic : public graphic {
+public:
+	gamegraphic(game * _game) : graphic(_game) {}
+};

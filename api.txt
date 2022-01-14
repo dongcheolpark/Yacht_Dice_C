@@ -29,6 +29,18 @@
   userid
  3 // 방 리스트 요청
   userid
+4 //게임
+  1 //주사위 결과 선택
+    0 //up
+      1~6//숫자
+    1 //bonus
+    2 // down
+      1~6//숫자
+  2 //주사위 돌리기
+    n //고정한 주사위 개수
+      {
+        0~4 고정한 주사위 
+      }
 </client to server>
 
 <server to client>
@@ -44,6 +56,7 @@
    roomName
    roomMaxPeople
   }
+  2 // gameroom으로 변경
 1
  0 //userlist
   userlist_count
@@ -56,6 +69,8 @@
  1 // chat 정보
   chatlist_count
    {
-	chat_str
+	  chat_str
    }
+2 // game정보
+
 </server to client>
