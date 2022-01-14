@@ -28,7 +28,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: build_yacht_dice_server
         run: |
-          git pull origin master
           dir=Server/bin
           if [ ! -d $dir ]; then
             mkdir $dir
