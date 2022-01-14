@@ -1,10 +1,9 @@
 #include "user.hpp"
 #include "string.h"
 
-user::user(int id,const char * name,int isReady) {
+user::user(int id,const char * name) {
 	this->userId = id;
 	this->userName = new char[strlen(name)];
-	this->isReady = isReady;
 	strcpy(this->userName,name);
 }
 

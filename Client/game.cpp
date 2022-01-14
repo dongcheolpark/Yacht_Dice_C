@@ -5,6 +5,10 @@
 #include <termios.h>
 #include <regex>
 
+game::game(int id) : id(id) {
+	_graphic = new lobbygraphic(this);
+}
+
 int getch(void)
 {
 	int ch;
@@ -155,7 +159,11 @@ void game::start(network * net) {
 	net->SendStringToServer(buffer);
 	std::thread t2(input,net,this);
 	t2.join();
-	graphic();
+	graphics();
+}
+
+void game::graphics() {
+	_graphic->run();
 }
 
 void game::set_chatString(int x) {//채팅 문자열 관리
@@ -170,30 +178,9 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 	else {
 		chat_str.push_back(x);
 	}
-	graphic();
+	graphics();
 }
 
-void game::graphic() {//콘솔에 정보들을 띄워준다
-	system("clear");
-	auto userList = _room->getUserList();
-	auto chatList = _room->getChatList();
-	printf("| %s | %ld/%d\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
-	for(auto item : userList) {
-		printf("%20s ",item->getuserName());
-	}
-	std::cout<<std::endl;
-	for(auto item : userList) {
-		printf("%20s ",item->getUserReady() ? "Ready" : " ");
-	}
-	std::cout<<std::endl;
-	for(auto item : chatList) {
-		std::cout<<item<<std::endl;
-	}
-	for (const auto& c: chat_str)
-	    std::cout << static_cast<char>(c);
-	
-	std::cout<<std::endl;
-}
 
 void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
@@ -231,7 +218,7 @@ void game::parseString(std::string buffer) {
 			std::list<user*>& userList = _room->getUserList();
 			userList.clear();
 			for(int i = 3;i<3+n;i++) {
-				userList.push_back(new user(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
+				userList.push_back(new lobbyuser(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
 				j+=3;
 			}
 		}
@@ -252,5 +239,5 @@ void game::parseString(std::string buffer) {
 		}
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
-	graphic();
+	graphics();
 }
