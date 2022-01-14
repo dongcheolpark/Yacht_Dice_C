@@ -45,3 +45,11 @@ send_struct * game_server_send_roomList::doParse() {
 	}	
 	return data;
 }
+send_struct * game_server_change_gameroom::doParse() {
+	auto _room = server->getRoom(roomId);
+	auto userList = _room->getUserList();
+	for(auto item : userList) {
+		data->list->push_back(item);
+	}
+	return data;
+}

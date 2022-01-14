@@ -13,3 +13,6 @@ int user::getuserId() {
 char * user::getuserName() {
 	return this->userName;
 }
+
+gameuser::gameuser(lobbyuser & _lobbyuser) : user(_lobbyuser.getuserId(),_lobbyuser.getuserName()) {
+}

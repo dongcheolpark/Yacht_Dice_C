@@ -82,7 +82,10 @@ send_struct * game_server::parseString(const char * buffer) {
 			auto userList = _room->getUserList();
 			for(auto item : userList) {
 				if(item->getuserId() == std::stoi(token[3])) {
-					((lobbyuser *)item)->switchUserReady();
+					lobbyuser* _lobbyuser;
+					if(_lobbyuser = dynamic_cast<lobbyuser *>(item)) {
+						_lobbyuser->switchUserReady();
+					}
 				} 
 			}
 			parse = new game_server_send_userList(this,_room->getRoomId());
