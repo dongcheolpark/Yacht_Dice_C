@@ -1,6 +1,8 @@
 #pragma once
-#include "game.hpp"
 #include <iostream>
+#include "game.hpp"
+
+class game;
 
 class graphic {
 protected:

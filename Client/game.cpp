@@ -5,6 +5,10 @@
 #include <termios.h>
 #include <regex>
 
+game::game(int id) : id(id) {
+	_graphic = new lobbygraphic(this);
+}
+
 int getch(void)
 {
 	int ch;
@@ -155,6 +159,10 @@ void game::start(network * net) {
 	net->SendStringToServer(buffer);
 	std::thread t2(input,net,this);
 	t2.join();
+	graphics();
+}
+
+void game::graphics() {
 	_graphic->run();
 }
 
@@ -170,7 +178,7 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 	else {
 		chat_str.push_back(x);
 	}
-	_graphic->run();
+	graphics();
 }
 
 
@@ -231,5 +239,5 @@ void game::parseString(std::string buffer) {
 		}
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
-	_graphic->run();
+	graphics();
 }

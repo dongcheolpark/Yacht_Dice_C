@@ -2,24 +2,24 @@
 
 #include <list>
 #include "network.hpp"
-#include "graphic.hpp"
 #include "../common/strparse.hpp"
 #include <vector>
 #include <string>
 #include "../common/user.hpp"
 #include "../common/Room.hpp"
+#include "graphic.hpp"
+class graphic;
 
 class game {
 private :
 	std::u16string chat_str;
 	int id = 0;
 	room * _room = NULL;
+	void graphics();
 	graphic * _graphic;
 public :
 	std::list<room*> roomList;
-	game(int id) : id(id) {
-		_graphic = new lobbygraphic(this);
-	}
+	game(int id); 
 	void parseString(std::string buffer);
 	void start(network * net);
 	void set_chatString(int x);

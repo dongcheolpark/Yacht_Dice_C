@@ -1,6 +1,7 @@
 #include "graphic.hpp"
 
 void lobbygraphic::run() {
+	system("clear");
 	auto _room = _game->getRoom();
 	auto userList = _room->getUserList();
 	auto chatList = _room->getChatList();
