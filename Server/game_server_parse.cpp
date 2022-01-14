@@ -11,7 +11,7 @@ send_struct * game_server_send_userList::doParse() {
 	data->str->append(ydc::format_string("%d ",userList.size()));
 	for(auto item : userList) {
 		data->list->push_back(item);
-		data->str->append(ydc::format_string("%d %s %d ",item->getuserId(),item->getuserName(),item->getUserReady()));
+		data->str->append(ydc::format_string("%d %s %d ",item->getuserId(),item->getuserName(),((lobbyuser *)item)->getUserReady()));
 	}
 	return data;
 }
