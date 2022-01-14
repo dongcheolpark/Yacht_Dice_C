@@ -78,7 +78,7 @@ void game::start(network * net) {
 	std::cin>>name;
 	char buffer[1024]; 
 	//유저 정보 전송
-	sprintf(buffer,"0 0 %d %s",id,name);
+	sprintf(buffer,"0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
 	do {
 		std::cout<<"게임 입장\n";

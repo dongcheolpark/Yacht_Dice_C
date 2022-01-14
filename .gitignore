@@ -1,4 +1,4 @@
 Client/bin
 Server/bin
-build
+build/
 .vscode/
