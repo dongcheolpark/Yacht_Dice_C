@@ -29,15 +29,15 @@ int network::join() {
 	read(sock,buffer,buff_size);
 	return atoi(buffer);
 }
-char * network::GetStringToServer() {
+std::string * network::GetStringToServer() {
 	char * buffer = new char[buff_size];
 	if((valread = read(sock ,buffer, buff_size)) != 0) {
-		return buffer;
+		return new std::string(buffer);
 	}
 	return NULL;
 }
-void network::SendStringToServer(char* str) {
-	strcat(str,"<end>");
+void network::SendStringToServer(std::string& str) {
+	str.append("<end>");
 	//puts(str);
-	send(sock,str,strlen(str),0);
+	send(sock,str.c_str(),str.size(),0);
 }

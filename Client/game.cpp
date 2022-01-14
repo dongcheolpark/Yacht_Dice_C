@@ -3,6 +3,7 @@
 #include <thread>
 #include <stdlib.h>
 #include <termios.h>
+#include <regex>
 
 int getch(void)
 {
@@ -23,18 +24,19 @@ int getch(void)
 void recive_from_server(network * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
 	while(1)
 	{
-		char * buffer = net->GetStringToServer();
+		std::string * server_str = net->GetStringToServer();
 		std::list<std::string> str;
 		std::string tmp;
-		for(int i = 0;i<strlen(buffer);i++) {
-			if(strncmp(buffer+i,"<end>",5) == 0) {
+		for(int i = 0;i<server_str->size();i++) {
+			if(server_str->compare(0,5,"<end>") == 0) {
 				str.push_back(tmp);
 				tmp.clear();
 				i+=4;
 			}
-			else tmp.push_back(buffer[i]);
+			else tmp.push_back((*server_str)[i]);
 		}
 		if(!tmp.empty())	str.push_back(tmp);
+		delete server_str;
 		for(auto item : str) {
 			_game->parseString(item);//문자열 분석부
 		}
@@ -49,8 +51,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 			if(chat_str.empty()) continue;
 			//문자열에 따라 채팅 구별(나중에 함수로 빼야함)
 			if(chat_str == u"ready") {
-				char buffer[1024];
-				sprintf(buffer,"3 2 %d %d",_game->get_roomId(),_game->get_userId());
+				std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
 				net->SendStringToServer(buffer);
 			}
 			else {
@@ -61,8 +62,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 					else buf[i++] = c;
 				}
 				buf[i] = '\0';
-				char buffer[1024]; 
-				sprintf(buffer,"1 1 %d %d %s",_game->get_roomId(),_game->get_userId(),buf);
+				std::string buffer = ydc::format_string("1 1 %d %d %s",_game->get_roomId(),_game->get_userId(),buf);
 				net->SendStringToServer(buffer);
 			}
 		}
@@ -76,9 +76,8 @@ void game::start(network * net) {
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n";
 	std::cin>>name;
-	char buffer[1024]; 
 	//유저 정보 전송
-	sprintf(buffer,"0 0 %d %s",id,name);
+	std::string buffer = ydc::format_string("0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
 	do {
 		std::cout<<"게임 입장\n";
@@ -99,17 +98,17 @@ void game::start(network * net) {
 				}
 				break;
 			}while(1);
-			sprintf(buffer,"3 0 %d %s %d",id,buff,max_num);
+
+			std::string buffer = ydc::format_string("3 0 %d %s %d",id,buff,max_num);
 			net->SendStringToServer(buffer);
 			while(1) {
 				if(_room != NULL) break;
 			}
-			sprintf(buffer,"3 1 %d %d",_room->getRoomId(),id);
+			buffer = ydc::format_string("3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
 		}
 		else if(choice == 2) {
-			char buff[1008];
-			sprintf(buffer,"3 3 %d",id);
+			std::string buffer = ydc::format_string("3 3 %d",id);
 			net->SendStringToServer(buffer);
 			while(1) {
 				if(!roomList.empty()) break;
@@ -131,7 +130,7 @@ void game::start(network * net) {
 				i = 0;
 				std::list<room *>::iterator itor;
 				for(itor = roomList.begin();i<a-1;i++,itor++);
-				sprintf(buffer,"3 1 %d %d",(*itor)->getRoomId(),id);
+				std::string buffer = ydc::format_string("3 1 %d %d",(*itor)->getRoomId(),id);
 				net->SendStringToServer(buffer);
 				break;
 			}while(1);
@@ -150,9 +149,9 @@ void game::start(network * net) {
 		if(_room != NULL) break;
 	}
 
-	sprintf(buffer,"1 0 %d",_room->getRoomId());
+	buffer = ydc::format_string("1 0 %d",_room->getRoomId());
 	net->SendStringToServer(buffer);
-	sprintf(buffer,"0 1 %d",_room->getRoomId());
+	buffer = ydc::format_string("0 1 %d",_room->getRoomId());
 	net->SendStringToServer(buffer);
 	std::thread t2(input,net,this);
 	t2.join();
@@ -242,8 +241,8 @@ void game::parseString(std::string buffer) {
 			int n = std::stoi(token[2]);
 			int j = 3;
 			for(int i = 3;i<3+n;i++) {
-				char buff[1024];
-				sprintf(buff,"%s : %s",token[j].c_str(),token[j+1].c_str());
+				std::string buff = ydc::format_string("%s : %s",token[j].c_str(),
+					std::regex_replace(token[j+1].c_str(),std::regex("_")," ").c_str());
 				chatList.push_back(buff);
 				j+=2;
 			}

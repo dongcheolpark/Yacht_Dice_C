@@ -2,6 +2,7 @@
 
 #include "../common/user.hpp"
 #include "../common/Room.hpp"
+#include "../common/strparse.hpp"
 #include "game_server.hpp"
 #include "send_struct.hpp"
 #include <list>
