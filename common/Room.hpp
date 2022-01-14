@@ -3,8 +3,9 @@
 #include "user.hpp"
 #include <string>
 #include <list>
+#include "dice_game.hpp"
 class room {
-private:
+protected:
 	int roomId;
 	char * roomName;
 	int roomMaxPeople;
@@ -17,4 +18,13 @@ public:
 	int getRoomMaxPeople() {return roomMaxPeople;}
 	std::list<user *>& getUserList() { return userList; }
 	std::list<std::string>& getChatList() {return chatList;}
+};
+
+class gameroom : public room {
+private:
+	dice_game data;
+public:
+	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople){
+
+	}
 };
