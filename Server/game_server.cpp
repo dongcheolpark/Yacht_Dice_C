@@ -80,15 +80,28 @@ send_struct * game_server::parseString(const char * buffer) {
 		else if(token[1] == "2") {
 			room * _room = getRoom(std::stoi(token[2]));
 			auto userList = _room->getUserList();
+			bool check = true;
 			for(auto item : userList) {
+				lobbyuser* _lobbyuser;
 				if(item->getuserId() == std::stoi(token[3])) {
-					lobbyuser* _lobbyuser;
-					if(_lobbyuser = dynamic_cast<lobbyuser *>(item)) {
+					if((_lobbyuser = dynamic_cast<lobbyuser *>(item)) != NULL) {
 						_lobbyuser->switchUserReady();
 					}
 				} 
+				if((_lobbyuser = dynamic_cast<lobbyuser *>(item)) != NULL) {
+					if(_lobbyuser->getUserReady() != true) check = false;
+				}
+				else check = false;
 			}
-			parse = new game_server_send_userList(this,_room->getRoomId());
+			if(check) {
+				gameroom * _gameroom = new gameroom(_room);
+				roomList.push_back(_gameroom);
+				roomList.remove(_room);
+				delete _room;
+				std::cout<<_gameroom->getUserList().front()->getuserId()<<'\n';
+				parse = new game_server_change_gameroom(this,_gameroom->getRoomId());
+			}
+			else parse = new game_server_send_userList(this,_room->getRoomId());
 		}
 		else if(token[1] == "3") {
 			user * _user;

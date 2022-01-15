@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "strparse.hpp"
+#include "function.hpp"
 
 class scoreboard {
 private:
