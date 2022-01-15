@@ -31,6 +31,7 @@ void recive_from_server(network * net,game * _game) {//서버에서 들어오는
 		std::string * server_str = net->GetStringToServer();
 		std::list<std::string> str;
 		std::string tmp;
+		std::cout<<*server_str<<std::endl;
 		for(int i = 0;i<server_str->size();i++) {
 			if(server_str->compare(0,5,"<end>") == 0) {
 				str.push_back(tmp);
@@ -163,6 +164,7 @@ void game::start(network * net) {
 }
 
 void game::graphics() {
+	system("clear");
 	_graphic->run();
 }
 
@@ -209,6 +211,15 @@ void game::parseString(std::string buffer) {
 				j+=3;
 			}
 			return;
+		}
+		if(token[1] == "2") {
+			gameroom * _gameroom = new gameroom(_room);
+			roomList.push_back(_gameroom);
+			roomList.remove(_room);
+			delete _room;
+			auto tmp = _graphic;
+			_graphic = new gamegraphic(this);
+			delete tmp;
 		}
 	}
 	else if(token[0] == "1") {

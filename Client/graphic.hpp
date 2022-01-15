@@ -7,6 +7,8 @@ class game;
 class graphic {
 protected:
 	game * _game = NULL;	
+	void showchatLists();
+	void showPeople();
 public:
 	graphic(game * _game) {
 		this->_game = _game;
@@ -23,4 +25,5 @@ public:
 class gamegraphic : public graphic {
 public:
 	gamegraphic(game * _game) : graphic(_game) {}
+	virtual void run();
 };

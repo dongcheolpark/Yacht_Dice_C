@@ -28,5 +28,6 @@ private:
 	scoreboard table;
 public:
 	gameuser(int id,const char* name) : user(id,name) {}
-	gameuser(lobbyuser &);
+	gameuser(lobbyuser *);
+	gameuser(user *);
 };

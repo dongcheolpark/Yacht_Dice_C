@@ -72,5 +72,13 @@
 	  chat_str
    }
 2 // game정보
-
+ 1 // 주사위 값
+  5개의 주사위 값 전달
+ 2 // 유저 스코어보드 전달
+  id
+   {
+     up 6개
+     choice
+     down 6개
+   }
 </server to client>

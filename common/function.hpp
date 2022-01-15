@@ -14,4 +14,8 @@ namespace ydc {
 		snprintf(buffer.get(), size, format.c_str(), args ...);
 		return std::string(buffer.get(), buffer.get() + size - 1);
 	}
+	template<typename Base, typename T>
+	inline bool instanceof(const T*) {
+		return std::is_base_of<Base, T>::value;
+	}
 }

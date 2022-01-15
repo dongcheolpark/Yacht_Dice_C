@@ -7,4 +7,5 @@ ADD_EXECUTABLE(Yacht_Dice_Server
 				../common/Room.cpp
 				game_server_parse.cpp
 				../common/scoreboard.cpp
+				../common/dice_game.cpp
 				)

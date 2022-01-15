@@ -2,7 +2,7 @@
 
 #include <list>
 #include "network.hpp"
-#include "../common/strparse.hpp"
+#include "../common/function.hpp"
 #include <vector>
 #include <string>
 #include "../common/user.hpp"

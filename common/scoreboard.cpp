@@ -54,4 +54,5 @@ std::string scoreboard::tostring()  {
 	for(auto item : down) {
 		res.append(ydc::format_string("%d ",item));
 	}
+	return res;
 }

@@ -39,10 +39,16 @@ send_struct * game_server_send_roomInfo::doParse() {
 
 send_struct * game_server_send_roomList::doParse() {
 	data->list->push_back(_user);
-	data->str->append(ydc::format_string("%d ",server->getRoomList().size()));
+	std::string res;
+	int n = 0;
 	for(auto item : server->getRoomList()) {
-		data->str->append(ydc::format_string("%d %s %d ",item->getRoomId(),item->getRoomName(),item->getRoomMaxPeople()));
+		if(typeid(*item) != typeid(gameroom)) {
+			n++;
+			res.append(ydc::format_string("%d %s %d ",item->getRoomId(),item->getRoomName(),item->getRoomMaxPeople()));
+		}
 	}	
+	data->str->append(ydc::format_string("%d ",n));
+	data->str->append(ydc::format_string("%s ",res.c_str()));
 	return data;
 }
 send_struct * game_server_change_gameroom::doParse() {

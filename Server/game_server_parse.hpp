@@ -2,7 +2,7 @@
 
 #include "../common/user.hpp"
 #include "../common/Room.hpp"
-#include "../common/strparse.hpp"
+#include "../common/function.hpp"
 #include "game_server.hpp"
 #include "send_struct.hpp"
 #include <list>
@@ -56,9 +56,8 @@ public:
 
 class game_server_change_gameroom : public game_server_parse {
 private : 
-	user * _user;
 public:
-	game_server_change_gameroom(game_server * server,int roomId,user * _user) : game_server_parse(server,0,2,roomId), _user(_user) {}
+	game_server_change_gameroom(game_server * server,int roomId) : game_server_parse(server,0,2,roomId) {}
 	send_struct * doParse();
 };
 
