@@ -28,12 +28,23 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: build_yacht_dice_server
         run: |
-          dir=Server/bin
-          if [ ! -d $dir ]; then
-            mkdir $dir
+          dir1=Server/bin
+          
+          if [ ! -d $dir1 ]; then
+            mkdir $dir1
           fi
-          cd $dir
+          cd $dir1
           cmake ..
           make
-      
+          cd ../..
+      - name: build_yacht_dice_server
+        run: |
+          dir2=Client/bin
+          
+          if [ ! -d $dir2 ]; then
+            mkdir $dir2
+          fi
+          cd $dir2
+          cmake ..
+          make
       
