@@ -37,7 +37,7 @@ jobs:
           cmake ..
           make
           cd ../..
-      - name: build_yacht_dice_server
+      - name: build_yacht_dice_Client
         run: |
           dir2=Client/bin
           
