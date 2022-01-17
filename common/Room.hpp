@@ -6,6 +6,7 @@
 #include "dice_game.hpp"
 class room {
 protected:
+	int level;
 	int roomId;
 	char * roomName;
 	int roomMaxPeople;
@@ -17,6 +18,7 @@ public:
 	int getRoomId(){return roomId;}
 	char * getRoomName() {return roomName;}
 	int getRoomMaxPeople() {return roomMaxPeople;}
+	int getlevel() {return level;}
 	std::list<user *>& getUserList() { return userList; }
 	std::list<std::string>& getChatList() {return chatList;}
 };

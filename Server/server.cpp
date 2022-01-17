@@ -100,6 +100,7 @@ void server::start() {//멀티 플렉싱 서버
 
 void server::send_string(send_struct * data) {
 	if(data == NULL) return;
+	//std::cout<<*(data->str)<<std::endl;
 	data->str->append("<end>");
 	for(auto item : *(data->list)) {
 		send(item->getuserId(),data->str->c_str(),data->str->size(),0);

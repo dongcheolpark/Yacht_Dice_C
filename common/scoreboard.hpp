@@ -17,6 +17,9 @@ public:
 	scoreboard();
 	void setUp(int,int);
 	void setDown(int,int);
-	void setbonus();
+	void setBonus();
+	int getUp(int);
+	int getDown(int);
+	int getBonus();
 	std::string tostring(); 
 };

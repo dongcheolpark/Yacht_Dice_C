@@ -56,3 +56,15 @@ std::string scoreboard::tostring()  {
 	}
 	return res;
 }
+
+int scoreboard::getUp(int n) {
+	return up[n-1];
+}
+
+int scoreboard::getDown(int n) {
+	return down[n-1];
+}
+
+int scoreboard::getBonus() {
+	return bonus*35;
+}

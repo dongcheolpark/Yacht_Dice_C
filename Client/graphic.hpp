@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
+#include "../common/scoreboard.hpp"
 #include "game.hpp"
 
 class game;
@@ -25,5 +27,7 @@ public:
 class gamegraphic : public graphic {
 public:
 	gamegraphic(game * _game) : graphic(_game) {}
+	void dice();
+	void score();
 	virtual void run();
 };
