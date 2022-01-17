@@ -164,7 +164,7 @@ void game::start(network * net) {
 }
 
 void game::graphics() {
-	system("clear");
+	//system("clear");
 	_graphic->run();
 }
 
@@ -213,13 +213,10 @@ void game::parseString(std::string buffer) {
 			return;
 		}
 		if(token[1] == "2") {
-			gameroom * _gameroom = new gameroom(_room);
-			roomList.push_back(_gameroom);
-			roomList.remove(_room);
 			delete _room;
-			auto tmp = _graphic;
+			_room = new gameroom(_room);
+			delete _graphic;
 			_graphic = new gamegraphic(this);
-			delete tmp;
 		}
 	}
 	else if(token[0] == "1") {
