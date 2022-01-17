@@ -50,27 +50,32 @@ void recive_from_server(network * net,game * _game) {//서버에서 들어오는
 void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
 	while(1) {
 		int x = getch();
-		if(x == 10) {
-			const std::u16string& chat_str = _game->get_chatString();
-			if(chat_str.empty()) continue;
-			//문자열에 따라 채팅 구별(나중에 함수로 빼야함)
-			if(chat_str == u"ready") {
-				std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
-				net->SendStringToServer(buffer);
-			}
-			else {
-				char buf[1008];
-				int i = 0;
-				for (const auto& c: chat_str) {
-					if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
-					else buf[i++] = c;
+		if(_game->getRoom()->getlevel() == 0) {
+			if(x == 10) {
+				const std::u16string& chat_str = _game->get_chatString();
+				if(chat_str.empty()) continue;
+				//문자열에 따라 채팅 구별(나중에 함수로 빼야함)
+				if(chat_str == u"ready") {
+					std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
+					net->SendStringToServer(buffer);
 				}
-				buf[i] = '\0';
-				std::string buffer = ydc::format_string("1 1 %d %d %s",_game->get_roomId(),_game->get_userId(),buf);
-				net->SendStringToServer(buffer);
+				else {
+					char buf[1008];
+					int i = 0;
+					for (const auto& c: chat_str) {
+						if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
+						else buf[i++] = c;
+					}
+					buf[i] = '\0';
+					std::string buffer = ydc::format_string("1 1 %d %d %s",_game->get_roomId(),_game->get_userId(),buf);
+					net->SendStringToServer(buffer);
+				}
 			}
+			_game->set_chatString(x);
 		}
-		_game->set_chatString(x);
+		else {
+
+		}
 	}
 }
 
@@ -227,7 +232,10 @@ void game::parseString(std::string buffer) {
 			std::list<user*>& userList = _room->getUserList();
 			userList.clear();
 			for(int i = 3;i<3+n;i++) {
-				userList.push_back(new lobbyuser(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
+				if(_room->getlevel() == 0) {
+					userList.push_back(new lobbyuser(std::stoi(token[j]),token[j+1].c_str(),std::stoi(token[j+2])));
+				}
+				else userList.push_back(new gameuser(std::stoi(token[j]),token[j+1].c_str()));
 				j+=3;
 			}
 		}
