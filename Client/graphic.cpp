@@ -11,7 +11,7 @@ void graphic::showchatLists() {
 
 void graphic::showPeople() {
 	auto _room = _game->getRoom();
-	auto userList = _room->getUserList();
+	std::list<user*> & userList = _room->getUserList();
 
 	printf("| %s | %ld/%d\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
 	for(auto item : userList) {

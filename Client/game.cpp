@@ -31,9 +31,8 @@ void recive_from_server(network * net,game * _game) {//서버에서 들어오는
 		std::string * server_str = net->GetStringToServer();
 		std::list<std::string> str;
 		std::string tmp;
-		std::cout<<*server_str<<std::endl;
 		for(int i = 0;i<server_str->size();i++) {
-			if(server_str->compare(0,5,"<end>") == 0) {
+			if(server_str->compare(i,5,"<end>") == 0) {
 				str.push_back(tmp);
 				tmp.clear();
 				i+=4;
@@ -186,7 +185,7 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 
 void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
-	//std::cout<<buffer<<std::endl;
+	std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
 	for(int i = 0;i<buffer.size();i++) {
@@ -213,10 +212,12 @@ void game::parseString(std::string buffer) {
 			return;
 		}
 		if(token[1] == "2") {
-			delete _room;
+			auto tmp = _room;
 			_room = new gameroom(_room);
-			delete _graphic;
+			delete tmp;
+			auto tmp2 = _graphic;
 			_graphic = new gamegraphic(this);
+			delete tmp2;
 		}
 	}
 	else if(token[0] == "1") {
