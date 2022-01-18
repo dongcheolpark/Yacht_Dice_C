@@ -1,5 +1,4 @@
 #include "graphic.hpp"
-
 void graphic::showchatLists() {
 	auto _room = _game->getRoom();
 	auto chatList = _room->getChatList();
@@ -15,7 +14,7 @@ void graphic::showPeople() {
 
 	printf("| %s | %ld/%d|\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
 	for(auto item : userList) {
-		printf("|%15s|",item->getuserName());
+		printf("|%-15s|",item->getuserName());
 	}
 	std::cout<<std::endl;
 }
@@ -48,27 +47,59 @@ void gamegraphic::score() {
 		tableList.push_back(dynamic_cast<gameuser *>(item)->getScoreBoard());
 	}
 	for(auto item : tableList) {
-		std::cout<<"|   ACES   | "<<std::setw(2)<<item.getUp(1)<<" |";
+		std::cout<<"|Aces       |"<<std::setw(2)<<item.getUp(1)<<" |";
 	}
 	std::cout<<"\n";
 	for(auto item : tableList) {
-		std::cout<<"|  Deuces  | "<<std::setw(2)<<item.getUp(2)<<" |";
+		std::cout<<"|Deuces     |"<<std::setw(2)<<item.getUp(2)<<" |";
 	}
 	std::cout<<"\n";
 	for(auto item : tableList) {
-		std::cout<<"|  Threes  | "<<std::setw(2)<<item.getUp(3)<<" |";
+		std::cout<<"|Threes     |"<<std::setw(2)<<item.getUp(3)<<" |";
 	}
 	std::cout<<"\n";
 	for(auto item : tableList) {
-		std::cout<<"|  Small   | "<<"  "<<" |";
+		std::cout<<"|Fours      |"<<std::setw(2)<<item.getUp(4)<<" |";
 	}
 	std::cout<<"\n";
 	for(auto item : tableList) {
-		std::cout<<"|          | "<<std::setw(2)<<item.getUp(1)<<" |";
+		std::cout<<"|Fives      |"<<std::setw(2)<<item.getUp(5)<<" |";
 	}
 	std::cout<<"\n";
 	for(auto item : tableList) {
-		std::cout<<"| Straight | "<<"  "<<" |";
+		std::cout<<"|Sixes      |"<<std::setw(2)<<item.getUp(6)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|+35 Bonus  |"<<std::setw(2)<<item.getBonus()<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|Choice     |"<<std::setw(2)<<item.getDown(1)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|4 of a Kind|"<<std::setw(2)<<item.getDown(2)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|Full House |"<<std::setw(2)<<item.getDown(3)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|S. Straight|"<<std::setw(2)<<item.getDown(4)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|L. Straight|"<<std::setw(2)<<item.getDown(5)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|Yacht      |"<<std::setw(2)<<item.getDown(6)<<" |";
+	}
+	std::cout<<"\n";
+	for(auto item : tableList) {
+		std::cout<<"|Total      |"<<std::setw(2)<<item.getscore()<<" |";
 	}
 	std::cout<<"\n";
 }
