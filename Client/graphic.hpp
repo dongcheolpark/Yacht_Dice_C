@@ -29,5 +29,6 @@ public:
 	gamegraphic(game * _game) : graphic(_game) {}
 	void dice();
 	void score();
+	void help();
 	virtual void run();
 };

@@ -138,7 +138,7 @@ send_struct * game_server::remove_user(int id) {
 		for(auto item2 : item->getUserList()) {
 			if(item2->getuserId() == id) {
 				item->getUserList().remove(item2);	
-				if(item->getChatList().empty()) {
+				if(item->getUserList().empty()) {
 					roomList.remove(item);
 					return NULL;
 				}
