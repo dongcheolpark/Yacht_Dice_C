@@ -84,8 +84,6 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 }
 
 void game::start(network * net) {
-	//std::thread t1(recive_from_server,net,this);
-	//t1.detach();
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n";
 	std::cin>>name;
@@ -122,7 +120,7 @@ void game::start(network * net) {
 			std::string buffer = ydc::format_string("3 3 %d",id);
 			net->SendStringToServer(buffer);
 			_recive_from_server(net,this);
-			if(!roomList.empty()) {
+			if(roomList.empty()) {
 				std::cout<<"생성된 방이 존재하지 않습니다. 초기화면으로 되돌아갑니다.\n";
 				continue;
 			}
@@ -168,6 +166,8 @@ void game::start(network * net) {
 	buffer = ydc::format_string("0 1 %d",_room->getRoomId());
 	net->SendStringToServer(buffer);
 	std::thread t2(input,net,this);
+	std::thread t1(recive_from_server,net,this);
+	t1.detach();
 	t2.join();
 	graphics();
 }
