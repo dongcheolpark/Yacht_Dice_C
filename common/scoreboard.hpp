@@ -21,5 +21,6 @@ public:
 	int getUp(int);
 	int getDown(int);
 	int getBonus();
+	int getscore();
 	std::string tostring(); 
 };

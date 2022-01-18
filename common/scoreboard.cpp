@@ -68,3 +68,8 @@ int scoreboard::getDown(int n) {
 int scoreboard::getBonus() {
 	return bonus*35;
 }
+
+int scoreboard::getscore() {
+	setscore();
+	return score;
+}
