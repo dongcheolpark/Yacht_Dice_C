@@ -24,26 +24,30 @@ int getch(void)
 	tcsetattr(0, TCSAFLUSH, &old);
 	return ch;
 }
+void _recive_from_server(network * net,game * _game) {
+	std::string * server_str = net->GetStringToServer();
+	std::list<std::string> str;
+	std::string tmp;
+	for(int i = 0;i<server_str->size();i++) {
+		if(server_str->compare(i,5,"<end>") == 0) {
+			str.push_back(tmp);
+			tmp.clear();
+			i+=4;
+		}
+		else tmp.push_back((*server_str)[i]);
+	}
+	if(!tmp.empty())	str.push_back(tmp);
+	delete server_str;
+	for(auto item : str) {
+		_game->parseString(item);//문자열 분석부
+	}
+}
+
 
 void recive_from_server(network * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
 	while(1)
 	{
-		std::string * server_str = net->GetStringToServer();
-		std::list<std::string> str;
-		std::string tmp;
-		for(int i = 0;i<server_str->size();i++) {
-			if(server_str->compare(i,5,"<end>") == 0) {
-				str.push_back(tmp);
-				tmp.clear();
-				i+=4;
-			}
-			else tmp.push_back((*server_str)[i]);
-		}
-		if(!tmp.empty())	str.push_back(tmp);
-		delete server_str;
-		for(auto item : str) {
-			_game->parseString(item);//문자열 분석부
-		}
+		_recive_from_server(net,_game);
 	}
 }
 
@@ -80,8 +84,8 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 }
 
 void game::start(network * net) {
-	std::thread t1(recive_from_server,net,this);
-	t1.detach();
+	//std::thread t1(recive_from_server,net,this);
+	//t1.detach();
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n";
 	std::cin>>name;
@@ -110,17 +114,17 @@ void game::start(network * net) {
 
 			std::string buffer = ydc::format_string("3 0 %d %s %d",id,buff,max_num);
 			net->SendStringToServer(buffer);
-			while(1) {
-				if(_room != NULL) break;
-			}
+			_recive_from_server(net,this);
 			buffer = ydc::format_string("3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
 		}
 		else if(choice == 2) {
 			std::string buffer = ydc::format_string("3 3 %d",id);
 			net->SendStringToServer(buffer);
-			while(1) {
-				if(!roomList.empty()) break;
+			_recive_from_server(net,this);
+			if(!roomList.empty()) {
+				std::cout<<"생성된 방이 존재하지 않습니다. 초기화면으로 되돌아갑니다.\n";
+				continue;
 			}
 			do {
 				std::cout<<"숫자 : 참가할 방 , q : 뒤로가기"<<std::endl;
@@ -141,6 +145,7 @@ void game::start(network * net) {
 				for(itor = roomList.begin();i<a-1;i++,itor++);
 				std::string buffer = ydc::format_string("3 1 %d %d",(*itor)->getRoomId(),id);
 				net->SendStringToServer(buffer);
+				_recive_from_server(net,this);
 				break;
 			}while(1);
 		}
