@@ -71,6 +71,11 @@
    {
 	  chat_str
    }
+ 2 //add_user
+  user->id
+  user->name
+   user->isReady
+   
 2 // game정보
  1 // 주사위 값
   5개의 주사위 값 전달
