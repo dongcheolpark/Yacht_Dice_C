@@ -86,4 +86,5 @@
      choice
      down 6개
    }
+
 </server to client>
