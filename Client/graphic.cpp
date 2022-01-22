@@ -36,7 +36,9 @@ void lobbygraphic::run() {
 		printf("%16s ",((lobbyuser *)item)->getUserReady() ? "Ready" : " ");
 	}
 	showchatLists();
-	showChatString();
+	if(_game->getChatStatus()) {
+		showChatString();
+	}
 }
 
 void gamegraphic::dice() {

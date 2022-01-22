@@ -17,15 +17,17 @@ private :
 	room * _room = NULL;
 	bool chatStatus = false;
 	void graphics();
+	network * net;
 	graphic * _graphic;
 public :
 	std::list<room*> roomList;
-	game(int id); 
+	game(int id,network * net); 
 	void parseString(std::string buffer);
-	void start(network * net);
+	void start();
 	void set_chatString(int x);
+	void sendChatString();
 	void set_roomId(room * _room) {this->_room = _room;}
-	void chatStatusSwitch() { chatStatus = !chatStatus;}
+	void chatStatusSwitch() { chatStatus = !chatStatus; graphics();}
 	int get_roomId() {return _room->getRoomId();}
 	int get_userId() {return id;}
 	room* getRoom() {return _room;}

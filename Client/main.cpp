@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
 			return 0;
 		}
 	}//서버와 연결을 시도한다.
-	game * _game = new game(id);
-	_game->start(net);
+	game * _game = new game(id,net);
+	_game->start();
 	return 0;
 }
