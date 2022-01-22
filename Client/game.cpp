@@ -54,6 +54,7 @@ void recive_from_server(network * net,game * _game) {//서버에서 들어오는
 void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
 	while(1) {
 		int x = getch();
+		if(_game->getChatStatus())
 		if(_game->getRoom()->getlevel() == 0) {
 			if(x == 10) {
 				const std::u16string& chat_str = _game->get_chatString();
