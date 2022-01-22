@@ -19,6 +19,14 @@ void graphic::showPeople() {
 	std::cout<<std::endl;
 }
 
+void graphic::showChatString() {
+	std::cout<<"채팅 : ";
+	for (const auto& c: _game->get_chatString())
+	    std::cout << static_cast<char>(c);
+	
+	std::cout<<std::endl;
+}
+
 void lobbygraphic::run() {
 	auto _room = _game->getRoom();
 	auto userList = _room->getUserList();
@@ -28,11 +36,7 @@ void lobbygraphic::run() {
 		printf("%16s ",((lobbyuser *)item)->getUserReady() ? "Ready" : " ");
 	}
 	showchatLists();
-	for (const auto& c: _game->get_chatString())
-	    std::cout << static_cast<char>(c);
-	
-	std::cout<<std::endl;
-
+	showChatString();
 }
 
 void gamegraphic::dice() {
@@ -107,4 +111,5 @@ void gamegraphic::score() {
 void gamegraphic::run() {
 	showPeople();
 	score();
+	showchatLists();
 }
