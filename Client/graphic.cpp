@@ -114,4 +114,7 @@ void gamegraphic::run() {
 	showPeople();
 	score();
 	showchatLists();
+	if(_game->getChatStatus()) {
+		showChatString();
+	}
 }

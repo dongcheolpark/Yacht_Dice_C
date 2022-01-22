@@ -55,24 +55,24 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 	while(1) {
 		int x = getch();
 		if(_game->getChatStatus()) {
-			if(_game->getRoom()->getlevel() == 0) {
-				if(x == 10) {
-					_game->sendChatString();
-					chatStatusSwitch();
-				}
-				_game->set_chatString(x);
+			if(x == 10) {
+				_game->sendChatString();
+				_game->chatStatusSwitch();
 			}
-			else {
-
-			}
+			_game->set_chatString(x);
 		}
 		else {
 			if(x == 10) {
 				_game->chatStatusSwitch();
 			}
-			if(x == 'r' || x == 'R') {
-				std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
-				net->SendStringToServer(buffer);
+			if(_game->getRoom()->getlevel() == 0) {
+				if(x == 'r' || x == 'R') {
+					std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
+					net->SendStringToServer(buffer);
+				}
+			}
+			else {
+
 			}
 		}
 	}
