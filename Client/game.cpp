@@ -5,7 +5,7 @@
 #include <termios.h>
 #include <regex>
 
-game::game(int id) : id(id) {
+game::game(int id,network * net) : id(id) , net(net) {
 	_graphic = new lobbygraphic(this);
 }
 
@@ -54,36 +54,31 @@ void recive_from_server(network * net,game * _game) {//서버에서 들어오는
 void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
 	while(1) {
 		int x = getch();
-		if(_game->getRoom()->getlevel() == 0) {
+		if(_game->getChatStatus()) {
 			if(x == 10) {
-				const std::u16string& chat_str = _game->get_chatString();
-				if(chat_str.empty()) continue;
-				//문자열에 따라 채팅 구별(나중에 함수로 빼야함)
-				if(chat_str == u"ready") {
-					std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
-					net->SendStringToServer(buffer);
-				}
-				else {
-					char buf[1008];
-					int i = 0;
-					for (const auto& c: chat_str) {
-						if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
-						else buf[i++] = c;
-					}
-					buf[i] = '\0';
-					std::string buffer = ydc::format_string("1 1 %d %d %s",_game->get_roomId(),_game->get_userId(),buf);
-					net->SendStringToServer(buffer);
-				}
+				_game->sendChatString();
+				_game->chatStatusSwitch();
 			}
 			_game->set_chatString(x);
 		}
 		else {
+			if(x == 10) {
+				_game->chatStatusSwitch();
+			}
+			if(_game->getRoom()->getlevel() == 0) {
+				if(x == 'r' || x == 'R') {
+					std::string buffer = ydc::format_string("3 2 %d %d",_game->get_roomId(),_game->get_userId());
+					net->SendStringToServer(buffer);
+				}
+			}
+			else {
 
+			}
 		}
 	}
 }
 
-void game::start(network * net) {
+void game::start() {
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n"; 
 	scanf("%[^ ]",name);
@@ -262,4 +257,20 @@ void game::parseString(std::string buffer) {
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
 	graphics();
+}
+
+void game::sendChatString() {
+	const std::u16string& chat_str = get_chatString();
+	if(chat_str.empty()) return;
+	else {
+		char buf[1008];
+		int i = 0;
+		for (const auto& c: chat_str) {
+			if(c==' ') buf[i++] = '_';//채팅 문자열의 공백을 언더바로 바꾼다
+			else buf[i++] = c;
+		}
+		buf[i] = '\0';
+		std::string buffer = ydc::format_string("1 1 %d %d %s",get_roomId(),get_userId(),buf);
+		net->SendStringToServer(buffer);
+	}
 }

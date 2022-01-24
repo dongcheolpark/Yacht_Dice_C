@@ -11,6 +11,7 @@ protected:
 	game * _game = NULL;	
 	void showchatLists();
 	void showPeople();
+	void showChatString();
 public:
 	graphic(game * _game) {
 		this->_game = _game;
