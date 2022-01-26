@@ -81,7 +81,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 void game::start() {
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n"; 
-	scanf("%[^ ]",name);
+	std::cin>>name;
 	//유저 정보 전송
 	std::string buffer = ydc::format_string("0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
