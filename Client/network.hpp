@@ -10,6 +10,11 @@ class network {
 private : 
 	int sock = 0;
 	int valread;
+<<<<<<< Updated upstream
+=======
+	//const char * ip_adress = "127.0.0.1";
+	const char * ip_adress = "132.226.235.184";
+>>>>>>> Stashed changes
 	const int buff_size = 1024;
 	struct sockaddr_in serv_addr;
 public :
