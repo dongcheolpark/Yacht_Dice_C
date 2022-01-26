@@ -81,7 +81,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 void game::start() {
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n"; 
-	std::cin>>name;
+	std::cin >> name;
 	//유저 정보 전송
 	std::string buffer = ydc::format_string("0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
@@ -89,7 +89,7 @@ void game::start() {
 		std::cout<<"게임 입장\n";
 		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
 		int choice = 0;
-		std::cin>>choice;
+		std::cin>>choice; 
 		bool check_while = false;
 		if(choice == 1) {
 			std::cout<<"방 제목을 입력해주세요.\n";
@@ -101,12 +101,14 @@ void game::start() {
 				std::cin>>max_num;
 				if(max_num < 2 || max_num > 4) {
 					std::cout<<"다시 입력해 주세요.\n";
+					continue;
 				}
 				break;
 			}while(1);
 
 			std::string buffer = ydc::format_string("3 0 %d %s %d",id,buff,max_num);
 			net->SendStringToServer(buffer);
+			//net->SendStringToServer("9 9 hello\n")
 			_recive_from_server(net,this);
 			buffer = ydc::format_string("3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
