@@ -3,26 +3,88 @@
  0
   id // 유저 ID
    userName // 유저이름
+ 1 // 유저 리스트 전달
+  roomid
+
 1 //채팅 
  0//채팅리스트 요청
+  roomid
 
  1
+ roomid
  id // 유저 ID
  chatText
+2 //게임
+
+3 //방 시스템
+ 0 // 방 만들기
+  userid
+  roomName
+  roomMaxPeople
+ 1 // 사람 참가
+  roomid
+  userid
+ 2 // 레디
+  roomid
+  userid
+ 3 // 방 리스트 요청
+  userid
+4 //게임
+  1 //주사위 결과 선택
+    0 //up
+      1~6//숫자
+    1 //bonus
+    2 // down
+      1~6//숫자
+  2 //주사위 돌리기
+    n //고정한 주사위 개수
+      {
+        0~4 고정한 주사위 
+      }
 </client to server>
 
 <server to client>
 0
  0 // room 정보
+  roomid
+  roomName
+  roomMaxPeople
+ 1 // roomList
+  roomList_count
+  {
+   roomid
+   roomName
+   roomMaxPeople
+  }
+  2 // gameroom으로 변경
+1
+ 0 //userlist
   userlist_count
    {
 	user->id
 	user->name
+   user->isReady
    } 
-1
- 0 // chat 정보
+
+ 1 // chat 정보
   chatlist_count
    {
-	chat_str
+	  chat_str
    }
+ 2 //add_user
+  user->id
+  user->name
+  user->isReady
+   
+2 // game정보
+ 1 // 주사위 값
+  5개의 주사위 값 전달
+ 2 // 유저 스코어보드 전달
+  id
+   {
+     up 6개
+     choice
+     down 6개
+   }
+
 </server to client>

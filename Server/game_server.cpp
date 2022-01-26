@@ -11,26 +11,32 @@ send_struct * game_server::parseString(const char * buffer) {
 			tmp.clear();
 		}
 		else tmp.push_back(buffer[i]);
-	}
+	}//문자열을 스페이스바를 기준으로 토큰화 한다.
 	token.push_back(tmp);
+	//토큰을 분석해준다.
 	if(token[0] == "0") {
 		//유저 리스트에 추가
-		if(token[0] == "0") {
-			user * _user = new user(std::stoi(token[2]),token[3].c_str());
-			userList.push_back(_user);
-			parse = new game_server_send_userList(this);
+		if(token[1] == "0") {
+			user * _user = new lobbyuser(std::stoi(token[2]),token[3].c_str(),false);
+			serverUserList.push_back(_user);
+		}
+		if(token[1] == "1") {
+			parse = new game_server_send_userList(this,stoi(token[2]));
 		}
 	}
 	else if(token[0] == "1") {
 		if(token[1] == "0") {
-			parse = new game_server_send_chatList(this);
+			parse = new game_server_send_chatList(this,stoi(token[2]));
 		}
 		else if(token[1] == "1") {
+			room * _room = getRoom(stoi(token[2]));
+			auto userList = _room->getUserList();
+			std::list<std::string>& chatList = _room->getChatList();
 			if(chatList.size() >= 5) {
 				chatList.pop_front();
 			}
 			char buff[1024];
-			int id = std::stoi(token[2]);
+			int id = std::stoi(token[3]);
 			user * _user = NULL;
 			for(auto item : userList) {
 				if(id == item->getuserId()) {
@@ -38,30 +44,116 @@ send_struct * game_server::parseString(const char * buffer) {
 					break;
 				}
 			}
-			sprintf(buff,"%s %s",_user->getuserName(),token[3].c_str());
+			sprintf(buff,"%s %s",_user->getuserName(),token[4].c_str());
 			//puts(buff);
 			chatList.push_back(buff);
-			parse = new game_server_send_chatList(this);
+			printf("%ld\n",chatList.size());
+			parse = new game_server_send_chatList(this,_room->getRoomId());
 		}
 	}
-	auto * data = parse->doParse();
+	else if(token[0] == "2") {
+
+	}
+	else if(token[0] == "3") {
+		if(token[1] == "0") {
+			int roomId =  roomList.empty() ? 0 : roomList.back()->getRoomId()+1;
+			roomList.push_back(new room(roomId,token[3].c_str(),std::stoi(token[4])));
+			user * _user;
+			for(auto item : serverUserList) {
+				if(item->getuserId() == std::stoi(token[2])) {
+					_user = item;
+				}
+			}
+			parse = new game_server_send_roomInfo(this,roomId,_user);
+		}
+		else if(token[1] == "1") {
+			room * _room = getRoom(std::stoi(token[2]));
+			user * _user;
+			for(auto item : serverUserList) {
+				if(item->getuserId() == std::stoi(token[3])) {
+					_user = item;
+				}
+			}
+			_room->getUserList().push_back(_user);
+			parse = new game_server_send_roomInfo(this,_room->getRoomId(),_user);
+		}
+		else if(token[1] == "2") {
+			room * _room = getRoom(std::stoi(token[2]));
+			auto userList = _room->getUserList();
+			bool check = true;
+			for(auto item : userList) {
+				lobbyuser* _lobbyuser;
+				if(item->getuserId() == std::stoi(token[3])) {
+					if((_lobbyuser = dynamic_cast<lobbyuser *>(item)) != NULL) {
+						_lobbyuser->switchUserReady();
+					}
+				} 
+				if((_lobbyuser = dynamic_cast<lobbyuser *>(item)) != NULL) {
+					if(_lobbyuser->getUserReady() != true) check = false;
+				}
+				else check = false;
+			}
+			if(check) {
+				gameroom * _gameroom = new gameroom(_room);
+				roomList.push_back(_gameroom);
+				roomList.remove(_room);
+				delete _room;
+				std::cout<<_gameroom->getUserList().front()->getuserId()<<'\n';
+				parse = new game_server_change_gameroom(this,_gameroom->getRoomId());
+			}
+			else parse = new game_server_send_userList(this,_room->getRoomId());
+		}
+		else if(token[1] == "3") {
+			user * _user;
+			for(auto item : serverUserList) {
+				if(item->getuserId() == std::stoi(token[2])) {
+					_user = item;
+				}
+			}
+			parse = new game_server_send_roomList(this,_user);
+		}
+	}
+	if(parse == NULL) return NULL;
+	auto * data = parse->doParse();//전송 데이터를 가져온다.
 	delete parse;
 	//printf("%s\n",data->str->c_str());
 	return data;
 }
 
-send_struct * game_server::processing(int index) {
+send_struct * game_server::processing(int index,int roomId) {//바뀐 정보를 바로바로 전송할 때 사용한다.
 	game_server_parse * parse = NULL;
 	if(index == 1) {
-		parse = new game_server_send_userList(this);
+		parse = new game_server_send_userList(this,roomId);
 	}
 	auto data = parse->doParse();
 	delete parse;
 	return data;
 }
 
-void game_server::remove_user(int id) {
-	userList.remove_if([id](user * value) {
+send_struct * game_server::remove_user(int id) {
+	serverUserList.remove_if([id](user * value) {
 		return value->getuserId() == id;
 	});
+	for(auto item : roomList) {
+		for(auto item2 : item->getUserList()) {
+			if(item2->getuserId() == id) {
+				item->getUserList().remove(item2);	
+				if(item->getUserList().empty()) {
+					roomList.remove(item);
+					return NULL;
+				}
+				return processing(1,item->getRoomId());
+			}
+		}
+	}
+	return NULL;
+}
+
+room * game_server::getRoom(int roomId) {
+	for(auto item : roomList) {
+		if(item->getRoomId() == roomId) {
+			return item;
+		}
+	}
+	return NULL;
 }

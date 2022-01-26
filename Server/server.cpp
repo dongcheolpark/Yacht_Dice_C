@@ -1,7 +1,7 @@
 #include "server.hpp"
 #include <vector>
 
-server::server() {
+server::server() {//서버 설정
 	// Creating socket file descriptor
 	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
@@ -38,7 +38,7 @@ server::server() {
 	fd_max = server_fd;
 }
 
-void server::start() {
+void server::start() {//멀티 플렉싱 서버
 	while(1) {
 		cpy_reads = reads;
         timeout.tv_sec = 5;
@@ -71,8 +71,7 @@ void server::start() {
                     if (str_len == 0) {   // close request!
                         FD_CLR(i, &reads); // fd_set 테이블에서 파일 디스크립터를 삭제한다.
                         close(i);
-						game_ser.remove_user(i);
-						send_string(game_ser.processing(1));
+						send_string(game_ser.remove_user(i));
                         printf("closed client: %d \n", i);
                     } else {
 						std::list<std::string> str;
@@ -84,12 +83,12 @@ void server::start() {
 								i+=4;
 							}
 							else tmp.push_back(buffer[i]);
-						}
+						}//클라이언트에서 들어오는 값들을 <end>까지 입력받는다
 						if(!tmp.empty())	str.push_back(tmp);
 						for(auto item : str) {
-							//puts(item.c_str());
-							send_struct * data = game_ser.parseString(item.c_str());
-							send_string(data);
+							printf("input data : %s\n",item.c_str());
+							send_struct * data = game_ser.parseString(item.c_str()); //클라이언트에서 들어온 문자열을 파싱한다.
+							send_string(data);//클라이언트에 필요한 정보를 전달한다.
 							//data->print_data();
 						}
                     }
@@ -100,6 +99,8 @@ void server::start() {
 }
 
 void server::send_string(send_struct * data) {
+	if(data == NULL) return;
+	//std::cout<<*(data->str)<<std::endl;
 	data->str->append("<end>");
 	for(auto item : *(data->list)) {
 		send(item->getuserId(),data->str->c_str(),data->str->size(),0);

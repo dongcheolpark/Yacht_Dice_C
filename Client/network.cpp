@@ -15,7 +15,7 @@ network::network() {
 }
 
 int network::join() {
-	if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0)
+	if(inet_pton(AF_INET, this->ip_adress , &serv_addr.sin_addr)<=0)
 	{
 		printf("\nInvalid address/ Address not supported \n");
 		return 0;
@@ -29,15 +29,15 @@ int network::join() {
 	read(sock,buffer,buff_size);
 	return atoi(buffer);
 }
-char * network::GetStringToServer() {
+std::string * network::GetStringToServer() {
 	char * buffer = new char[buff_size];
 	if((valread = read(sock ,buffer, buff_size)) != 0) {
-		return buffer;
+		return new std::string(buffer);
 	}
 	return NULL;
 }
-void network::SendStringToServer(char* str) {
-	strcat(str,"<end>");
-	puts(str);
-	send(sock,str,strlen(str),0);
+void network::SendStringToServer(std::string& str) {
+	str.append("<end>");
+	//puts(str);
+	send(sock,str.c_str(),str.size(),0);
 }
