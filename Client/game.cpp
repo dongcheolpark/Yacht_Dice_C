@@ -257,6 +257,9 @@ void game::parseString(std::string buffer) {
 			
 		}
 	}
+	else {
+		return;
+	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
 	graphics();
 }
