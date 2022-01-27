@@ -45,7 +45,6 @@ send_struct * game_server::parseString(const char * buffer) {
 			}
 
 			std::string buff = ydc::format_string("%s %s",_user->getuserName(),token[4].c_str());
-			//puts(buff);
 			chatList.push_back(buff);
 			printf("%ld\n",chatList.size());
 			parse = new game_server_send_chatList(this,_room->getRoomId());
