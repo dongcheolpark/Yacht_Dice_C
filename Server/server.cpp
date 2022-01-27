@@ -36,7 +36,6 @@ server::server() {//서버 설정
 	FD_ZERO(&reads);
 	FD_SET(server_fd,&reads);
 	fd_max = server_fd;
-
 	std::cout<<"Running.."<<std::endl;
 }
 

@@ -20,6 +20,15 @@ public :
 		this->server = server;
 		set_network_code(first,second);
 	}	
+	game_server_parse(game_server * server,int first,int second) {
+		data = new send_struct();
+		this->server = server;
+		set_network_code(first,second);
+	}	
+	game_server_parse(int first,int second) {
+		data = new send_struct();
+		set_network_code(first,second);
+	}	
 	~game_server_parse() {
 	}
 	virtual send_struct * doParse() {
@@ -42,7 +51,7 @@ class game_server_send_roomList : public game_server_parse {
 private:
 	user * _user;
 public:
-	game_server_send_roomList(game_server * server,user *_user) : game_server_parse(server,0,1,0) , _user(_user) {}
+	game_server_send_roomList(game_server * server,user *_user) : game_server_parse(server,0,1) , _user(_user) {}
 	send_struct * doParse();
 };
 
