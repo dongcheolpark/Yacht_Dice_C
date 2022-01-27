@@ -1,7 +1,10 @@
 #include "dice_game.hpp"
 
 dice_game::dice_game() {
-
+	dices.resize(5);
+	for(int i = 0;i<5;i++) {
+		dices[i] = 1;
+	}
 }
 void dice_game::set_dice(int index,int value) {
 	if( value < 1 || value > 6) return;

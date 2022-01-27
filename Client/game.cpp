@@ -72,7 +72,10 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 				}
 			}
 			else {
-
+				if(x == 'r' || x == 'R') {
+					std::string buffer = ydc::format_string("4 2 %d 0",_game->get_roomId());
+					net->SendStringToServer(buffer);
+				}
 			}
 		}
 	}
@@ -170,7 +173,7 @@ void game::start() {
 }
 
 void game::graphics() {
-	//system("clear");
+	system("clear");
 	_graphic->run();
 }
 
@@ -192,7 +195,7 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 
 void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
-	std::cout<<buffer<<std::endl;
+	//std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
 	for(int i = 0;i<buffer.size();i++) {
@@ -256,6 +259,16 @@ void game::parseString(std::string buffer) {
 		if(token[1] == "-1") {
 			
 		}
+	}
+	else if(token[0] == "2") {
+		if(token[1] == "1") {
+			for(int i = 0;i<5;i++) {
+				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
+			}
+		}
+	}
+	else {
+		return;
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
 	graphics();
