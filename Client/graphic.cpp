@@ -48,7 +48,12 @@ void lobbygraphic::run() {
 }
 
 void gamegraphic::dice() {
-
+	auto data = dynamic_cast<gameroom *>(_game->getRoom())->getdata();
+	std::cout<<"\n\n   ";
+	for(int i = 0;i<5;i++) {
+		std::cout<<data.get_dices(i)<<" ";
+	}
+	std::cout<<"\n";
 }
 
 void gamegraphic::score() {
@@ -124,6 +129,7 @@ void gamegraphic::run() {
 	showPeople();
 	score();
 	showchatLists();
+	dice();
 	help();
 	if(_game->getChatStatus()) {
 		showChatString();

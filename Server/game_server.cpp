@@ -111,6 +111,23 @@ send_struct * game_server::parseString(const char * buffer) {
 			parse = new game_server_send_roomList(this,_user);
 		}
 	}
+	else if(token[0] == "4") {
+		if(token[1] == "1") {
+
+		}
+		else if(token[1] == "2") {
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<int> dis(1, 6);
+			int roomid = std::stoi(token[2]);
+			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
+			dice_game& dices = _room->getdata();
+			for(int i = 0;i<5;i++) {
+				dices.set_dice(i,dis(gen));
+			}
+			parse = new game_server_send_dices(this,roomid);
+		}
+	}
 	if(parse == NULL) return NULL;
 	auto * data = parse->doParse();//전송 데이터를 가져온다.
 	delete parse;

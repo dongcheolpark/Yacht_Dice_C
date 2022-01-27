@@ -37,10 +37,8 @@
     2 // down
       1~6//숫자
   2 //주사위 돌리기
-    n //고정한 주사위 개수
-      {
-        0~4 고정한 주사위 
-      }
+   roomid
+   mask 문자열로 주사위 선택(0은 락 1은 돌리기)
 </client to server>
 
 <server to client>

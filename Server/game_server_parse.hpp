@@ -70,3 +70,9 @@ public:
 	send_struct * doParse();
 };
 
+class game_server_send_dices : public game_server_parse {
+private : 
+public:
+	game_server_send_dices(game_server * server,int roomId) : game_server_parse(server,2,1,roomId) {}
+	send_struct * doParse();
+};
