@@ -36,8 +36,6 @@ server::server() {//서버 설정
 	FD_ZERO(&reads);
 	FD_SET(server_fd,&reads);
 	fd_max = server_fd;
-
-	std::cout<<"Running.."<<std::endl;
 }
 
 void server::start() {//멀티 플렉싱 서버
@@ -102,7 +100,7 @@ void server::start() {//멀티 플렉싱 서버
 
 void server::send_string(send_struct * data) {
 	if(data == NULL) return;
-	std::cout<<"output data : "<<*(data->str)<<std::endl;//출력 문자열
+	//std::cout<<*(data->str)<<std::endl;
 	data->str->append("<end>");
 	for(auto item : *(data->list)) {
 		send(item->getuserId(),data->str->c_str(),data->str->size(),0);

@@ -35,6 +35,7 @@ send_struct * game_server::parseString(const char * buffer) {
 			if(chatList.size() >= 5) {
 				chatList.pop_front();
 			}
+			char buff[1024];
 			int id = std::stoi(token[3]);
 			user * _user = NULL;
 			for(auto item : userList) {
