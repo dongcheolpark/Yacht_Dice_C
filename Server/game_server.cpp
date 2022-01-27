@@ -35,7 +35,6 @@ send_struct * game_server::parseString(const char * buffer) {
 			if(chatList.size() >= 5) {
 				chatList.pop_front();
 			}
-			char buff[1024];
 			int id = std::stoi(token[3]);
 			user * _user = NULL;
 			for(auto item : userList) {
@@ -44,8 +43,8 @@ send_struct * game_server::parseString(const char * buffer) {
 					break;
 				}
 			}
-			sprintf(buff,"%s %s",_user->getuserName(),token[4].c_str());
-			//puts(buff);
+
+			std::string buff = ydc::format_string("%s %s",_user->getuserName(),token[4].c_str());
 			chatList.push_back(buff);
 			printf("%ld\n",chatList.size());
 			parse = new game_server_send_chatList(this,_room->getRoomId());
