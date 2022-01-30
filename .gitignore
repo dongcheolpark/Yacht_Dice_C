@@ -2,3 +2,5 @@ Client/bin
 Server/bin
 build/
 .vscode/
+
+Client/cmake-build*

@@ -11,7 +11,7 @@ void scoreboard::setscore() {
 	for(auto item: down) {
 		score += item;
 	}
-	score += 35*bonus;	
+	score += 35*(int)bonus;
 }
 
 void scoreboard::setUp(int i,int val) {
@@ -66,7 +66,7 @@ int scoreboard::getDown(int n) {
 }
 
 int scoreboard::getBonus() {
-	return bonus*35;
+	return bonus*(int)35;
 }
 
 int scoreboard::getscore() {

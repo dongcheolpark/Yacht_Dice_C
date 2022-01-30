@@ -2,12 +2,16 @@
 #include "game.hpp"
 #include <iostream>
 #include <string>
-#include <termios.h>
 #include <thread>
 
 int main(int argc, char const *argv[])
 {
-	network * net = new network();
+#ifdef _WIN32
+    system("chcp 65001");
+	networkWin * net = new networkWin();
+#else
+	networkLinux * net = new networkLinux();
+#endif
 	int id;
 	while((id = net->join()) == 0) {
 		char a;
