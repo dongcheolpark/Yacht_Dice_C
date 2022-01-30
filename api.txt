@@ -38,7 +38,7 @@
       1~6//숫자
   2 //주사위 돌리기
    roomid
-   mask 문자열로 주사위 선택(0은 락 1은 돌리기)
+   mask 문자열로 주사위 선택(0은 돌리기 1은 락)
 </client to server>
 
 <server to client>
