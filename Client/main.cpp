@@ -7,6 +7,7 @@
 int main(int argc, char const *argv[])
 {
 #ifdef _WIN32
+    system("chcp 65001");
 	networkWin * net = new networkWin();
 #else
 	networkLinux * net = new networkLinux();

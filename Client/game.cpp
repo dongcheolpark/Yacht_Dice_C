@@ -182,7 +182,11 @@ void game::start() {
 }
 
 void game::graphics() {
+#ifdef _WIN32
+	system("cls");
+#else
 	system("clear");
+#endif
 	_graphic->run();
 }
 

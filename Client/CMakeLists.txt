@@ -16,3 +16,7 @@ ADD_EXECUTABLE(Yacht_Dice_Client
 				../common/dice_game.cpp
 				../common/scoreboard.cpp
 				)
+
+if(WIN32)
+	target_link_libraries(Yacht_Dice_Client wsock32 ws2_32)
+endif()
