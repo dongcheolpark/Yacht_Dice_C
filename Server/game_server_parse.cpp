@@ -71,3 +71,13 @@ send_struct * game_server_send_dices::doParse() {
 	}
 	return data;
 }
+
+send_struct * game_server_send_lockinfo::doParse() {
+	auto _room = dynamic_cast<gameroom *>(server->getRoom(roomId));
+	auto userList = _room->getUserList();
+	for(auto item : userList) {
+		data->list->push_back(item);
+	}
+	data->str->append(ydc::format_string("%d",_room->getdata().get_dices()));
+	return data;
+}

@@ -127,11 +127,12 @@ send_struct * game_server::parseString(const char * buffer) {
 			}
 			parse = new game_server_send_dices(this,roomid);
 		}
-		else if(token[2] == "3") {
+		else if(token[1] == "3") {
+			int roomid = std::stoi(token[2]);
 			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
 			dice_game& dices = _room->getdata();
-			dices.set_lockinfo();
-
+			dices.set_lockinfo2(std::stoi(token[3]));
+			parse = new game_server_send_lockinfo(this,roomid);
 		}
 	}
 	if(parse == NULL) return NULL;

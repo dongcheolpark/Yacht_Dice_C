@@ -82,18 +82,14 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 			}
 			else {
 				if(x == 'z') {
-					auto _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
+					dice_game & _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
 					_dice.set_lockinfo(_game->getDiceCursor());
-					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_dices());
+					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_lockinfo());
+					net->SendStringToServer(buffer);
 					_game->graphics();
 				}
 				if(x == 'r' || x == 'R') {
-<<<<<<< HEAD
 					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
-=======
-					int lockinfo = dynamic_cast<gameroom*>(_game->getRoom())->getdata().get_lockinfo();
-					std::string buffer = ydc::format_string("4 2 %d %d",_game->get_roomId(), lockinfo);
->>>>>>> 05cd7efdbd2f38bf3180d8d96fef63ed21b41621
 					net->SendStringToServer(buffer);
 				}
 				else if(x == 91) {
@@ -308,6 +304,9 @@ void game::parseString(std::string buffer) {
 			for(int i = 0;i<5;i++) {
 				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
 			}
+		}
+		if(token[1] == "3") {
+			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
 		}
 	}
 	else {
