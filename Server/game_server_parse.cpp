@@ -78,6 +78,6 @@ send_struct * game_server_send_lockinfo::doParse() {
 	for(auto item : userList) {
 		data->list->push_back(item);
 	}
-	data->str->append(ydc::format_string("%d",_room->getdata().get_dices()));
+	data->str->append(ydc::format_string("%d",_room->getdata().get_lockinfo()));
 	return data;
 }
