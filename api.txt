@@ -39,6 +39,9 @@
   2 //주사위 돌리기
    roomid
    mask 문자열로 주사위 선택(0은 돌리기 1은 락)
+  3 //주사위 락 정보
+    roomid
+    lockinfo
 </client to server>
 
 <server to client>
@@ -84,5 +87,7 @@
      choice
      down 6개
    }
+  3 // 주사위 락 정보
+    lockinfo
 
 </server to client>
