@@ -82,11 +82,13 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 			}
 			else {
 				if(x == 'z') {
-					dynamic_cast<gameroom*>(_game->getRoom())->getdata().set_lockinfo(_game->getDiceCursor());
+					auto _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
+					_dice.set_lockinfo(_game->getDiceCursor());
+					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_dices());
 					_game->graphics();
 				}
 				if(x == 'r' || x == 'R') {
-					std::string buffer = ydc::format_string("4 2 %d 0",_game->get_roomId());
+					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
 					net->SendStringToServer(buffer);
 				}
 				else if(x == 91) {
