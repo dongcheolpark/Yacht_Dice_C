@@ -56,6 +56,8 @@ void gamegraphic::dice() {
 	std::cout<<"\n";
 }
 
+
+
 void gamegraphic::score() {
 	auto _room = _game->getRoom();
 	std::list<user*> & userList = _room->getUserList();
