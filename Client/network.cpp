@@ -30,7 +30,7 @@ int networkWin::join() {
 	if (connect(s, reinterpret_cast<SOCKADDR*>(&target), sizeof(target)) == SOCKET_ERROR)
 	{
 		std::cout << "connect() error : " << WSAGetLastError() << std::endl;
-		std::cout << "¼­¹ö ¸ÕÀú ½ÇÇàÇØÁÖ¼¼¿ä." << std::endl;
+		std::cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." << std::endl;
 		WSACleanup();
 		return 0; //Couldn't connect	
 	}
@@ -48,7 +48,7 @@ void networkWin::SendStringToServer(std::string& str) {
 	send(s, str.c_str(), str.size(), 0);
 }
 #else 
-network::network() {
+networkLinux::networkLinux() {
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		printf("\n Socket creation error \n");
@@ -61,7 +61,7 @@ network::network() {
 
 }
 
-int network::join() {
+int networkLinux::join() {
 	if(inet_pton(AF_INET, this->ip_adress , &serv_addr.sin_addr)<=0)
 	{
 		printf("\nInvalid address/ Address not supported \n");
@@ -76,14 +76,14 @@ int network::join() {
 	read(sock,buffer,buff_size);
 	return atoi(buffer);
 }
-std::string * network::GetStringToServer() {
+std::string * networkLinux::GetStringToServer() {
 	char * buffer = new char[buff_size];
 	if((valread = read(sock ,buffer, buff_size)) != 0) {
 		return new std::string(buffer);
 	}
 	return NULL;
 }
-void network::SendStringToServer(std::string& str) {
+void networkLinux::SendStringToServer(std::string& str) {
 	str.append("<end>");
 	//puts(str);
 	send(sock,str.c_str(),str.size(),0);

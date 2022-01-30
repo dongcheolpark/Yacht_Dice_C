@@ -47,7 +47,7 @@ private :
 	const int buff_size = 1024;
 	struct sockaddr_in serv_addr;
 public :
-	network(); 
+	networkLinux(); 
 	int join(); 
 	std::string * GetStringToServer();
 	void SendStringToServer(std::string &);

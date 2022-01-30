@@ -3,6 +3,10 @@
 #include <thread>
 #include <stdlib.h>
 #include <regex>
+#ifdef _WIN32
+#else
+#include <termios.h>
+#endif
 
 game::game(int id,networkinterface * net) : id(id) , net(net) {
 	_graphic = new lobbygraphic(this);
