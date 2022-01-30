@@ -127,6 +127,12 @@ send_struct * game_server::parseString(const char * buffer) {
 			}
 			parse = new game_server_send_dices(this,roomid);
 		}
+		else if(token[2] == "3") {
+			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
+			dice_game& dices = _room->getdata();
+			dices.set_lockinfo();
+
+		}
 	}
 	if(parse == NULL) return NULL;
 	auto * data = parse->doParse();//전송 데이터를 가져온다.
