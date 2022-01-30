@@ -81,6 +81,10 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				}
 			}
 			else {
+				if(x == 'z') {
+					dynamic_cast<gameroom*>(_game->getRoom())->getdata().set_lockinfo(_game->getDiceCursor());
+					_game->graphics();
+				}
 				if(x == 'r' || x == 'R') {
 					int lockinfo = dynamic_cast<gameroom*>(_game->getRoom())->getdata().get_lockinfo();
 					std::string buffer = ydc::format_string("4 2 %d %d",_game->get_roomId(), lockinfo);
