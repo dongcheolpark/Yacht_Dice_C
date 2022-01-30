@@ -48,8 +48,31 @@ void lobbygraphic::run() {
 }
 
 void gamegraphic::dice() {
-
+	auto data = dynamic_cast<gameroom *>(_game->getRoom())->getdata();
+	std::cout<<"\n\n   ";
+	for(int i = 0;i<5;i++) {
+		if(data.get_lockinfo(i)) {
+			std::cout<<"-";
+		}
+		else std::cout<<" ";
+		std::cout<<" ";
+	}
+	std::cout<<"\n   ";
+	for(int i = 0;i<5;i++) {
+		std::cout<<data.get_dices(i)<<" ";
+	}
+	std::cout<<"\n   ";
+	for(int i = 0;i<5;i++) {
+		if(i == _game->getDiceCursor()) {
+			std::cout<<"-";
+		}
+		else std::cout<<" ";
+		std::cout<<" ";
+	}
+	std::cout<<"\n";
 }
+
+
 
 void gamegraphic::score() {
 	auto _room = _game->getRoom();
@@ -124,6 +147,7 @@ void gamegraphic::run() {
 	showPeople();
 	score();
 	showchatLists();
+	dice();
 	help();
 	if(_game->getChatStatus()) {
 		showChatString();

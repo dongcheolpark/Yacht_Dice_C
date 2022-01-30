@@ -26,8 +26,10 @@ public:
 class gameroom : public room {
 private:
 	dice_game data;
+	int order;
 protected:
 public:
-	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople) {}
+	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople), order(0) {}
 	gameroom(room *);
+	dice_game& getdata() {return data;}
 };
