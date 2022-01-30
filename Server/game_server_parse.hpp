@@ -61,11 +61,3 @@ public:
 	send_struct * doParse();
 };
 
-class game_server_send_string : public game_server_parse{
-private: 
-	std::string _str;
-	user * _user;
-public:
-	game_server_send_string(game_server * server, user *_user,std::string _str) : game_server_parse(server,9,9,0),_str(_str),_user(_user){}
-	send_struct * doParse();
-};

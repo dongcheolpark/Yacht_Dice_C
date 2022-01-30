@@ -59,9 +59,3 @@ send_struct * game_server_change_gameroom::doParse() {
 	}
 	return data;
 }
-
-send_struct * game_server_send_string::doParse(){
-	data->list->push_back(_user);
-	data->str->append(_str);
-	return data;
-}

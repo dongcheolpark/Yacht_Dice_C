@@ -85,14 +85,6 @@ void game::start() {
 	//유저 정보 전송
 	std::string buffer = ydc::format_string("0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
-
-	char _str[10];
-	std::cout <<"문자열을 입력해주세요.\n";
-	std::cin >> _str;
-	buffer = ydc::format_string("9 9 %d %s",id,_str);
-	net->SendStringToServer(buffer);
-	_recive_from_server(net,this);
-
 	do {
 		std::cout<<"게임 입장\n";
 		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
@@ -116,6 +108,7 @@ void game::start() {
 
 			std::string buffer = ydc::format_string("3 0 %d %s %d",id,buff,max_num);
 			net->SendStringToServer(buffer);
+			//net->SendStringToServer("9 9 hello\n")
 			_recive_from_server(net,this);
 			buffer = ydc::format_string("3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
