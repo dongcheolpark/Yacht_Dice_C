@@ -88,7 +88,12 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					_game->graphics();
 				}
 				if(x == 'r' || x == 'R') {
+<<<<<<< HEAD
 					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
+=======
+					int lockinfo = dynamic_cast<gameroom*>(_game->getRoom())->getdata().get_lockinfo();
+					std::string buffer = ydc::format_string("4 2 %d %d",_game->get_roomId(), lockinfo);
+>>>>>>> 05cd7efdbd2f38bf3180d8d96fef63ed21b41621
 					net->SendStringToServer(buffer);
 				}
 				else if(x == 91) {
