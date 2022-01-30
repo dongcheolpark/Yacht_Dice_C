@@ -123,7 +123,9 @@ send_struct * game_server::parseString(const char * buffer) {
 			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
 			dice_game& dices = _room->getdata();
 			for(int i = 0;i<5;i++) {
-				dices.set_dice(i,dis(gen));
+				if(!(dices.get_lockinfo(i))){
+					dices.set_dice(i,dis(gen));
+				}
 			}
 			parse = new game_server_send_dices(this,roomid);
 		}
