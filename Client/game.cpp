@@ -82,11 +82,14 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 			}
 			else {
 				if(x == 'z') {
-					dynamic_cast<gameroom*>(_game->getRoom())->getdata().set_lockinfo(_game->getDiceCursor());
+					dice_game & _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
+					_dice.set_lockinfo(_game->getDiceCursor());
+					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_lockinfo());
+					net->SendStringToServer(buffer);
 					_game->graphics();
 				}
 				if(x == 'r' || x == 'R') {
-					std::string buffer = ydc::format_string("4 2 %d 0",_game->get_roomId());
+					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
 					net->SendStringToServer(buffer);
 				}
 				else if(x == 91) {
@@ -301,6 +304,9 @@ void game::parseString(std::string buffer) {
 			for(int i = 0;i<5;i++) {
 				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
 			}
+		}
+		if(token[1] == "3") {
+			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
 		}
 	}
 	else {
