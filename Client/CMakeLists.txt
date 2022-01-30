@@ -1,12 +1,10 @@
+cmake_minimum_required(VERSION 3.22)
 project(YACHT_DICE_C)
 SET (CMAKE_CXX_STANDARD 11)
 SET (CMAKE_CXX_FLAGS "-pthread")
 
 SET (CMAKE_CXX_FLAGS_DEBUG "-DDEBUG -DC_FLAGS" )
 SET (CMAKE_CXX_FLAGS_RELEASE "-DRELEASE -DC_FLAGS" )
-
-enable_testing()
-add_subdirectory(tests)
 
 ADD_EXECUTABLE(Yacht_Dice_Client
 				main.cpp

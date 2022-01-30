@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
+#include <conio.h>
+#endif // _Win32
+
+
 #include <list>
 #include "network.hpp"
 #include "../common/function.hpp"
@@ -17,11 +22,11 @@ private :
 	room * _room = NULL;
 	bool chatStatus = false;
 	void graphics();
-	network * net;
+	networkinterface * net;
 	graphic * _graphic;
 public :
 	std::list<room*> roomList;
-	game(int id,network * net); 
+	game(int id,networkinterface * net); 
 	void parseString(std::string buffer);
 	void start();
 	void set_chatString(int x);

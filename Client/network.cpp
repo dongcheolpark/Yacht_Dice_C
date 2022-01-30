@@ -1,6 +1,53 @@
 #include "network.hpp"
 #include <cstdlib>
 
+#ifdef _WIN32
+networkWin::networkWin() {
+	wVersionRequested = MAKEWORD(1, 1);
+	err = WSAStartup(wVersionRequested, &wsaData);
+
+	if (err != 0) {
+		printf("WSAStartup error %ld", WSAGetLastError());
+		WSACleanup();
+		return;
+	}
+
+	target.sin_family = AF_INET; // address family Internet
+	target.sin_port = htons(PORT); //Port to connect on
+	target.sin_addr.s_addr = inet_addr(ip_adress); //Target IP
+
+
+	s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); //Create socket
+	if (s == INVALID_SOCKET)
+	{
+		std::cout << "socket() error : " << WSAGetLastError() << std::endl;
+		WSACleanup();
+		return; //Couldn't create the socket
+	}
+}
+
+int networkWin::join() {
+	if (connect(s, reinterpret_cast<SOCKADDR*>(&target), sizeof(target)) == SOCKET_ERROR)
+	{
+		std::cout << "connect() error : " << WSAGetLastError() << std::endl;
+		std::cout << "서버 먼저 실행해주세요." << std::endl;
+		WSACleanup();
+		return 0; //Couldn't connect	
+	}
+	recv(s,buf,1024,0);
+	return atoi(buf);
+}
+
+std::string* networkWin::GetStringToServer() {
+	recv(s,buf,1024,0);
+	return new std::string(buf);
+}
+
+void networkWin::SendStringToServer(std::string& str) {
+	str.append("<end>");
+	send(s, str.c_str(), str.size(), 0);
+}
+#else 
 network::network() {
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
@@ -41,3 +88,4 @@ void network::SendStringToServer(std::string& str) {
 	//puts(str);
 	send(sock,str.c_str(),str.size(),0);
 }
+#endif // k

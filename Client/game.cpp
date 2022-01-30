@@ -2,13 +2,15 @@
 #include <iostream>
 #include <thread>
 #include <stdlib.h>
-#include <termios.h>
 #include <regex>
 
-game::game(int id,network * net) : id(id) , net(net) {
+game::game(int id,networkinterface * net) : id(id) , net(net) {
 	_graphic = new lobbygraphic(this);
 }
 
+
+#ifdef _WIN32
+#else
 int getch(void)
 {
 	int ch;
@@ -24,7 +26,9 @@ int getch(void)
 	tcsetattr(0, TCSAFLUSH, &old);
 	return ch;
 }
-void _recive_from_server(network * net,game * _game) {
+#endif
+
+void _recive_from_server(networkinterface * net,game * _game) {
 	std::string * server_str = net->GetStringToServer();
 	std::list<std::string> str;
 	std::string tmp;
@@ -44,14 +48,14 @@ void _recive_from_server(network * net,game * _game) {
 }
 
 
-void recive_from_server(network * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
+void recive_from_server(networkinterface * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
 	while(1)
 	{
 		_recive_from_server(net,_game);
 	}
 }
 
-void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
+void input(networkinterface * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
 	while(1) {
 		int x = getch();
 		if(_game->getChatStatus()) {
@@ -125,7 +129,8 @@ void game::start() {
 				continue;
 			}
 			do {
-				std::cout<<"숫자 : 참가할 방 , q : 뒤로가기"<<std::endl;
+				std::cout<<"숫자 : 참가할 방 , q : 뒤로가기\n";
+
 				int i = 1;
 				for(auto item : roomList) {
 					std::cout<<i<<" | "<<item->getRoomName()<<" | "<<item->getRoomMaxPeople()<<std::endl;
