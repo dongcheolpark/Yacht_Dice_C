@@ -28,16 +28,11 @@ int dice_game::get_dices(int index) {
 }
 
 void dice_game::set_lockinfo(int index) {
-	int tmp = 1<<(4-index);
-	lockinfo ^= tmp;
+	lockinfo ^= 1<<(4-index);				//비트마스킹
 }
 
 bool dice_game::get_lockinfo(int index) {	//index = 0~4
-	int tmp = 1<<(4-index);
-	//10110 3 00100
-
-	bool _lockinfo;
-	return 	_lockinfo;
+	return (lockinfo>>(4-index))%2;			//비트마스킹
 }
 
 int dice_game::get_lockinfo() {
