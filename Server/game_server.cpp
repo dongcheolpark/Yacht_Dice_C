@@ -112,8 +112,23 @@ send_struct * game_server::parseString(const char * buffer) {
 			parse = new game_server_send_roomList(this,_user);
 		}
 	}
+
+	else if(token[0]=="9"){
+		if(token[1]=="9"){
+			user * _user;
+			std::string str;
+			for(auto item : serverUserList){
+				if(item->getuserId()==std::stoi(token[2])){
+					_user = item;
+				}
+			}
+			str = token[3];
+			parse = new game_server_send_string(this,_user,str);
+		}
+	}
+
 	if(parse == NULL) return NULL;
-	auto * data = parse->doParse();//전송 데이터를 가져온다.
+	auto * data = parse->doParse(); //전송 데이터를 가져온다.
 	delete parse;
 	//printf("%s\n",data->str->c_str());
 	return data;
