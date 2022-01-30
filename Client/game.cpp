@@ -10,6 +10,7 @@
 
 game::game(int id,networkinterface * net) : id(id) , net(net) {
 	_graphic = new lobbygraphic(this);
+	dice_cursor = 0;
 }
 
 
@@ -83,6 +84,24 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				if(x == 'r' || x == 'R') {
 					std::string buffer = ydc::format_string("4 2 %d 0",_game->get_roomId());
 					net->SendStringToServer(buffer);
+				}
+				else if(x == 91) {
+					x = getch();
+					if(x == 65) {
+						//down
+					}
+					else if(x == 66) {
+						//up
+					}
+					else if(x == 67) {
+						_game->setDiceCursor(1);
+						//right
+					}
+					else if(x == 68) {
+						_game->setDiceCursor(-1);
+						//left
+					}
+					_game->graphics();
 				}
 			}
 		}
