@@ -95,9 +95,11 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				else if(x == 91) {
 					x = getch();
 					if(x == 65) {
+						_game->setScoreCursor(-1);
 						//down
 					}
 					else if(x == 66) {
+						_game->setScoreCursor(1);
 						//up
 					}
 					else if(x == 67) {

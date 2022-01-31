@@ -24,6 +24,7 @@ private :
 	networkinterface * net;
 	graphic * _graphic;
 	int dice_cursor;
+	int score_cursor;
 public :
 	std::list<room*> roomList;
 	game(int id,networkinterface * net); 
@@ -36,6 +37,11 @@ public :
 		if(a < 0 && dice_cursor == 0) return; 
 		if(a>0 && dice_cursor == 4) return;
 		dice_cursor += a;
+	}
+	void setScoreCursor(int a) {
+		if(a < 0 && score_cursor == 0) return;
+		if(a>0 && score_cursor == 13) return;
+		score_cursor += a;
 	}
 	void graphics();
 	void chatStatusSwitch() { chatStatus = !chatStatus; graphics();}

@@ -81,62 +81,29 @@ void gamegraphic::score() {
 	for(auto item : userList) {
 		tableList.push_back(dynamic_cast<gameuser *>(item)->getScoreBoard());
 	}
-	for(auto item : tableList) {
-		std::cout<<"|Aces       |"<<std::setw(2)<<item.getUp(1)<<" |";
+	std::vector<std::string> scoreList1({"|Aces       |", "|Deuces     |", "|Threes     |",
+										 "|Fours      |", "|Fives      |", "|Sixes      |"});
+	std::vector<std::string> scoreList2({"|Choice     |", "|4 of a Kind|", "|Full House |",
+										 "|S. Straight|", "|L. Straight|", "|Yacht      |"});
+	for(int i = 0; i < 6; i++){
+		for(auto item : tableList) {
+			std::cout<<scoreList1[i]<<std::setw(2)<<item.getUp(i)<<" |";
+		}
+		std::cout<<"\n";
 	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Deuces     |"<<std::setw(2)<<item.getUp(2)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Threes     |"<<std::setw(2)<<item.getUp(3)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Fours      |"<<std::setw(2)<<item.getUp(4)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Fives      |"<<std::setw(2)<<item.getUp(5)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Sixes      |"<<std::setw(2)<<item.getUp(6)<<" |";
-	}
-	std::cout<<"\n";
 	for(auto item : tableList) {
 		std::cout<<"|+35 Bonus  |"<<std::setw(2)<<item.getBonus()<<" |";
 	}
 	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Choice     |"<<std::setw(2)<<item.getDown(1)<<" |";
+	for(int i = 0; i < 6; i++){
+		for(auto item : tableList) {
+			std::cout<<scoreList2[i]<<std::setw(2)<<item.getDown(i)<<" |";
+		}
+		std::cout<<"\n";
 	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|4 of a Kind|"<<std::setw(2)<<item.getDown(2)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Full House |"<<std::setw(2)<<item.getDown(3)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|S. Straight|"<<std::setw(2)<<item.getDown(4)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|L. Straight|"<<std::setw(2)<<item.getDown(5)<<" |";
-	}
-	std::cout<<"\n";
-	for(auto item : tableList) {
-		std::cout<<"|Yacht      |"<<std::setw(2)<<item.getDown(6)<<" |";
-	}
-	std::cout<<"\n";
 	for(auto item : tableList) {
 		std::cout<<"|Total      |"<<std::setw(2)<<item.getscore()<<" |";
 	}
-	std::cout<<"\n";
 }
 
 void gamegraphic::help() {
