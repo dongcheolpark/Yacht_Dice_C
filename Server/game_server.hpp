@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <random>
 
 class game_server {
 private:

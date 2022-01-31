@@ -2,13 +2,20 @@
 #include <iostream>
 #include <thread>
 #include <stdlib.h>
-#include <termios.h>
 #include <regex>
+#ifdef _WIN32
+#else
+#include <termios.h>
+#endif
 
-game::game(int id,network * net) : id(id) , net(net) {
+game::game(int id,networkinterface * net) : id(id) , net(net) {
 	_graphic = new lobbygraphic(this);
+	dice_cursor = 0;
 }
 
+
+#ifdef _WIN32
+#else
 int getch(void)
 {
 	int ch;
@@ -24,7 +31,9 @@ int getch(void)
 	tcsetattr(0, TCSAFLUSH, &old);
 	return ch;
 }
-void _recive_from_server(network * net,game * _game) {
+#endif
+
+void _recive_from_server(networkinterface * net,game * _game) {
 	std::string * server_str = net->GetStringToServer();
 	std::list<std::string> str;
 	std::string tmp;
@@ -44,14 +53,14 @@ void _recive_from_server(network * net,game * _game) {
 }
 
 
-void recive_from_server(network * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
+void recive_from_server(networkinterface * net,game * _game) {//서버에서 들어오는 문자열을 쓰레드로 관리한다.
 	while(1)
 	{
 		_recive_from_server(net,_game);
 	}
 }
 
-void input(network * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
+void input(networkinterface * net,game * _game) {//사용자가 입력하는 정보들을 쓰레드로 받는다.
 	while(1) {
 		int x = getch();
 		if(_game->getChatStatus()) {
@@ -72,7 +81,35 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 				}
 			}
 			else {
-
+				if(x == 'z') {
+					dice_game & _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
+					_dice.set_lockinfo(_game->getDiceCursor());
+					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_lockinfo());
+					net->SendStringToServer(buffer);
+					_game->graphics();
+				}
+				if(x == 'r' || x == 'R') {
+					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
+					net->SendStringToServer(buffer);
+				}
+				else if(x == 91) {
+					x = getch();
+					if(x == 65) {
+						//down
+					}
+					else if(x == 66) {
+						//up
+					}
+					else if(x == 67) {
+						_game->setDiceCursor(1);
+						//right
+					}
+					else if(x == 68) {
+						_game->setDiceCursor(-1);
+						//left
+					}
+					_game->graphics();
+				}
 			}
 		}
 	}
@@ -81,7 +118,7 @@ void input(network * net,game * _game) {//사용자가 입력하는 정보들을
 void game::start() {
 	char name[20];
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n"; 
-	std::cin>>name;
+	std::cin >> name;
 	//유저 정보 전송
 	std::string buffer = ydc::format_string("0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
@@ -89,7 +126,7 @@ void game::start() {
 		std::cout<<"게임 입장\n";
 		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
 		int choice = 0;
-		std::cin>>choice;
+		std::cin>>choice; 
 		bool check_while = false;
 		if(choice == 1) {
 			std::cout<<"방 제목을 입력해주세요.\n";
@@ -101,12 +138,14 @@ void game::start() {
 				std::cin>>max_num;
 				if(max_num < 2 || max_num > 4) {
 					std::cout<<"다시 입력해 주세요.\n";
+					continue;
 				}
 				break;
 			}while(1);
 
 			std::string buffer = ydc::format_string("3 0 %d %s %d",id,buff,max_num);
 			net->SendStringToServer(buffer);
+			//net->SendStringToServer("9 9 hello\n")
 			_recive_from_server(net,this);
 			buffer = ydc::format_string("3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
@@ -120,7 +159,8 @@ void game::start() {
 				continue;
 			}
 			do {
-				std::cout<<"숫자 : 참가할 방 , q : 뒤로가기"<<std::endl;
+				std::cout<<"숫자 : 참가할 방 , q : 뒤로가기\n";
+
 				int i = 1;
 				for(auto item : roomList) {
 					std::cout<<i<<" | "<<item->getRoomName()<<" | "<<item->getRoomMaxPeople()<<std::endl;
@@ -168,7 +208,11 @@ void game::start() {
 }
 
 void game::graphics() {
-	//system("clear");
+#ifdef _WIN32
+	system("cls");
+#else
+	system("clear");
+#endif
 	_graphic->run();
 }
 
@@ -190,7 +234,7 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 
 void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
-	std::cout<<buffer<<std::endl;
+	//std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
 	for(int i = 0;i<buffer.size();i++) {
@@ -254,6 +298,19 @@ void game::parseString(std::string buffer) {
 		if(token[1] == "-1") {
 			
 		}
+	}
+	else if(token[0] == "2") {
+		if(token[1] == "1") {
+			for(int i = 0;i<5;i++) {
+				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
+			}
+		}
+		if(token[1] == "3") {
+			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
+		}
+	}
+	else {
+		return;
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
 	graphics();

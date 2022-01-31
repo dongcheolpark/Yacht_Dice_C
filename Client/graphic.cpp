@@ -27,6 +27,10 @@ void graphic::showChatString() {
 	std::cout<<std::endl;
 }
 
+void lobbygraphic::help() {
+	std::cout<<"레디하시려면 r 키를 눌러주세요."<<'\n';
+}
+
 void lobbygraphic::run() {
 	auto _room = _game->getRoom();
 	auto userList = _room->getUserList();
@@ -35,15 +39,40 @@ void lobbygraphic::run() {
 	for(auto item : userList) {
 		printf("%16s ",((lobbyuser *)item)->getUserReady() ? "Ready" : " ");
 	}
+	std::cout<<"\n";
 	showchatLists();
+	help();
 	if(_game->getChatStatus()) {
 		showChatString();
 	}
 }
 
 void gamegraphic::dice() {
-
+	auto data = dynamic_cast<gameroom *>(_game->getRoom())->getdata();
+	std::cout<<"\n\n   ";
+	for(int i = 0;i<5;i++) {
+		if(data.get_lockinfo(i)) {
+			std::cout<<"-";
+		}
+		else std::cout<<" ";
+		std::cout<<" ";
+	}
+	std::cout<<"\n   ";
+	for(int i = 0;i<5;i++) {
+		std::cout<<data.get_dices(i)<<" ";
+	}
+	std::cout<<"\n   ";
+	for(int i = 0;i<5;i++) {
+		if(i == _game->getDiceCursor()) {
+			std::cout<<"-";
+		}
+		else std::cout<<" ";
+		std::cout<<" ";
+	}
+	std::cout<<"\n";
 }
+
+
 
 void gamegraphic::score() {
 	auto _room = _game->getRoom();
@@ -110,10 +139,16 @@ void gamegraphic::score() {
 	std::cout<<"\n";
 }
 
+void gamegraphic::help() {
+	std::cout<<"주사위를 굴리려면 r을 눌러주세요."<<'\n';
+}
+
 void gamegraphic::run() {
 	showPeople();
 	score();
 	showchatLists();
+	dice();
+	help();
 	if(_game->getChatStatus()) {
 		showChatString();
 	}

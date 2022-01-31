@@ -35,7 +35,6 @@ send_struct * game_server::parseString(const char * buffer) {
 			if(chatList.size() >= 5) {
 				chatList.pop_front();
 			}
-			char buff[1024];
 			int id = std::stoi(token[3]);
 			user * _user = NULL;
 			for(auto item : userList) {
@@ -44,8 +43,7 @@ send_struct * game_server::parseString(const char * buffer) {
 					break;
 				}
 			}
-			sprintf(buff,"%s %s",_user->getuserName(),token[4].c_str());
-			//puts(buff);
+			std::string buff = ydc::format_string("%s %s",_user->getuserName(),token[4].c_str());
 			chatList.push_back(buff);
 			printf("%ld\n",chatList.size());
 			parse = new game_server_send_chatList(this,_room->getRoomId());
@@ -111,6 +109,32 @@ send_struct * game_server::parseString(const char * buffer) {
 				}
 			}
 			parse = new game_server_send_roomList(this,_user);
+		}
+	}
+	else if(token[0] == "4") {
+		if(token[1] == "1") {
+
+		}
+		else if(token[1] == "2") {
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<int> dis(1, 6);
+			int roomid = std::stoi(token[2]);
+			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
+			dice_game& dices = _room->getdata();
+			for(int i = 0;i<5;i++) {
+				if(!(dices.get_lockinfo(i))){
+					dices.set_dice(i,dis(gen));
+				}
+			}
+			parse = new game_server_send_dices(this,roomid);
+		}
+		else if(token[1] == "3") {
+			int roomid = std::stoi(token[2]);
+			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
+			dice_game& dices = _room->getdata();
+			dices.set_lockinfo2(std::stoi(token[3]));
+			parse = new game_server_send_lockinfo(this,roomid);
 		}
 	}
 	if(parse == NULL) return NULL;
