@@ -12,7 +12,7 @@ void graphic::showPeople() {
 	auto _room = _game->getRoom();
 	std::list<user*> & userList = _room->getUserList();
 
-	printf("| %s | %ld/%d| a \n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
+	printf("| %s | %ld/%d|\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
 	for(auto item : userList) {
 		printf("|%-15s|",item->getuserName());
 	}
