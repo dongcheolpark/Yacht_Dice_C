@@ -5,7 +5,7 @@
 #include "function.hpp"
 
 class scoreboard {
-private:
+protected:
 	std::vector<int> up;
 	//up
 	bool bonus;
@@ -14,7 +14,6 @@ private:
 	int score;
 	void setscore();
 	//down
-	int scoreinfo;
 public:
 	scoreboard();
 	void setUp(int,int);
@@ -24,9 +23,15 @@ public:
 	int getDown(int);
 	int getBonus();
 	int getscore();
-	void set_scoreinfo(int);
-	void get_scoreinfo(int);
-	std::vector<int> display(dice_game);
-	std::string tostring(); 
+	std::string tostring();
+};
 
+class current_scoreboard : public scoreboard{
+private:
+	int scoreinfo;
+public:	
+	void set_scoreinfo(int);
+	void set_scoreinfo(int tmp) {scoreinfo=tmp;}
+	bool get_scoreinfo(int);
+	int get_scoreinfo();
 };
