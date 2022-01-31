@@ -120,11 +120,8 @@ void game::start() {
 	std::cout<<"사용할 닉네임을 정해주세요. (20자 제한)\n"; 
 	std::cin >> name;
 	//유저 정보 전송
-	std::string buffer = ydc::format_string("0 0 %d %s",id,name);
+	std::string buffer = ydc::format_string("0 0 %d %s",id,name); 
 	net->SendStringToServer(buffer);
-	buffer = ydc::format_string("9 9 %d hello",id);
-	net->SendStringToServer(buffer);
-	_recive_from_server(net,this);
 	do {
 		std::cout<<"게임 입장\n";
 		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
@@ -237,7 +234,7 @@ void game::set_chatString(int x) {//채팅 문자열 관리
 
 void game::parseString(std::string buffer) {
 	//서버에서 들어온 문자열을 분석한다.
-	std::cout<<buffer<<std::endl;
+	//std::cout<<buffer<<std::endl;
 	std::vector<std::string> token;
 	std::string tmp;
 	for(int i = 0;i<buffer.size();i++) {
@@ -317,8 +314,6 @@ void game::parseString(std::string buffer) {
 	}
 	//분석 후에 새로 들어온 데이터를 화면에 반영해준다.
 	graphics();
-	net->SendStringToServer(buffer);
-	_recive_from_server(net,this);
 }
 
 void game::sendChatString() {
