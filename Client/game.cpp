@@ -92,6 +92,13 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
 					net->SendStringToServer(buffer);
 				}
+				if(x == 'x') {
+					auto data = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
+					_game->getScoreCursor();
+					std::string buffer = ydc::format_string("4 4 %d %d",_game->get_roomId(),_game->getScoreCursor());
+					net->SendStringToServer(buffer);
+					_game->graphics();
+				}
 				else if(x == 91) {
 					x = getch();
 					if(x == 65) {

@@ -35,12 +35,12 @@ public :
 	void set_roomId(room * _room) {this->_room = _room;}
 	void setDiceCursor(int a) {
 		if(a < 0 && dice_cursor == 0) return; 
-		if(a>0 && dice_cursor == 4) return;
+		if(a > 0 && dice_cursor == 4) return;
 		dice_cursor += a;
 	}
 	void setScoreCursor(int a) {
 		if(a < 0 && score_cursor == 0) return;
-		if(a>0 && score_cursor == 13) return;
+		if(a > 0 && score_cursor == 13) return;
 		score_cursor += a;
 	}
 	void graphics();
@@ -50,5 +50,6 @@ public :
 	room* getRoom() {return _room;}
 	bool getChatStatus() {return chatStatus;}
 	int getDiceCursor() {return dice_cursor;}
+	int getScoreCursor() {return score_cursor;}
 	const std::u16string& get_chatString() {return chat_str;}
 };

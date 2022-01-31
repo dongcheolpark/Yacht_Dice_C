@@ -14,7 +14,7 @@ void graphic::showPeople() {
 
 	printf("| %s | %ld/%d|\n",_room->getRoomName(),userList.size(),_room->getRoomMaxPeople());
 	for(auto item : userList) {
-		printf("|%-15s|",item->getuserName());
+		printf("|%-16s|",item->getuserName());
 	}
 	std::cout<<std::endl;
 }
@@ -85,24 +85,36 @@ void gamegraphic::score() {
 										 "|Fours      |", "|Fives      |", "|Sixes      |"});
 	std::vector<std::string> scoreList2({"|Choice     |", "|4 of a Kind|", "|Full House |",
 										 "|S. Straight|", "|L. Straight|", "|Yacht      |"});
+	int index = 0;
 	for(int i = 0; i < 6; i++){
 		for(auto item : tableList) {
-			std::cout<<scoreList1[i]<<std::setw(2)<<item.getUp(i)<<" |";
+			std::cout<<scoreList1[i]<<std::setw(3)<<item.getUp(i);
+			if(index == _game->getScoreCursor()) {std::cout<<"||";}
+			else std::cout<<" |";
 		}
 		std::cout<<"\n";
+		index++;
 	}
 	for(auto item : tableList) {
-		std::cout<<"|+35 Bonus  |"<<std::setw(2)<<item.getBonus()<<" |";
+		std::cout<<"|+35 Bonus  |"<<std::setw(3)<<item.getBonus();
+		if(index == _game->getScoreCursor()) {std::cout<<"||";}
+		else std::cout<<" |";
 	}
 	std::cout<<"\n";
+	index++;
 	for(int i = 0; i < 6; i++){
 		for(auto item : tableList) {
-			std::cout<<scoreList2[i]<<std::setw(2)<<item.getDown(i)<<" |";
+			std::cout<<scoreList2[i]<<std::setw(3)<<item.getDown(i);
+			if(index == _game->getScoreCursor()) {std::cout<<"||";}
+			else std::cout<<" |";
 		}
 		std::cout<<"\n";
+		index++;
 	}
 	for(auto item : tableList) {
-		std::cout<<"|Total      |"<<std::setw(2)<<item.getscore()<<" |";
+		std::cout<<"|Total      |"<<std::setw(3)<<item.getscore();
+		if(index == _game->getScoreCursor()) {std::cout<<"||";}
+		else std::cout<<" |";
 	}
 }
 

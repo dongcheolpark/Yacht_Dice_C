@@ -13,6 +13,7 @@ private:
 	int score;
 	void setscore();
 	//down
+	int scoreinfo;
 public:
 	scoreboard();
 	void setUp(int,int);
@@ -22,5 +23,8 @@ public:
 	int getDown(int);
 	int getBonus();
 	int getscore();
+	void set_scoreinfo(int);
+	void get_scoreinfo(int);
 	std::string tostring(); 
+
 };
