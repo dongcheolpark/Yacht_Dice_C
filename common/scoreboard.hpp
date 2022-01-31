@@ -26,12 +26,3 @@ public:
 	std::vector<int> display(dice_game);
 	std::string tostring();
 };
-
-class current_scoreboard : public scoreboard{
-private:
-	int scoreinfo;
-public:	
-	void set_scoreinfo(int tmp) {scoreinfo=tmp;}
-	bool get_scoreinfo(int);
-	int get_scoreinfo();
-};
