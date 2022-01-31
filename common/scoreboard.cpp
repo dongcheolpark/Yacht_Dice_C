@@ -58,11 +58,11 @@ std::string scoreboard::tostring()  {
 }
 
 int scoreboard::getUp(int n) {
-	return up[n-1];
+	return up[n];
 }
 
 int scoreboard::getDown(int n) {
-	return down[n-1];
+	return down[n];
 }
 
 int scoreboard::getBonus() {

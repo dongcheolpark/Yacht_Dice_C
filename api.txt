@@ -42,6 +42,9 @@
   3 //주사위 락 정보
     roomid
     lockinfo
+  4 //점수판 정보
+    roomid
+    getScoreCursor
 </client to server>
 
 <server to client>
