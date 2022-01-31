@@ -73,3 +73,44 @@ int scoreboard::getscore() {
 	setscore();
 	return score;
 }
+
+std::vector<int> scoreboard::display(dice_game dice) {
+	std::vector<int> res(14);
+	int sum[6] = {0,};
+	for(int i = 0;i<5;i++) {
+		sum[dice.get_dices(i)-1]++;
+	}
+	for(int index = 0;index<6;index++) {
+		if(index >= 0 && index <= 5) {
+			for(int i = 0;i<5;i++) {
+				if(dice.get_dices(i) == index+1) {
+					res[index] += index+1;
+				}
+			}
+		}
+	}//up 계산
+	res[6] = getBonus();//보너스 표시
+	for(int i = 0;i<5;i++) res[7] += dice.get_dices(i);// 초이스
+	int straight = 0;
+	bool three = false,two = false;
+	for(int i = 0;i<6;i++) {
+		if(sum[i] == 0) {
+			straight = 0;
+		}
+		else {
+			straight++;
+			if(sum[i] == 2) two = true;
+			else if(sum[i] == 3) three = true;
+			else if(sum[i] == 4) res[8] = res[7];//포카인드
+			else if(sum[i] == 5) res[12] = 50; // 야추
+		}
+	}
+	if(straight >= 4) {
+		res[10] = 15;//스몰스트레이트
+	}
+	if(straight == 5) {
+		res[11] = 30; //라지스트레이트
+	}
+	if(two&&three) res[9] = res[7];//풀하우스
+	return res;
+}

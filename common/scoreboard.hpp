@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "dice_game.hpp"
 #include "function.hpp"
 
 class scoreboard {
@@ -25,6 +26,7 @@ public:
 	int getscore();
 	void set_scoreinfo(int);
 	void get_scoreinfo(int);
+	std::vector<int> display(dice_game);
 	std::string tostring(); 
 
 };
