@@ -83,3 +83,10 @@ public:
 	game_server_send_lockinfo(game_server * server,int roomId) : game_server_parse(server,2,3,roomId) {}
 	send_struct * doParse();
 };
+
+class game_server_send_scoreinfo : public game_server_parse {
+private :
+public:
+	game_server_send_scoreinfo(game_server * server,int roomId) : game_server_parse(server,2,4,roomId) {}
+	send_struct * doParse();
+};

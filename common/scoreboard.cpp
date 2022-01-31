@@ -73,3 +73,15 @@ int scoreboard::getscore() {
 	setscore();
 	return score;
 }
+
+void scoreboard::set_scoreinfo(int index) {
+	scoreinfo ^= 1<<(13-index);					//비트마스킹
+}
+
+bool scoreboard::get_scoreinfo(int index) {		//index = 0~13
+	return (scoreinfo>>(13-index))%2;			//비트마스킹
+}
+
+int scoreboard::get_scoreinfo() {
+	return scoreinfo;
+}
