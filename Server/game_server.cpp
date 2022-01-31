@@ -139,9 +139,6 @@ send_struct * game_server::parseString(const char * buffer) {
 		else if(token[1] == "4") {
 			int roomid = std::stoi(token[2]);
 			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
-			
-			scoreboard& score = _room->getScoreBoard();
-			score.set_scoreinfo(std::stoi(token[3]));
 			parse = new game_server_send_scoreinfo(this,roomid);
 		}
 	}

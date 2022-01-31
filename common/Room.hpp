@@ -34,4 +34,5 @@ public:
 	gameroom(room *);
 	dice_game& getdata() {return data;}
 	int get_order() {return game_order;}
+	gameuser * get_orderUser();
 };

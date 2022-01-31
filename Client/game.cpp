@@ -93,11 +93,7 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					net->SendStringToServer(buffer);
 				}
 				if(x == 'x') {
-					auto _room = dynamic_cast<gameroom *>(_game->getRoom());
-					for(auto _room->u)
-					_score.set_scoreinfo(_game->getScoreCursor());
-					std::string buffer = ydc::format_string("4 4 %d %d",_game->get_roomId(),_game->getScoreCursor());
-					net->SendStringToServer(buffer);
+					//score 선택
 					_game->graphics();
 				}
 				else if(x == 91) {
