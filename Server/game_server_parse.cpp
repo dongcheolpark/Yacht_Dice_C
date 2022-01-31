@@ -81,3 +81,8 @@ send_struct * game_server_send_lockinfo::doParse() {
 	data->str->append(ydc::format_string("%d",_room->getdata().get_lockinfo()));
 	return data;
 }
+send_struct * game_server_send_hello::doParse() {
+	data->str->append("hello");
+	data->list->push_back(_user);
+	return data;
+}

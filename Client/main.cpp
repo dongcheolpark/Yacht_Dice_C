@@ -13,6 +13,7 @@ int main(int argc, char const *argv[])
 	networkLinux * net = new networkLinux();
 #endif
 	int id;
+
 	while((id = net->join()) == 0) {
 		char a;
 		std::cout<<"서버와 다시 연결 하시겠습니까? Y/N"<<std::endl;
