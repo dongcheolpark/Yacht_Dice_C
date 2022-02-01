@@ -39,7 +39,7 @@ TEST(scoreboardTest, displayTest5) { //스몰 스트레이트
     scoreboard * a = new scoreboard();
     dice_game _dice({1,2,3,4,6});
     auto v = a->display(_dice);
-    std::vector<int> res = {1,2,3,4,5,0,0,
-                            15,0,0,15,30,0};
+    std::vector<int> res = {1,2,3,4,0,6,0,
+                            16,0,0,15,0,0};
     EXPECT_EQ(v,res);
 }
