@@ -1,3 +1,26 @@
+
+# API
+
+## 소개
+
+클라이언트와 서버간의 주고받는 문자열의 규칙을 알려주는 페이지입니다.
+
+## Client To Server
+
+| First Code | Second Code | API 내용 | API 설명 |
+|---|---|---|---|
+| 0 | 0 | id </br> userName| 유저 생성|
+|   | 1 | roomid | 유저 리스트 전달 |
+
+## Server To Client
+
+| First Code | Second Code | API 내용 | API 설명 |
+|---|---|---|---|
+| 0 | 0 | roomid </br>roomName</br>roomMaxPeople| 방 정보 전달 |
+|   | 1 |roomList_count </br> { </br> roomid </br> roomName </br> roomMaxPeople</br>  }| 방 리스트 전달 |
+
+## 기존 API.TXT (모두 옮긴 후 삭제 바람!)
+```
 <client to server>
 0 //유저 생성
  0
@@ -99,3 +122,4 @@
   5 // 순서 변경
 
 </server to client>
+```
