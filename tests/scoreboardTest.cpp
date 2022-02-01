@@ -43,3 +43,12 @@ TEST(scoreboardTest, displayTest5) { //스몰 스트레이트
                             16,0,0,15,0,0};
     EXPECT_EQ(v,res);
 }
+
+TEST(scoreboardTest, displayTest6) { //4 of kind
+    scoreboard * a = new scoreboard();
+    dice_game _dice({4,2,4,4,4});
+    auto v = a->display(_dice);
+    std::vector<int> res = {0,2,0,16,0,0,0,
+                            18,18,0,0,0,0};
+    EXPECT_EQ(v,res);
+}
