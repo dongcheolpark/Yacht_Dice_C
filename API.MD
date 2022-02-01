@@ -65,11 +65,8 @@
   3 //주사위 락 정보
     roomid
     lockinfo
-  4 //점수판 정보
+  4 //input 'x'
     roomid
-    getScoreCursor
-  5 //값 선택
-   index
 </client to server>
 
 <server to client>
@@ -120,6 +117,7 @@
   4 // 점수판 정보
     scoreinfo
   5 // 순서 변경
+    
 
 </server to client>
 ```

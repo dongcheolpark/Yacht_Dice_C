@@ -28,11 +28,11 @@ private:
 	scoreboard data2;
 	dice_game data;
 	int order;
-	int game_order;
 public:
 	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople), order(0) {}
 	gameroom(room *);
 	dice_game& getdata() {return data;}
-	int get_order() {return game_order;}
+	int get_order() {return order;}
+	void change_order();
 	gameuser * get_orderUser();
 };
