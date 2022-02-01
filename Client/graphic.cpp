@@ -122,19 +122,19 @@ void gamegraphic::score() {
 void gamegraphic::help() {
 	std::cout<<"주사위를 굴리려면 r을 눌러주세요."<<'\n';
 }
-/*
+
 void gamegraphic::order() { 
-	dynamiccast<gameuser *>(item)
-	std::cout<<"%s님의 차례입니다.",gameroom.get_orderUser<<'\n';
+	auto _user = dynamic_cast<gameroom *>(_game->getRoom())->get_orderUser();
+	std::cout<<_user->getuserName()<<"님의 차례입니다."<<'\n';
 }
-*/
+
 void gamegraphic::run() {
 	showPeople();
 	score();
 	showchatLists();
 	dice();
 	help();
-	//order();
+	order();
 	if(_game->getChatStatus()) {
 		showChatString();
 	}
