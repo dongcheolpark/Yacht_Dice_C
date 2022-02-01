@@ -22,3 +22,11 @@ gameuser * gameroom::get_orderUser() {
 	for(int i = 0;i<order;i++,res++);
 	return dynamic_cast<gameuser*>(*res); 
 }
+
+void gameroom::change_order() {
+	int size = userList.size()-1;
+	if(order == size){
+		order = 0;
+	}
+	else order++;
+}

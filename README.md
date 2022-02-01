@@ -40,16 +40,19 @@ Linux, Windows, Mac
 족보는 링크를 참조해 주세요.
 
 ## 컴파일 방법
-server/bin, client/bin 폴더 생성 후 bin 폴더 내에서 
->$ cmake ..
+이 프로젝트는 GTest를 사용합니다.
 
-커맨드 입력
+프로젝트 디렉토리에서
 
-빌드하려면 
->$ make 
+> $  git clone https://github.com/google/googletest/ extern/googletest 
 
-커맨드 입력
+실행
 
-프로그램 파일은 Server/bin 폴더의 Yacht_Dice_Server, Client/bin 폴더의 Yacht_Dice_Client입니다.
+build 폴더 생성 후 
+> $ cmake ..</br>
+
+> $ make 
+
+프로그램 파일은 Yacht_Dice_Server, Yacht_Dice_Client입니다.
 
 

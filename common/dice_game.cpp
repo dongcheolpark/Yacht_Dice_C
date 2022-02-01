@@ -7,6 +7,23 @@ dice_game::dice_game() {
 	}
 	lockinfo=0;
 }
+
+dice_game::dice_game(std::vector<int> v1) {
+	dices.resize(5);
+	try
+	{
+		for(int i = 0;i<5;i++) {
+			dices[i] = v1[i];
+		}
+	}
+	catch(const std::exception& e)
+	{
+		for(int i = 0;i<5;i++) {
+			dices[i] = 1;
+		}
+	}
+}
+
 void dice_game::set_dice(int index,int value) {
 	if( value < 1 || value > 6) return;
 	this->dices[index] = value;

@@ -89,4 +89,17 @@ send_struct * game_server_send_scoreinfo::doParse() {
 		data->list->push_back(item);
 	}
 	return data;
+<<<<<<< HEAD
+=======
+}
+
+send_struct * game_server_change_order::doParse() {
+	auto _room = dynamic_cast<gameroom *>(server->getRoom(roomId));
+	auto userList = _room->getUserList();
+	for(auto item : userList) { 
+		data->list->push_back(item);
+	}
+	data->str->append(ydc::format_string("%d",_room->get_order()));
+	return data;
+>>>>>>> c8a683a341a852018caf20f7a4361faf8847d041
 }

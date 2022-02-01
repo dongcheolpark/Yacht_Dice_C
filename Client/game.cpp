@@ -93,8 +93,8 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					net->SendStringToServer(buffer);
 				}
 				if(x == 'x') {
-					//score 선택
-					_game->graphics();
+					std::string buffer = ydc::format_string("4 4 %d",_game->get_roomId());
+					net->SendStringToServer(buffer);
 				}
 				else if(x == 91) {
 					x = getch();
@@ -311,8 +311,11 @@ void game::parseString(std::string buffer) {
 				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
 			}
 		}
-		if(token[1] == "3") {
+		else if(token[1] == "3") {
 			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
+		}
+		else if(token[1] == "5") {
+			dynamic_cast<gameroom*>(_room)->change_order();
 		}
 	}
 	else {
