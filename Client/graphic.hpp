@@ -33,7 +33,7 @@ private:
 	void dice();
 	void score();
 	void help();
-	//void order();
+	void order();
 public:
 	gamegraphic(game * _game) : graphic(_game) {}
 	void run();
