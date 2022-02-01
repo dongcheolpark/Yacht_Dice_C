@@ -19,16 +19,11 @@ Linux, Windows, Mac
 - 최대 인원 5명까지 접속해 플레이 가능
 
 ## 컴파일 방법
-server/bin, client/bin 폴더 생성 후 bin 폴더 내에서 
->$ cmake ..
-
-커맨드 입력
-
-빌드하려면 
->$ make 
-
-커맨드 입력
-
-프로그램 파일은 Server/bin 폴더의 Yacht_Dice_Server, Client/bin 폴더의 Yacht_Dice_Client입니다.
+build 폴더 생성 후 
+> ```
+> cmake ..
+> make 
+> ```
+프로그램 파일은 Yacht_Dice_Server, Yacht_Dice_Client입니다.
 
 
