@@ -7,6 +7,7 @@ private:
 	int lockinfo;
 public:
 	dice_game();
+	dice_game(std::vector<int>);
 	void set_dice(int,int);
 	void set_dice(std::vector<int>&);
 	std::vector<int> get_dices();
