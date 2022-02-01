@@ -88,4 +88,5 @@ send_struct * game_server_send_scoreinfo::doParse() {
 	for(auto item : userList) {
 		data->list->push_back(item);
 	}
+	return data;
 }
