@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install Gtest
+        run: |
+          git clone https://github.com/google/googletest/ extern/googletest
+
+      - name: build_yacht_dice
+        run: |
+          dir1=build
+          
+          if [ ! -d $dir1 ]; then
+            mkdir $dir1
+          fi
+          cd $dir1
+          cmake ..
+          make
+          cd ../..
+      - name: test
+        run : |
+          cd build
+          ./Yacht_Dice_test

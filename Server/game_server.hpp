@@ -6,16 +6,16 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <random>
 
 class game_server {
 private:
 	std::list<room *> roomList;
-	std::list<user *> userList;
-	std::list<std::string> chatList;
+	std::list<user *> serverUserList;
 public: 
 	send_struct * parseString(const char *);
-	send_struct * processing(int index);
-	void remove_user(int id);
-	std::list<user *>& getUserList() { return userList; }
-	std::list<std::string>& getChatList() {return chatList;}
+	send_struct * processing(int index,int roomId);
+	send_struct * remove_user(int id);
+	room * getRoom(int roomId);
+	std::list<room*> & getRoomList() {return roomList;}
 };
