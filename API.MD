@@ -5,6 +5,7 @@
 
 클라이언트와 서버간의 주고받는 문자열의 규칙을 알려주는 페이지입니다.
 
+
 ## Client To Server
 
 | First Code | Second Code | API 내용 | API 설명 |
