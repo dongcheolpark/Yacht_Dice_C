@@ -19,11 +19,19 @@ Linux, Windows, Mac
 - 최대 인원 5명까지 접속해 플레이 가능
 
 ## 컴파일 방법
+이 프로젝트는 GTest를 사용합니다.
+
+프로젝트 디렉토리에서
+
+> $  git clone https://github.com/google/googletest/ extern/googletest 
+
+실행
+
 build 폴더 생성 후 
-> ```
-> cmake ..
-> make 
-> ```
+> $ cmake ..</br>
+
+> $ make 
+
 프로그램 파일은 Yacht_Dice_Server, Yacht_Dice_Client입니다.
 
 
