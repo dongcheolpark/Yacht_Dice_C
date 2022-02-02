@@ -23,6 +23,17 @@ gameuser * gameroom::get_orderUser() {
 	return dynamic_cast<gameuser*>(*res); 
 }
 
+user * room::getUser(int id) {
+	for(auto item : userList) {
+		if(item->getuserId() == id) return item;
+	}
+	return NULL;
+}
+
+bool gameroom::is_orderUser(int id) {
+	return (getUser(id) == get_orderUser());
+}
+
 void gameroom::change_order() {
 	int size = userList.size()-1;
 	if(order == size){
