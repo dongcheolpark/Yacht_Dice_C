@@ -11,6 +11,7 @@ protected:
 	std::vector<int> down; // 아래쪽 데이터
 	int score; // 점수 총합
 	void setscore();
+	std::vector<int> calculate(dice_game); // 다이스 값을 바탕으로 데이터 처리
 public:
 	scoreboard(); //기본적인 생성자
 	//<setter>
