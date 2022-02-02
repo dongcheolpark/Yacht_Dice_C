@@ -136,6 +136,12 @@ send_struct * game_server::parseString(const char * buffer) {
 			dices.set_lockinfo2(std::stoi(token[3]));
 			parse = new game_server_send_lockinfo(this,roomid);
 		}
+		else if(token[1] == "4") {
+			int roomid = std::stoi(token[2]);
+			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
+			_room->change_order();
+			parse = new game_server_change_order(this,roomid);
+		}
 	}
 	if(parse == NULL) return NULL;
 	auto * data = parse->doParse();//전송 데이터를 가져온다.

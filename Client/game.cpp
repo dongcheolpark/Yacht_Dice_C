@@ -92,12 +92,18 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
 					net->SendStringToServer(buffer);
 				}
+				if(x == 'x') {
+					std::string buffer = ydc::format_string("4 4 %d",_game->get_roomId());
+					net->SendStringToServer(buffer);
+				}
 				else if(x == 91) {
 					x = getch();
 					if(x == 65) {
+						_game->setScoreCursor(-1);
 						//down
 					}
 					else if(x == 66) {
+						_game->setScoreCursor(1);
 						//up
 					}
 					else if(x == 67) {
@@ -305,8 +311,11 @@ void game::parseString(std::string buffer) {
 				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
 			}
 		}
-		if(token[1] == "3") {
+		else if(token[1] == "3") {
 			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
+		}
+		else if(token[1] == "5") {
+			dynamic_cast<gameroom*>(_room)->change_order();
 		}
 	}
 	else {

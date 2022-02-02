@@ -2,5 +2,6 @@ Client/bin
 Server/bin
 build/
 .vscode/
+*.DS_Store
 
 Client/cmake-build*

@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "dice_game.hpp"
 #include "function.hpp"
 
 class scoreboard {
-private:
+protected:
 	std::vector<int> up;
 	//up
 	bool bonus;
@@ -22,5 +23,6 @@ public:
 	int getDown(int);
 	int getBonus();
 	int getscore();
-	std::string tostring(); 
+	std::vector<int> display(dice_game);
+	std::string tostring();
 };

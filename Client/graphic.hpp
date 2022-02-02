@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include "../common/scoreboard.hpp"
 #include "game.hpp"
 
@@ -24,14 +25,16 @@ private:
 	void help();
 public:
 	lobbygraphic(game * _game) : graphic(_game) {}
-	virtual void run();
+	void run();
 };
 
 class gamegraphic : public graphic {
+private:
 	void dice();
 	void score();
 	void help();
+	void order();
 public:
 	gamegraphic(game * _game) : graphic(_game) {}
-	virtual void run();
+	void run();
 };
