@@ -4,4 +4,6 @@ build/
 .vscode/
 *.DS_Store
 
+extern/*
+
 Client/cmake-build*
