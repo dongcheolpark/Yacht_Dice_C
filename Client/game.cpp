@@ -131,10 +131,10 @@ void game::start() {
 	do {
 		std::cout<<"게임 입장\n";
 		std::cout<<"1. 방 생성  2. 방 입장  3. 게임 종료\n";
-		int choice = 0;
+		char choice;
 		std::cin>>choice; 
 		bool check_while = false;
-		if(choice == 1) {
+		if(choice == '1') {
 			std::cout<<"방 제목을 입력해주세요.\n";
 			char buff[1008];
 			std::cin>>buff;
@@ -156,7 +156,7 @@ void game::start() {
 			buffer = ydc::format_string("3 1 %d %d",_room->getRoomId(),id);
 			net->SendStringToServer(buffer);
 		}
-		else if(choice == 2) {
+		else if(choice == '2') {
 			std::string buffer = ydc::format_string("3 3 %d",id);
 			net->SendStringToServer(buffer);
 			_recive_from_server(net,this);
@@ -188,7 +188,7 @@ void game::start() {
 				break;
 			}while(1);
 		}
-		else if (choice == 3) {
+		else if (choice == '3') {
 			exit(1);
 		}
 		else {
