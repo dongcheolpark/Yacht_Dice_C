@@ -1,6 +1,6 @@
 #pragma once
 #include "scoreboard.hpp"
-class user {
+class user { //유저 클래스 최상위 부모 클래스
 protected:
 	int userId;
 	char * userName;
@@ -11,24 +11,30 @@ public:
 	virtual void test() {}
 };
 
-class lobbyuser : public user {
+class lobbyuser : public user { //로비에 속해있는 유저 표현
 private:
-	bool isReady;
+	bool isReady; // 레디 여부
 public:
-	lobbyuser(int id ,const char* name) :user(id,name) {
+	lobbyuser(int id ,const char* name) :user(id,name) { //가장 기본적인 생성자
 		isReady = false;
 	}
-	lobbyuser(int id ,const char* name, int isReady) :user(id,name),isReady(isReady) {}
+	lobbyuser(int id ,const char* name, int isReady) :user(id,name),isReady(isReady) {} //준비 여부를 받는 생성자
+	//<getter>
 	bool getUserReady() { return isReady;}
+	//</getter>
+	//<setter>
 	void switchUserReady() {isReady = !isReady;}
+	//</setter>
 };
 
-class gameuser : public user {
+class gameuser : public user { //게임에 속해있는 유저 표현
 private:
-	scoreboard table;
+	scoreboard table; // 점수판 저장
 public:
+	//<constructor>
 	gameuser(int id,const char* name) : user(id,name) {}
 	gameuser(lobbyuser *);
 	gameuser(user *);
-	scoreboard& getScoreBoard() {return table;}
+	//</constructor>
+	scoreboard& getScoreBoard() {return table;} // 점수판을 가져온다.
 };
