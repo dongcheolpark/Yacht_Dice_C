@@ -28,7 +28,6 @@ public:
 
 class gameroom : public room {
 private:
-	scoreboard data2; // 점수판 데이터
 	dice_game data; // 주사위 정보
 	int order; // 어떤 유저가 순서인지 알려준다.
 	int turn; // 몇번의 사이클이 돌았는지 알려준다.
