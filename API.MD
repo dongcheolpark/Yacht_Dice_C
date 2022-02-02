@@ -18,7 +18,7 @@
 |         | 1 | roomid </br> userid | 사람 참가 |
 |         | 2 | roomid </br> userid | 레디 |
 |         | 3 | userid | 방 리스트 요청 |
-| 4 | 1 | 0 'up' </br>    1~6 '숫자' </br> 1 'bonus' </br> 2 'down' </br>    1~6 '숫자' | 주사위 결과 선택 |
+| 4 | 1 | roomid | 스코어 보드 값 가져오기 |
 |         | 2 | roomid </br> mask '문자열로 주사위 선택(0 : 돌리기, 1: 락)' | 주사위 돌리기 |
 |         | 3 | roomid </br> lockinfo | 주사위 락 정보 |
 |         | 4 | roomid | input 'x' |
