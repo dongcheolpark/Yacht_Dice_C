@@ -87,7 +87,7 @@ TEST(scoreboardTest, displayTest10) { //6 야추
     EXPECT_EQ(v,res);
 }
 
-TEST(scoreboardTest, displayTest11) {
+TEST(scoreboardTest, displayTest11) { // 1 6 6 6 5
     scoreboard * a = new scoreboard();
     dice_game _dice({1,6,6,6,5});
     auto v = a->display(_dice);
