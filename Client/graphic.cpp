@@ -104,7 +104,6 @@ void gamegraphic::score() {
 		index++;
 	}
 	scoreShell(index,"|+35 Bonus  |",tableList);
-	std::cout<<"\n";
 	index++;
 	for(int i = 0; i < 6; i++){
 		scoreShell(index,scoreList1[i],tableList);
