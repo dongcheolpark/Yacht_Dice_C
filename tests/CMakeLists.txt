@@ -4,6 +4,8 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build )
 file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 SET(SOURCES
 	${TEST_SOURCES} 
+	../Server/game_server.cpp
+	../Server/game_server_parse.cpp
 	../common/user.cpp
 	../common/Room.cpp
 	../common/dice_game.cpp
