@@ -75,7 +75,7 @@ int scoreboard::getscore() {
 	return score;
 }
 
-std::vector<int> scoreboard::display(dice_game dice) {
+std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 때 어떤 값을 보여줄지를 처리해줌
 	std::vector<int> res(13);
 	int sum[6] = {0,};
 	for(int i = 0;i<5;i++) {
@@ -116,4 +116,9 @@ std::vector<int> scoreboard::display(dice_game dice) {
 	}
 	if(two&&three) res[9] = res[7];//풀하우스
 	return res;
+
+}
+
+std::vector<int> scoreboard::display(dice_game dice) {
+	return calculate(dice);
 }
