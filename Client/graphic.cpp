@@ -133,8 +133,8 @@ void gamegraphic::run() {
 	score();
 	showchatLists();
 	dice();
-	help();
 	order();
+	help();
 	if(_game->getChatStatus()) {
 		showChatString();
 	}
