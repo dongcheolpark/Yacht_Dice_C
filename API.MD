@@ -35,7 +35,7 @@
 |         | 1 | chatlist_count </br> { </br> chat_str </br> } | chat 정보 |
 |         | 2 | user->id </br> user->name </br> user->isReady | add_user |
 | 2 | 1 | 5개의 주사위 값 전달 | 주사위 값 |
-|         | 2 | id </br> { </br> up 6개 </br> choice </br> down 6개 </br> } | 유저 스코어보드 전달 |
+|         | 2 | userList_count </br> { </br> up 6개 </br> choice </br> down 6개 </br> } | 유저 스코어보드 전달 |
 |         | 3 | lockinfo | 주사위 락 정보 |
-|         | 4 | scoreinfo | 점수판 정보 |
+|         | 4 | scoreinfo | 점수판 선택 정보 |
 |         | 5 |   | 순서 변경 |
