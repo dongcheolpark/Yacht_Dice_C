@@ -9,6 +9,10 @@ public:
 	int getuserId();
 	char * getuserName();
 	virtual void test() {}
+	bool operator== (user& user2) {
+		if(user2.getuserId() == this->userId) return true;
+		return false;
+	}
 };
 
 class lobbyuser : public user { //로비에 속해있는 유저 표현
