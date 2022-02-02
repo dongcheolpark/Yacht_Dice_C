@@ -72,6 +72,18 @@ void gamegraphic::dice() {
 	std::cout<<"\n";
 }
 
+void gamegraphic::scoreShell(int index,std::string name, std::list<std::vector<int>> & tableList) {
+	auto _room = dynamic_cast<gameroom *>(_game->getRoom());
+	auto order = _room->get_order();
+	int i = 0;
+	for(auto item : tableList) {
+		std::cout<<name<<std::setw(3)<<item[index];
+		if(index == _game->getScoreCursor() && i == order) {std::cout<<"||";}
+		else std::cout<<" |";
+		i++;
+	}
+	std::cout<<"\n";
+}
 
 
 void gamegraphic::score() {
@@ -88,35 +100,17 @@ void gamegraphic::score() {
 										 "|S. Straight|", "|L. Straight|", "|Yacht      |"});
 	int index = 0;
 	for(int i = 0; i < 6; i++){
-		for(auto item : tableList) {
-			std::cout<<scoreList1[i]<<std::setw(3)<<item[index];
-			if(index == _game->getScoreCursor()) {std::cout<<"||";}
-			else std::cout<<" |";
-		}
-		std::cout<<"\n";
+		scoreShell(index,scoreList1[i],tableList);
 		index++;
 	}
-	for(auto item : tableList) {
-		std::cout<<"|+35 Bonus  |"<<std::setw(3)<<item[index];
-		if(index == _game->getScoreCursor()) {std::cout<<"||";}
-		else std::cout<<" |";
-	}
+	scoreShell(index,"|+35 Bonus  |",tableList);
 	std::cout<<"\n";
 	index++;
 	for(int i = 0; i < 6; i++){
-		for(auto item : tableList) {
-			std::cout<<scoreList2[i]<<std::setw(3)<<item[index];
-			if(index == _game->getScoreCursor()) {std::cout<<"||";}
-			else std::cout<<" |";
-		}
-		std::cout<<"\n";
+		scoreShell(index,scoreList1[i],tableList);
 		index++;
 	}
-	for(auto item : tableList) {
-		std::cout<<"|Total      |"<<std::setw(3)<<item[index];
-		if(index == _game->getScoreCursor()) {std::cout<<"||";}
-		else std::cout<<" |";
-	}
+	scoreShell(index,"|Total      |",tableList);
 }
 
 void gamegraphic::help() {
