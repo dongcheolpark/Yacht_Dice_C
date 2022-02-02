@@ -15,12 +15,12 @@ protected:
 	virtual void test() {};
 public:	
 	room(int,const char *,int); //방 id, 이름, 최대 인원을 받는 생성자
-
 	//<getter>
 	int getRoomId(){return roomId;}
 	char * getRoomName() {return roomName;}
 	int getRoomMaxPeople() {return roomMaxPeople;}
 	int getlevel() {return level;}
+	user * getUser(int);
 	std::list<user *>& getUserList() {return userList;}
 	std::list<std::string>& getChatList() {return chatList;}
 	//</getter>
@@ -40,6 +40,7 @@ public:
 	dice_game& getdata() {return data;}
 	int get_order() {return order;}
 	int getTurn() {return turn;}
+	bool is_orderUser(int id);
 	gameuser * get_orderUser();
 	//</getter>
 	void change_order();

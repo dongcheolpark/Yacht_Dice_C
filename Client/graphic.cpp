@@ -78,7 +78,7 @@ void gamegraphic::scoreShell(int index,std::string name, std::list<std::vector<i
 	int i = 0;
 	for(auto item : tableList) {
 		std::cout<<name<<std::setw(3)<<item[index];
-		if(index == _game->getScoreCursor() && i == order) {std::cout<<"||";}
+		if(index == _game->getScoreCursor() && i == order && _room->is_orderUser(_game->get_userId())) {std::cout<<"||";}
 		else std::cout<<" |";
 		i++;
 	}
