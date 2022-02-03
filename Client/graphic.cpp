@@ -106,7 +106,7 @@ void gamegraphic::score() {
 	scoreShell(index,"|+35 Bonus  |",tableList);
 	index++;
 	for(int i = 0; i < 6; i++){
-		scoreShell(index,scoreList1[i],tableList);
+		scoreShell(index,scoreList2[i],tableList);
 		index++;
 	}
 	scoreShell(index,"|Total      |",tableList);
@@ -126,8 +126,8 @@ void gamegraphic::run() {
 	score();
 	showchatLists();
 	dice();
-	help();
 	order();
+	help();
 	if(_game->getChatStatus()) {
 		showChatString();
 	}
