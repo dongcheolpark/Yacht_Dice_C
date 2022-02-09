@@ -21,7 +21,7 @@ void graphic::showPeople() {
 
 void graphic::showChatString() {
 	std::cout<<"채팅 : ";
-	for (const auto& c: _game->get_chatString())
+	for (const auto c: _game->get_chatString())
 	    std::cout << static_cast<char>(c);
 	
 	std::cout<<std::endl;

@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <regex>
 #ifdef _WIN32
+#define ENTER_KEY 13
 #else
+#define ENTER_KEY 10
 #include <termios.h>
 #endif
 
@@ -64,14 +66,14 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 	while(1) {
 		int x = getch();
 		if(_game->getChatStatus()) {
-			if(x == 10) {
+			if(x == ENTER_KEY) {
 				_game->sendChatString();
 				_game->chatStatusSwitch();
 			}
 			_game->set_chatString(x);
 		}
 		else {
-			if(x == 10) {
+			if(x == ENTER_KEY) {
 				_game->chatStatusSwitch();
 			}
 			if(_game->getRoom()->getlevel() == 0) {
@@ -96,21 +98,41 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					std::string buffer = ydc::format_string("4 4 %d",_game->get_roomId());
 					net->SendStringToServer(buffer);
 				}
-				else if(x == 91) {
+#ifdef _WIN32
+                else if(x == 224) {
+#else
+                else if(x == 91) {
+#endif
 					x = getch();
+#ifdef _WIN32
+                    if(x == 72) {
+#else
 					if(x == 65) {
+#endif
 						_game->setScoreCursor(-1);
 						//down
 					}
+#ifdef _WIN32
+                    else if(x == 80) {
+#else
 					else if(x == 66) {
+#endif
 						_game->setScoreCursor(1);
 						//up
 					}
+#ifdef _WIN32
+                    else if(x == 77) {
+#else
 					else if(x == 67) {
+#endif
 						_game->setDiceCursor(1);
 						//right
 					}
+#ifdef _WIN32
+                    else if(x == 75) {
+#else
 					else if(x == 68) {
+#endif
 						_game->setDiceCursor(-1);
 						//left
 					}
@@ -338,5 +360,6 @@ void game::sendChatString() {
 		buf[i] = '\0';
 		std::string buffer = ydc::format_string("1 1 %d %d %s",get_roomId(),get_userId(),buf);
 		net->SendStringToServer(buffer);
+		clearChatString();
 	}
 }
