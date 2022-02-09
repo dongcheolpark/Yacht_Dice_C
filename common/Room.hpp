@@ -19,6 +19,7 @@ public:
 	int getRoomId(){return roomId;}
 	char * getRoomName() {return roomName;}
 	int getRoomMaxPeople() {return roomMaxPeople;}
+	int getRoomCurrentPeople() {return userList.size();}
 	int getlevel() {return level;}
 	user * getUser(int);
 	std::list<user *>& getUserList() {return userList;}

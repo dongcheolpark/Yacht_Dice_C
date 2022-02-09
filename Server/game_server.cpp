@@ -72,8 +72,13 @@ send_struct * game_server::parseString(const char * buffer) {
 					_user = item;
 				}
 			}
-			_room->getUserList().push_back(_user);
-			parse = new game_server_send_roomInfo(this,_room->getRoomId(),_user);
+			if(_room->getRoomMaxPeople()<=_room->getRoomCurrentPeople()){
+				parse = new game_server_send_blockentry(this,_room->getRoomId(),_user);
+			}
+			else{
+				_room->getUserList().push_back(_user);
+				parse = new game_server_send_roomInfo(this,_room->getRoomId(),_user);
+			}
 		}
 		else if(token[1] == "2") {
 			room * _room = getRoom(std::stoi(token[2]));

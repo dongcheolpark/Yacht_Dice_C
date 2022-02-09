@@ -37,6 +37,13 @@ send_struct * game_server_send_roomInfo::doParse() {
 	return data;
 }
 
+send_struct * game_server_send_blockentry::doParse(){
+	auto _room = server->getRoom(roomId);
+	data->list->push_back(_user);
+	data->str->append(ydc::format_string("%d %s %d",_room->getRoomId(),_room->getRoomName(),_room->getRoomMaxPeople()));
+	return data;
+}
+
 send_struct * game_server_send_roomList::doParse() {
 	data->list->push_back(_user);
 	std::string res;
