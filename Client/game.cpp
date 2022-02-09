@@ -143,9 +143,9 @@ void game::start() {
 			std::cin>>buff;
 			int max_num = 8;
 			do {
-				std::cout<<"방 최대 인원을 입력해 주세요. (2명 이상 4명 이하)\n";
+				std::cout<<"방 최대 인원을 입력해 주세요. (2명 이상 5명 이하)\n";
 				std::cin>>max_num;
-				if(max_num < 2 || max_num > 4) {
+				if(max_num < 2 || max_num > 5) {
 					std::cout<<"다시 입력해 주세요.\n";
 					continue;
 				}
@@ -187,8 +187,12 @@ void game::start() {
 				for(itor = roomList.begin();i<a-1;i++,itor++);
 				std::string buffer = ydc::format_string("3 1 %d %d",(*itor)->getRoomId(),id);
 				net->SendStringToServer(buffer);
-				_recive_from_server(net,this);
-				break;
+				_recive_from_server(net,this);		
+				if(this->getRoom() == NULL){
+					std::cout << (*itor)->getRoomId()+1 << "번 방은 가득차서 입장할 수 없습니다. 다시 선택해주세요\n";
+					continue;
+				}
+				else break;
 			}while(1);
 		}
 		else if (choice == '3') {
@@ -276,6 +280,9 @@ void game::parseString(std::string buffer) {
 			auto tmp2 = _graphic;
 			_graphic = new gamegraphic(this);
 			delete tmp2;
+		}
+		else if(token[1] == "3"){
+			return;
 		}
 	}
 	else if(token[0] == "1") {

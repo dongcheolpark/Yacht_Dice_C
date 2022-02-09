@@ -31,6 +31,7 @@
 | 0 | 0 | roomid </br> roomName </br> roomMaxPeople | 방 정보 전달 |
 |         | 1 | roomList_count </br> { </br> roomid </br> roomName </br> roomMaxPeople</br> } | 방 리스트 전달 |
 |         | 2 |   | gameroom으로 변경 |
+|   | 3 | roomid </br> roomName </br> roomMaxPeople | 방입장 안됨 안내 |
 | 1 | 0 | userlist_count </br> { </br> user->id </br> user->name </br> user->isReady </br> } | 유저 리스트 전달 |
 |         | 1 | chatlist_count </br> { </br> chat_str </br> } | chat 정보 |
 |         | 2 | user->id </br> user->name </br> user->isReady | add_user |
