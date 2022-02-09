@@ -8,11 +8,22 @@ room::room(int id, const char * name,int maxpeople) {
 	strcpy(this->roomName,name);
 	this->roomMaxPeople = maxpeople;
 }
+room::room(gameroom * _room) {
+	level = 0;
+	this->roomId = _room->getRoomId();
+	this->roomName = _room->getRoomName();
+	this->roomMaxPeople = _room->getRoomMaxPeople();
+	for(auto item : _room->getUserList()) {
+		this->userList.push_back(new lobbyuser(item));
+	}
+	this->chatList = _room->getChatList();
+}
 gameroom::gameroom(room * _room) : room(_room->getRoomId(),_room->getRoomName(),_room->getRoomMaxPeople()) {
 	level = 1;
 	order = 0;
 	for(auto item : _room->getUserList()) {
 		this->userList.push_back(new gameuser(item));
+		delete item;
 	}
 	this->chatList = _room->getChatList();
 }

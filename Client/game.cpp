@@ -80,7 +80,7 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					net->SendStringToServer(buffer);
 				}
 			}
-			else {
+			else if(_game->getRoom()->getlevel() == 1){
 				if(x == 'z') {
 					dice_game & _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
 					_dice.set_lockinfo(_game->getDiceCursor());
@@ -119,6 +119,10 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					}
 					_game->graphics();
 				}
+			}
+			else {
+				_game->change_room(0);
+				_game->graphics();
 			}
 		}
 	}
@@ -322,6 +326,7 @@ void game::parseString(std::string buffer) {
 			if(dynamic_cast<gameroom*>(_room)->getTurn() == 14) {
 				delete _graphic;
 				_graphic = new scoregraphic(this);
+				dynamic_cast<gameroom*>(_room)->change_level();
 			}
 		}
 	}
@@ -345,5 +350,16 @@ void game::sendChatString() {
 		buf[i] = '\0';
 		std::string buffer = ydc::format_string("1 1 %d %d %s",get_roomId(),get_userId(),buf);
 		net->SendStringToServer(buffer);
+	}
+}
+
+void game::change_room(int index) {
+	if(index == 0) {
+		auto tmp = _room;
+		_room = new room(dynamic_cast<gameroom *>(_room));
+		delete tmp;
+		auto tmp2 = _graphic;
+		_graphic = new lobbygraphic(this);
+		delete tmp2;	
 	}
 }

@@ -136,19 +136,14 @@ void gamegraphic::run() {
 void scoregraphic::run() {
 	showPeople();
 	total_score();
-	if(_game->getChatStatus()) {
-		showChatString();
-	}
 }
 
 void scoregraphic::total_score() {
 	auto _room = dynamic_cast<gameroom *>(_game->getRoom());
 	std::list<user*> & userList = _room->getUserList();
 	for(auto item : userList) {
-		printf("|%-16s|",item->getuserName());
-	}
-	for(auto item : userList) {
 		auto scoreboard = dynamic_cast<gameuser*>(item)->getScoreBoard();
 		printf("|%-16d|",scoreboard.getscore());
 	}
+	std::cout<<'\n';
 }

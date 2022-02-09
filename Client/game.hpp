@@ -51,5 +51,6 @@ public :
 	bool getChatStatus() {return chatStatus;}
 	int getDiceCursor() {return dice_cursor;}
 	int getScoreCursor() {return score_cursor;}
+	void change_room(int);
 	const std::u16string& get_chatString() {return chat_str;}
 };
