@@ -319,6 +319,10 @@ void game::parseString(std::string buffer) {
 		}
 		else if(token[1] == "5") {
 			dynamic_cast<gameroom*>(_room)->change_order();
+			if(dynamic_cast<gameroom*>(_room)->getTurn() == 14) {
+				delete _graphic;
+				_graphic = new scoregraphic(this);
+			}
 		}
 	}
 	else {
