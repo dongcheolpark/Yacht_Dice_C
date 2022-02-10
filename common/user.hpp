@@ -23,6 +23,7 @@ public:
 		isReady = false;
 	}
 	lobbyuser(int id ,const char* name, int isReady) :user(id,name),isReady(isReady) {} //준비 여부를 받는 생성자
+	lobbyuser(user *);
 	//<getter>
 	bool getUserReady() { return isReady;}
 	//</getter>

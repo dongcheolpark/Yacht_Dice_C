@@ -4,6 +4,8 @@
 #include <list>
 #include "dice_game.hpp"
 
+class gameroom;
+
 class room { //방 클래스의 최상위 부모, 로비룸으로도 쓰인다.
 protected:
 	int level; // 자식 클래스인지 부모 클래스인지 여부 체크
@@ -15,6 +17,7 @@ protected:
 	virtual void test() {};
 public:	
 	room(int,const char *,int); //방 id, 이름, 최대 인원을 받는 생성자
+	room(gameroom *);
 	//<getter>
 	int getRoomId(){return roomId;}
 	char * getRoomName() {return roomName;}
@@ -45,4 +48,7 @@ public:
 	gameuser * get_orderUser();
 	//</getter>
 	void change_order();
+	void change_level() {
+		level = 2;
+	}
 };

@@ -145,6 +145,10 @@ send_struct * game_server::parseString(const char * buffer) {
 			int roomid = std::stoi(token[2]);
 			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
 			_room->change_order();
+			if(dynamic_cast<gameroom*>(_room)->getTurn() == 14) {
+				roomList.push_back(new room(dynamic_cast<gameroom *>(_room)));
+				roomList.remove(_room);
+			}
 			parse = new game_server_change_order(this,roomid);
 		}
 	}

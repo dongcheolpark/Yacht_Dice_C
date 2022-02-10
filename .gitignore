@@ -7,3 +7,7 @@ build/
 extern/*
 
 Client/cmake-build*
+
+cmake-build-debug
+cmake-build-release
+

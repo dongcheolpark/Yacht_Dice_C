@@ -7,6 +7,10 @@ user::user(int id,const char * name) {
 	strcpy(this->userName,name);
 }
 
+lobbyuser::lobbyuser(user * _user) : user(_user->getuserId(),_user->getuserName())  {
+	
+}
+
 int user::getuserId() {
 	return this->userId;
 }

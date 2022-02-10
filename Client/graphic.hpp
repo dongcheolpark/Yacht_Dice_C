@@ -39,3 +39,11 @@ public:
 	gamegraphic(game * _game) : graphic(_game) {}
 	void run();
 };
+
+class scoregraphic : public graphic {
+private:
+	void total_score();
+public:
+	scoregraphic(game * _game) : graphic(_game) {}
+	void run();
+};

@@ -47,9 +47,9 @@ TEST(gameServerTest,ParseSTringTest4) { // 턴 넘기기
 	testserver.parseString("3 2 0 2");//레디
 
 	auto a = testserver.parseString("4 4 0");
-	auto res = std::string("2 5 1");
+	auto res = std::string("2 5 ");
 	EXPECT_EQ(*(a->str),res);
 	a = testserver.parseString("4 4 0");
-	res = std::string("2 5 2");
+	res = std::string("2 5 ");
 	EXPECT_EQ(*(a->str),res);
 }
