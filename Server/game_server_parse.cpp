@@ -104,5 +104,6 @@ send_struct * game_server_change_order::doParse() {
 	for(auto item : userList) { 
 		data->list->push_back(item);
 	}
+	data->str->append(ydc::format_string("%d %d",scorecursor,value));
 	return data;
 }

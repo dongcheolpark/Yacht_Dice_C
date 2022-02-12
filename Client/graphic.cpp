@@ -72,12 +72,15 @@ void gamegraphic::dice() {
 	std::cout<<"\n";
 }
 
-void gamegraphic::scoreShell(int index,std::string name, std::list<std::vector<int>> & tableList) {
+void gamegraphic::scoreShell(int index,std::string name, std::list<std::pair<std::vector<int>, int > > & tableList) {
 	auto _room = dynamic_cast<gameroom *>(_game->getRoom());
 	auto order = _room->get_order();
 	int i = 0;
 	for(auto item : tableList) {
-		std::cout<<name<<std::setw(3)<<item[index];
+		std::cout<<name;
+		bool check = (item.second<<(12-index))%2;
+		if(check) std::cout<<std::setw(3)<<item.first[index];
+		else std::cout<<'|'<<std::setw(2)<<item.first[index];
 		if(index == _game->getScoreCursor() && i == order && _room->is_orderUser(_game->get_userId())) {std::cout<<"||";}
 		else std::cout<<" |";
 		i++;
@@ -89,10 +92,12 @@ void gamegraphic::scoreShell(int index,std::string name, std::list<std::vector<i
 void gamegraphic::score() {
 	auto _room = _game->getRoom();
 	std::list<user*> & userList = _room->getUserList();
-	std::list<std::vector<int>> tableList;
+	std::list<std::pair<std::vector<int>, int> > tableList;
 	dice_game & dice = dynamic_cast<gameroom *>(_room)->getdata();
 	for(auto item : userList) {
-		tableList.push_back(dynamic_cast<gameuser *>(item)->getScoreBoard().display(dice));
+		auto _score = dynamic_cast<gameuser *>(item)->getScoreBoard();
+		tableList.push_back(make_pair(
+			_score.display(dice),_score.isScoreLock()));
 	}
 	std::vector<std::string> scoreList1({"|Aces       |", "|Deuces     |", "|Threes     |",
 										 "|Fours      |", "|Fives      |", "|Sixes      |"});

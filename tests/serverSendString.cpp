@@ -38,18 +38,3 @@ TEST(gameServerTest,parseStringTest3) { // 방접속하고 채팅
 	auto res = std::string("1 1 1 test1 testchat ");
 	EXPECT_EQ(*(a->str),res);
 }
-
-TEST(gameServerTest,ParseSTringTest4) { // 턴 넘기기
-	game_server testserver;
-	enterRoom(testserver);
-	testserver.parseString("3 2 0 0");
-	testserver.parseString("3 2 0 1");
-	testserver.parseString("3 2 0 2");//레디
-
-	auto a = testserver.parseString("4 4 0");
-	auto res = std::string("2 5 ");
-	EXPECT_EQ(*(a->str),res);
-	a = testserver.parseString("4 4 0");
-	res = std::string("2 5 ");
-	EXPECT_EQ(*(a->str),res);
-}

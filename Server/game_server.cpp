@@ -144,12 +144,16 @@ send_struct * game_server::parseString(const char * buffer) {
 		else if(token[1] == "4") {
 			int roomid = std::stoi(token[2]);
 			gameroom * _room = dynamic_cast<gameroom *>(getRoom(roomid));
+			int scorecursor = std::stoi(token[3]);
+			auto& scoreboard = _room->get_orderUser()->getScoreBoard();
+			int value = scoreboard.display(_room->getdata())[scorecursor];
+			scoreboard.setValue(scorecursor,value);
 			_room->change_order();
 			if(dynamic_cast<gameroom*>(_room)->getTurn() == 14) {
 				roomList.push_back(new room(dynamic_cast<gameroom *>(_room)));
 				roomList.remove(_room);
 			}
-			parse = new game_server_change_order(this,roomid);
+			parse = new game_server_change_order(this,roomid,scorecursor,value);
 		}
 	}
 	if(parse == NULL) return NULL;

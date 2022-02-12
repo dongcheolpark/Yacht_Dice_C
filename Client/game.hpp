@@ -40,7 +40,7 @@ public :
 	}
 	void setScoreCursor(int a) {
 		if(a < 0 && score_cursor == 0) return;
-		if(a > 0 && score_cursor == 13) return;
+		if(a > 0 && score_cursor == 12) return;
 		score_cursor += a;
 	}
 	void graphics();

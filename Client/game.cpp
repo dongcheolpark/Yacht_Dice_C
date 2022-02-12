@@ -95,7 +95,8 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				if(x == 'x') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
 					if(_room->is_orderUser(_game->get_userId())) {
-						std::string buffer = ydc::format_string("4 4 %d",_game->get_roomId());
+						
+						std::string buffer = ydc::format_string("4 4 %d %d",_game->get_roomId(),_game->getScoreCursor());
 						net->SendStringToServer(buffer);
 					}
 				}
@@ -329,11 +330,14 @@ void game::parseString(std::string buffer) {
 			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
 		}
 		else if(token[1] == "5") {
-			dynamic_cast<gameroom*>(_room)->change_order();
-			if(dynamic_cast<gameroom*>(_room)->getTurn() == 14) {
+			auto _gameroom = dynamic_cast<gameroom*>(_room);
+			auto& data = _gameroom->get_orderUser()->getScoreBoard();
+			data.setValue(std::stoi(token[2]),std::stoi(token[3]));
+			_gameroom->change_order();
+			if(_gameroom->getTurn() == 14) {
 				delete _graphic;
 				_graphic = new scoregraphic(this);
-				dynamic_cast<gameroom*>(_room)->change_level();
+				_gameroom->change_level();
 			}
 		}
 	}

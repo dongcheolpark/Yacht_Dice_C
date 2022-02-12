@@ -5,6 +5,15 @@ scoreboard::scoreboard() {
 	down.resize(6);
 }
 
+void scoreboard::setValue(int i,int val) {
+	if(0 <= i && i <= 5) {
+		setUp(i+1,val);
+	}
+	else if(7<=i && i <= 12) {
+		setDown(i-6,val);
+	}
+}
+
 void scoreboard::setscore() {
 	for(auto item : up) {
 		score += item;
@@ -120,5 +129,27 @@ std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 �
 }
 
 std::vector<int> scoreboard::display(dice_game dice) {
-	return calculate(dice);
+	auto res = calculate(dice);
+	for(int i = 0;i<6;i++) {
+		if(up[i]) res[i] = up[i];
+	}
+	for(int i = 0;i<6;i++) {
+		if(down[i]) res[i+7] = down[i];
+	}
+	res[13] = getscore();
+	return res;
+}
+
+int scoreboard::isScoreLock() {
+	int res = 0;
+	for(int i = 0;i<6;i++) {
+		res |= up[i] ? 1 : 0;
+		res <<= 1;
+	}
+	for(int i = 0;i<6;i++) {
+		res |= down[i] ? 1 : 0 ;
+		res <<= 1;
+	}
+	res >>= 1;
+	return 0;
 }

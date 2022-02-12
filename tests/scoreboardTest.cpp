@@ -122,3 +122,36 @@ TEST(scoreboardTest, displayTest14) { //스몰 스트레이트
                             16,0,0,15,0,0};
     EXPECT_EQ(v,res);
 }
+
+TEST(scoreboardTest, lockdisplayTest1) {
+    scoreboard * a = new scoreboard();
+    a->setValue(1,3);
+    dice_game _dice({1,1,1,1,1});
+    auto v = a->display(_dice);
+    std::vector<int> res = {5,3,0,0,0,0,0,
+                            5,5,0,0,0,50};
+}
+
+TEST(scoreboardTest, lockdisplayTest2) {
+    scoreboard * a = new scoreboard();
+    a->setValue(1,4);
+    a->setValue(2,9);
+    dice_game _dice({1,1,1,1,1});
+    EXPECT_EQ(3072,a->isScoreLock());
+    auto v = a->display(_dice);
+    std::vector<int> res = {5,4,9,0,0,0,0,
+                            5,5,0,0,0,50};
+    EXPECT_EQ(v,res);
+}
+
+TEST(scoreboardTest, lockdisplayTest3) {
+    scoreboard * a = new scoreboard();
+    a->setValue(1,4);
+    a->setValue(2,9);
+    a->setValue(7,20);
+    dice_game _dice({1,1,1,1,1});
+    auto v = a->display(_dice);
+    std::vector<int> res = {5,4,9,0,0,0,0,
+                            20,5,0,0,0,50};
+    EXPECT_EQ(v,res);
+}
