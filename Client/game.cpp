@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <regex>
 #ifdef _WIN32
+#define ENTER_KEY 13
 #else
+#define ENTER_KEY 10
 #include <termios.h>
 #endif
 
@@ -64,14 +66,14 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 	while(1) {
 		int x = getch();
 		if(_game->getChatStatus()) {
-			if(x == 10) {
+			if(x == ENTER_KEY) {
 				_game->sendChatString();
 				_game->chatStatusSwitch();
 			}
 			_game->set_chatString(x);
 		}
 		else {
-			if(x == 10) {
+			if(x == ENTER_KEY) {
 				_game->chatStatusSwitch();
 			}
 			if(_game->getRoom()->getlevel() == 0) {
@@ -95,25 +97,46 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				if(x == 'x') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
 					if(_room->is_orderUser(_game->get_userId())) {
-						std::string buffer = ydc::format_string("4 4 %d",_game->get_roomId());
+						
+						std::string buffer = ydc::format_string("4 4 %d %d",_game->get_roomId(),_game->getScoreCursor());
 						net->SendStringToServer(buffer);
 					}
 				}
-				else if(x == 91) {
+#ifdef _WIN32
+                else if(x == 224) {
+#else
+                else if(x == 91) {
+#endif
 					x = getch();
+#ifdef _WIN32
+                    if(x == 72) {
+#else
 					if(x == 65) {
+#endif
 						_game->setScoreCursor(-1);
 						//down
 					}
+#ifdef _WIN32
+                    else if(x == 80) {
+#else
 					else if(x == 66) {
+#endif
 						_game->setScoreCursor(1);
 						//up
 					}
+#ifdef _WIN32
+                    else if(x == 77) {
+#else
 					else if(x == 67) {
+#endif
 						_game->setDiceCursor(1);
 						//right
 					}
+#ifdef _WIN32
+                    else if(x == 75) {
+#else
 					else if(x == 68) {
+#endif
 						_game->setDiceCursor(-1);
 						//left
 					}
@@ -329,11 +352,15 @@ void game::parseString(std::string buffer) {
 			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));
 		}
 		else if(token[1] == "5") {
-			dynamic_cast<gameroom*>(_room)->change_order();
-			if(dynamic_cast<gameroom*>(_room)->getTurn() == 14) {
+			auto _gameroom = dynamic_cast<gameroom*>(_room);
+			auto& data = _gameroom->get_orderUser()->getScoreBoard();
+			data.setValue(std::stoi(token[2]),std::stoi(token[3]));
+			_gameroom->change_order();
+			setScoreCursor();
+			if(_gameroom->getTurn() == 13) {
 				delete _graphic;
 				_graphic = new scoregraphic(this);
-				dynamic_cast<gameroom*>(_room)->change_level();
+				_gameroom->change_level();
 			}
 		}
 	}
@@ -357,6 +384,7 @@ void game::sendChatString() {
 		buf[i] = '\0';
 		std::string buffer = ydc::format_string("1 1 %d %d %s",get_roomId(),get_userId(),buf);
 		net->SendStringToServer(buffer);
+		clearChatString();
 	}
 }
 
@@ -368,5 +396,46 @@ void game::change_room(int index) {
 		auto tmp2 = _graphic;
 		_graphic = new lobbygraphic(this);
 		delete tmp2;	
+	}
+}
+
+void game::setScoreCursor(int a) {
+	if(a < 0 && score_cursor == 0) return;
+	if(a > 0 && score_cursor == 12) return;
+	int scorelock = dynamic_cast<gameroom *>(getRoom())->
+						get_orderUser()->getScoreBoard().isScoreLock();
+	scorelock |= 1<<(12-7+1);
+	if(a == -1) {//업
+		scorelock>>=(12-score_cursor+1);
+		int n = score_cursor;
+		for(int i = 0;i<n;i++) {
+			if(!(scorelock%2)) {
+				score_cursor = n-i-1;
+				break;
+			}
+			else scorelock>>=1;
+		}
+	}
+	else if (a == 1) {//다운
+		scorelock &= (1<<(12-score_cursor))-1;
+		int start = score_cursor+1;
+		for(int i = 12-start;i>=0;i--) {
+			if(!(scorelock&(1<<i))) {
+				score_cursor = 12-i;
+				break;
+			}
+		}
+
+	}
+}
+void game::setScoreCursor() {
+	int scorelock = dynamic_cast<gameroom *>(getRoom())->
+						get_orderUser()->getScoreBoard().isScoreLock();
+	scorelock &= (1<<12)-1;
+	for(int i = 12;i>=0;i--) {
+		if(!(scorelock&(1<<i))) {
+			score_cursor = 12-i;
+			break;
+		}
 	}
 }

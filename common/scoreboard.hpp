@@ -15,6 +15,7 @@ protected:
 public:
 	scoreboard(); //기본적인 생성자
 	//<setter>
+	void setValue(int,int);
 	void setUp(int,int);
 	void setDown(int,int);
 	void setBonus();
@@ -24,6 +25,7 @@ public:
 	int getDown(int);
 	int getBonus();
 	int getscore();
+	int isScoreLock();
 	//</getter>
 	std::vector<int> display(dice_game); //화면에 띄워질 때 어떤 값을 보여줄지를 처리해줌
 	std::string tostring(); //서버로 데이터를 보내기 용이하도록 string으로 데이터를 바꿔줌

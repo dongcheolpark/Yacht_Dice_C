@@ -1,8 +1,23 @@
 #include "scoreboard.hpp"
 scoreboard::scoreboard() {
 	up.resize(6);
+	for(int i = 0;i<6;i++) {
+		up[i] = -1;
+	}
 	bonus = false;
 	down.resize(6);
+	for(int i = 0;i<6;i++) {
+		down[i] = -1;
+	}
+}
+
+void scoreboard::setValue(int i,int val) {
+	if(0 <= i && i <= 5) {
+		setUp(i,val);
+	}
+	else if(7<=i && i <= 12) {
+		setDown(i-7,val);
+	}
 }
 
 void scoreboard::setscore() {
@@ -16,34 +31,11 @@ void scoreboard::setscore() {
 }
 
 void scoreboard::setUp(int i,int val) {
-	if(val > i*6 || val < 0) return;
-	up[i-1] = val;
+	if(val > (i+1)*6 || val < 0) return;
+	up[i] = val;
 }
 void scoreboard::setDown(int i,int val) {
-	switch (i)
-	{
-	case 1:
-		down[i-1] = val;
-		break;
-	case 2:
-		down[i-1] = val;
-		break;
-	case 3:
-		down[i-1] = val;
-		break;
-	case 4:
-		down[i-1] = 15;
-		break;
-	case 5:
-		down[i-1] = 30;
-		break;
-	case 6:
-		down[i-1] = 50;
-		break;
-	
-	default:
-		break;
-	}
+	down[i] = val;
 }
 
 std::string scoreboard::tostring()  {
@@ -120,5 +112,28 @@ std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 �
 }
 
 std::vector<int> scoreboard::display(dice_game dice) {
-	return calculate(dice);
+	auto res = calculate(dice);
+	for(int i = 0;i<6;i++) {
+		if(up[i] != -1) res[i] = up[i];
+	}
+	for(int i = 0;i<6;i++) {
+		if(down[i] != -1) res[i+7] = down[i];
+	}
+	res[13] = getscore();
+	return res;
+}
+
+int scoreboard::isScoreLock() {
+	int res = 0;
+	for(int i = 0;i<6;i++) {
+		res |= up[i] != -1 ? 1 : 0;
+		res <<= 1;
+	}
+	res <<= 1;
+	for(int i = 0;i<6;i++) {
+		res |= down[i] != -1 ? 1 : 0 ;
+		res <<= 1;
+	}
+	res >>= 1;
+	return res;
 }

@@ -101,7 +101,9 @@ public:
 
 class game_server_change_order : public game_server_parse {
 private :
+	int scorecursor;
+	int value;
 public:
-	game_server_change_order(game_server * server,int roomId) : game_server_parse(server,2,5,roomId) {}
+	game_server_change_order(game_server * server,int roomId,int scorecursor,int value) : game_server_parse(server,2,5,roomId) ,scorecursor(scorecursor), value(value) {}
 	send_struct * doParse();
 };

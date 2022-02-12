@@ -21,7 +21,7 @@
 | 4 | 1 | roomid | 스코어 보드 값 가져오기 |
 |         | 2 | roomid </br> mask '문자열로 주사위 선택(0 : 돌리기, 1: 락)' | 주사위 돌리기 |
 |         | 3 | roomid </br> lockinfo | 주사위 락 정보 |
-|         | 4 | roomid | input 'x' |
+|         | 4 | roomid </br> scoreinfo | input 'x' |
 
 
 ## Server To Client
@@ -39,4 +39,4 @@
 |         | 2 | userList_count </br> { </br> up 6개 </br> choice </br> down 6개 </br> } | 유저 스코어보드 전달 |
 |         | 3 | lockinfo | 주사위 락 정보 |
 |         | 4 | scoreinfo | 점수판 선택 정보 |
-|         | 5 |   | 순서 변경 |
+|         | 5 | scorecursor </br> value | 순서 변경 |

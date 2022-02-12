@@ -33,7 +33,7 @@ private:
 	void dice();
 	void score();
 	void help();
-	void scoreShell(int,std::string,std::list<std::vector<int>>&);
+	void scoreShell(int,std::string,std::list<std::pair<std::vector<int>, int> >&);
 	void order();
 public:
 	gamegraphic(game * _game) : graphic(_game) {}

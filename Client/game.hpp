@@ -38,11 +38,8 @@ public :
 		if(a > 0 && dice_cursor == 4) return;
 		dice_cursor += a;
 	}
-	void setScoreCursor(int a) {
-		if(a < 0 && score_cursor == 0) return;
-		if(a > 0 && score_cursor == 13) return;
-		score_cursor += a;
-	}
+	void setScoreCursor(int a); 
+	void setScoreCursor(); 
 	void graphics();
 	void chatStatusSwitch() { chatStatus = !chatStatus; graphics();}
 	int get_roomId() {return _room->getRoomId();}
@@ -52,5 +49,6 @@ public :
 	int getDiceCursor() {return dice_cursor;}
 	int getScoreCursor() {return score_cursor;}
 	void change_room(int);
+	void clearChatString() { chat_str.clear();}
 	const std::u16string& get_chatString() {return chat_str;}
 };
