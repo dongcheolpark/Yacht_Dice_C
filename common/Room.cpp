@@ -52,6 +52,7 @@ void gameroom::change_order() {
 		change_turn();
 	}
 	else order++;
+	data.set_lockinitial(); //순서 바뀔 때, 주사위 락 초기화
 }
 
 void gameroom::change_turn() {
