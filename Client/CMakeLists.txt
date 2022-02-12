@@ -23,5 +23,6 @@ SET (SRC_FILES
 ADD_EXECUTABLE(${BINARY}_Client  ${SRC_FILES})
 
 if(WIN32)
+	set(CMAKE_EXE_LINKER_FLAGS -static)
 	target_link_libraries(Yacht_Dice_Client wsock32 ws2_32)
 endif()
