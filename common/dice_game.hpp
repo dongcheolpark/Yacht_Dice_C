@@ -14,6 +14,7 @@ public:
 	int get_dices(int);
 	void set_lockinfo(int);
 	void set_lockinfo2(int tmp) {lockinfo=tmp;}
+	void set_lockinitial() { lockinfo &= 0;}
 	bool get_lockinfo(int);
 	int get_lockinfo();
 };
