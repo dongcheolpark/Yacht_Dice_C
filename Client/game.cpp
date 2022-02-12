@@ -356,7 +356,8 @@ void game::parseString(std::string buffer) {
 			auto& data = _gameroom->get_orderUser()->getScoreBoard();
 			data.setValue(std::stoi(token[2]),std::stoi(token[3]));
 			_gameroom->change_order();
-			if(_gameroom->getTurn() == 14) {
+			setScoreCursor();
+			if(_gameroom->getTurn() == 13) {
 				delete _graphic;
 				_graphic = new scoregraphic(this);
 				_gameroom->change_level();
@@ -395,5 +396,46 @@ void game::change_room(int index) {
 		auto tmp2 = _graphic;
 		_graphic = new lobbygraphic(this);
 		delete tmp2;	
+	}
+}
+
+void game::setScoreCursor(int a) {
+	if(a < 0 && score_cursor == 0) return;
+	if(a > 0 && score_cursor == 12) return;
+	int scorelock = dynamic_cast<gameroom *>(getRoom())->
+						get_orderUser()->getScoreBoard().isScoreLock();
+	scorelock |= 1<<(12-7+1);
+	if(a == -1) {//업
+		scorelock>>=(12-score_cursor+1);
+		int n = score_cursor;
+		for(int i = 0;i<n;i++) {
+			if(!(scorelock%2)) {
+				score_cursor = n-i-1;
+				break;
+			}
+			else scorelock>>=1;
+		}
+	}
+	else if (a == 1) {//다운
+		scorelock &= (1<<(12-score_cursor))-1;
+		int start = score_cursor+1;
+		for(int i = 12-start;i>=0;i--) {
+			if(!(scorelock&(1<<i))) {
+				score_cursor = 12-i;
+				break;
+			}
+		}
+
+	}
+}
+void game::setScoreCursor() {
+	int scorelock = dynamic_cast<gameroom *>(getRoom())->
+						get_orderUser()->getScoreBoard().isScoreLock();
+	scorelock &= (1<<12)-1;
+	for(int i = 12;i>=0;i--) {
+		if(!(scorelock&(1<<i))) {
+			score_cursor = 12-i;
+			break;
+		}
 	}
 }

@@ -38,11 +38,8 @@ public :
 		if(a > 0 && dice_cursor == 4) return;
 		dice_cursor += a;
 	}
-	void setScoreCursor(int a) {
-		if(a < 0 && score_cursor == 0) return;
-		if(a > 0 && score_cursor == 12) return;
-		score_cursor += a;
-	}
+	void setScoreCursor(int a); 
+	void setScoreCursor(); 
 	void graphics();
 	void chatStatusSwitch() { chatStatus = !chatStatus; graphics();}
 	int get_roomId() {return _room->getRoomId();}
