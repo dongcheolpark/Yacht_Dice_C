@@ -91,8 +91,11 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					_game->graphics();
 				}
 				if(x == 'r' || x == 'R') {
-					std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
-					net->SendStringToServer(buffer);
+					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
+					if(_room->is_orderUser(_game->get_userId())){
+						std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
+						net->SendStringToServer(buffer);
+					}
 				}
 				if(x == 'x') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
