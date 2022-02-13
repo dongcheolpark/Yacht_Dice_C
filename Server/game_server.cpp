@@ -149,7 +149,7 @@ send_struct * game_server::parseString(const char * buffer) {
 			int value = scoreboard.display(_room->getdata())[scorecursor];
 			scoreboard.setValue(scorecursor,value);
 			_room->change_order();
-			if(dynamic_cast<gameroom*>(_room)->getTurn() == 13) {
+			if(dynamic_cast<gameroom*>(_room)->getTurn() == 12) {
 				roomList.push_back(new room(dynamic_cast<gameroom *>(_room)));
 				roomList.remove(_room);
 			}
