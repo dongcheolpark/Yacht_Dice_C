@@ -357,7 +357,7 @@ void game::parseString(std::string buffer) {
 			data.setValue(std::stoi(token[2]),std::stoi(token[3]));
 			_gameroom->change_order();
 			setScoreCursor();
-			if(_gameroom->getTurn() == 13) {
+			if(_gameroom->getTurn() == 12) {
 				delete _graphic;
 				_graphic = new scoregraphic(this);
 				_gameroom->change_level();
