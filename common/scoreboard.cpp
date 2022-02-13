@@ -22,10 +22,12 @@ void scoreboard::setValue(int i,int val) {
 
 void scoreboard::setscore() {
 	for(auto item : up) {
-		score += item;
+		if(item == -1) score += 0;
+		else score += item;
 	}
 	for(auto item: down) {
-		score += item;
+		if(item == -1) score += 0;
+		else score += item;
 	}
 	score += 35*(int)bonus;
 }
@@ -68,7 +70,7 @@ int scoreboard::getscore() {
 }
 
 std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 때 어떤 값을 보여줄지를 처리해줌
-	std::vector<int> res(13);
+	std::vector<int> res(14);
 	int sum[6] = {0,};
 	for(int i = 0;i<5;i++) {
 		sum[dice.get_dices(i)-1]++;
