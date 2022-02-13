@@ -9,7 +9,7 @@ protected:
 	std::vector<int> up; // 위쪽 데이터
 	bool bonus; // 보너스 처리
 	std::vector<int> down; // 아래쪽 데이터
-	int score; // 점수 총합
+	int score = 0; // 점수 총합
 	void setscore();
 	std::vector<int> calculate(dice_game); // 다이스 값을 바탕으로 데이터 처리
 public:
