@@ -16,6 +16,11 @@ public :
 	virtual int join() { return 0; }
 	virtual std::string* GetStringToServer() { return NULL; }
 	virtual void SendStringToServer(std::string&) { return; }
+#ifdef NDEBUG
+	const char * ip_adress = "132.226.235.184";
+#else
+	const char * ip_adress = "127.0.0.1";
+#endif
 };
 
 #ifdef _WIN32
@@ -29,8 +34,6 @@ private :
 	int			bytesSent;
 	char        buf[1024];
 
-	//const char * ip_adress = "132.226.235.184";
-	const char * ip_adress = "127.0.0.1";
 public :
 	networkWin(); 
 	int join();
@@ -42,8 +45,6 @@ class networkLinux : public networkinterface {
 private : 
 	int sock = 0;
 	int valread;
-	//const char * ip_adress = "132.226.235.184";
-	const char * ip_adress = "127.0.0.1";
 	const int buff_size = 1024;
 	struct sockaddr_in serv_addr;
 public :
