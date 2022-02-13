@@ -91,7 +91,7 @@ std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 �
 	bool three = false,two = false;
 	for(int i = 0;i<6;i++) {
 		if(sum[i] == 0) {
-			max_straight = straight;
+			max_straight = (straight > max_straight) ? straight : max_straight ;
 			straight = 0;
 		}
 		else {
@@ -102,6 +102,7 @@ std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 �
 			if(sum[i] == 5) res[12] = 50; // 야추
 		}
 	}
+	max_straight = (straight > max_straight) ? straight : max_straight ;
 	if(max_straight >= 4) {
 		res[10] = 15;//스몰스트레이트
 	}
