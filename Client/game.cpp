@@ -92,8 +92,10 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				if(x == 'r' || x == 'R') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
 					if(_room->is_orderUser(_game->get_userId())){
-						std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
-						net->SendStringToServer(buffer);
+						if(_room->get_rollCount()!=0){
+							std::string buffer = ydc::format_string("4 2 %d",_game->get_roomId());
+							net->SendStringToServer(buffer);
+						}
 					}
 				}
 				if(x == 'x') {
@@ -346,9 +348,11 @@ void game::parseString(std::string buffer) {
 	}
 	else if(token[0] == "2") {
 		if(token[1] == "1") {
+			auto _gameroom =dynamic_cast<gameroom*>(_room);
 			for(int i = 0;i<5;i++) {
-				dynamic_cast<gameroom*>(_room)->getdata().set_dice(i,std::stoi(token[2+i]));
+				_gameroom->getdata().set_dice(i,std::stoi(token[2+i]));
 			}
+			_gameroom->set_rollCount();
 		}
 		else if(token[1] == "3") {
 			dynamic_cast<gameroom*>(_room)->getdata().set_lockinfo2(std::stoi(token[2]));

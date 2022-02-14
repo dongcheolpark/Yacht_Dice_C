@@ -35,6 +35,7 @@ private:
 	dice_game data; // 주사위 정보
 	int order; // 어떤 유저가 순서인지 알려준다.
 	int turn; // 몇번의 사이클이 돌았는지 알려준다.
+	int rollCount; // 남은 주사위 돌리기 횟수를 알려준다.
 	void change_turn();
 public:
 	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople), order(0) {}// 기본적인 생성자
@@ -46,7 +47,9 @@ public:
 	int getTurn() {return turn;}
 	bool is_orderUser(int id);
 	gameuser * get_orderUser();
+	int get_rollCount();
 	//</getter>
+	void set_rollCount();
 	void change_order();
 	void change_level() {
 		level = 2;
