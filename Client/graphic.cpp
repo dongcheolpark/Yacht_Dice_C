@@ -160,7 +160,7 @@ void scoregraphic::total_score() {
 				x++;
 			}
 		}
-		printf("|%-15d등|",x);
+		printf("|%14d등|",x);
 	}
 	std::cout<<'\n';
 }

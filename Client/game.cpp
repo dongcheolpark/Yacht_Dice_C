@@ -88,7 +88,7 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 					_dice.set_lockinfo(_game->getDiceCursor());
 					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_lockinfo());
 					net->SendStringToServer(buffer);
-					_game->graphics();
+					//_game->graphics();
 				}
 				if(x == 'r' || x == 'R') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
