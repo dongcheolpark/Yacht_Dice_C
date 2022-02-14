@@ -8,7 +8,7 @@ user::user(int id,const char * name) {
 }
 
 lobbyuser::lobbyuser(user * _user) : user(_user->getuserId(),_user->getuserName())  {
-	
+	isReady = false;
 }
 
 int user::getuserId() {
