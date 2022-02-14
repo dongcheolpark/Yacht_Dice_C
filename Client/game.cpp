@@ -101,9 +101,10 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				if(x == 'x') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
 					if(_room->is_orderUser(_game->get_userId())) {
-						
-						std::string buffer = ydc::format_string("4 4 %d %d",_game->get_roomId(),_game->getScoreCursor());
-						net->SendStringToServer(buffer);
+						if(_room->get_rollCount() != 3) {
+							std::string buffer = ydc::format_string("4 4 %d %d",_game->get_roomId(),_game->getScoreCursor());
+							net->SendStringToServer(buffer);
+						}
 					}
 				}
 #ifdef _WIN32

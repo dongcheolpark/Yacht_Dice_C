@@ -3,7 +3,7 @@
 dice_game::dice_game() {
 	dices.resize(5);
 	for(int i = 0;i<5;i++) {
-		dices[i] = 1;
+		dices[i] = 0;
 	}
 	lockinfo=0;
 }
@@ -25,7 +25,7 @@ dice_game::dice_game(std::vector<int> v1) {
 }
 
 void dice_game::set_dice(int index,int value) {
-	if( value < 1 || value > 6) return;
+	if( value < 0 || value > 6) return;
 	this->dices[index] = value;
 }
 

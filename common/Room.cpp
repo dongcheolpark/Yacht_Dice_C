@@ -48,6 +48,9 @@ bool gameroom::is_orderUser(int id) {
 void gameroom::change_order() {
 	int size = userList.size()-1;
 	rollCount = 3;
+	for(int i = 0;i<5;i++) {
+		data.set_dice(i,0);
+	}
 	if(order == size){
 		order = 0;
 		change_turn();
