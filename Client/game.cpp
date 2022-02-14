@@ -435,7 +435,8 @@ void game::setScoreCursor() {
 	int scorelock = dynamic_cast<gameroom *>(getRoom())->
 						get_orderUser()->getScoreBoard().isScoreLock();
 	scorelock &= (1<<12)-1;
-	for(int i = 12;i>=0;i--) {
+	scorelock |= 1<<(12-7+1);
+	for(int i = 11;i>=0;i--) {
 		if(!(scorelock&(1<<i))) {
 			score_cursor = 12-i;
 			break;
