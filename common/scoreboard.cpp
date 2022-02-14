@@ -14,6 +14,9 @@ scoreboard::scoreboard() {
 void scoreboard::setValue(int i,int val) {
 	if(0 <= i && i <= 5) {
 		setUp(i,val);
+		if(getUpTotal() >= 63) {
+			setBonus();
+		}
 	}
 	else if(7<=i && i <= 12) {
 		setDown(i-7,val);
@@ -39,6 +42,9 @@ void scoreboard::setUp(int i,int val) {
 void scoreboard::setDown(int i,int val) {
 	down[i] = val;
 }
+void scoreboard::setBonus() {
+	bonus = true;
+}
 
 std::string scoreboard::tostring()  {
 	std::string res;
@@ -54,6 +60,15 @@ std::string scoreboard::tostring()  {
 
 int scoreboard::getUp(int n) {
 	return up[n];
+}
+
+int scoreboard::getUpTotal() {
+	int res = 0;
+	for(auto item : up) {
+		if(item == -1) continue;
+		res += item;
+	}
+	return res;
 }
 
 int scoreboard::getDown(int n) {
@@ -84,7 +99,7 @@ std::vector<int> scoreboard::calculate(dice_game dice) { //화면에 띄워질 �
 			}
 		}
 	}//up 계산
-	res[6] = getBonus();//보너스 표시
+	res[6] = getUpTotal();//보너스 표시
 	for(int i = 0;i<5;i++) res[7] += dice.get_dices(i);// 초이스
 	int max_straight = 0;
 	int straight = 0;
@@ -132,6 +147,7 @@ int scoreboard::isScoreLock() {
 		res |= up[i] != -1 ? 1 : 0;
 		res <<= 1;
 	}
+	res |= bonus;
 	res <<= 1;
 	for(int i = 0;i<6;i++) {
 		res |= down[i] != -1 ? 1 : 0 ;

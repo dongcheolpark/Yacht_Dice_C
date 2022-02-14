@@ -22,6 +22,7 @@ public:
 	//</setter>
 	//<getter>
 	int getUp(int);
+	int getUpTotal(); // 윗 점수 계산
 	int getDown(int);
 	int getBonus();
 	int getscore();
