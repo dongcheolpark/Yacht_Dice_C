@@ -53,26 +53,29 @@ void lobbygraphic::run() {
 }
 
 void gamegraphic::dice() {
-	auto data = dynamic_cast<gameroom *>(_game->getRoom())->getdata();
+	auto _room = dynamic_cast<gameroom *>(_game->getRoom());
+	auto data = _room->getdata();
 	std::cout<<"\n\n   ";
-	for(int i = 0;i<5;i++) {
-		if(data.get_lockinfo(i)) {
-			std::cout<<"-";
+		for(int i = 0;i<5;i++) {
+			if(data.get_lockinfo(i)) {
+				std::cout<<"-";
+			}
+			else std::cout<<" ";
+			std::cout<<" ";
 		}
-		else std::cout<<" ";
-		std::cout<<" ";
-	}
 	std::cout<<"\n   ";
 	for(int i = 0;i<5;i++) {
 		std::cout<<data.get_dices(i)<<" ";
 	}
 	std::cout<<"\n   ";
-	for(int i = 0;i<5;i++) {
-		if(i == _game->getDiceCursor()) {
-			std::cout<<"-";
+	if(_room->is_orderUser(_game->get_userId())){
+		for(int i = 0;i<5;i++) {
+			if(i == _game->getDiceCursor()) {
+				std::cout<<"-";
+			}
+			else std::cout<<" ";
+			std::cout<<" ";
 		}
-		else std::cout<<" ";
-		std::cout<<" ";
 	}
 	std::cout<<"\n";
 }
@@ -134,8 +137,8 @@ void gamegraphic::order() {
 void gamegraphic::run() {
 	showPeople();
 	score();
-	showchatLists();
 	showCount();
+	showchatLists();
 	dice();
 	order();
 	help();
