@@ -146,9 +146,21 @@ void scoregraphic::run() {
 void scoregraphic::total_score() {
 	auto _room = dynamic_cast<gameroom *>(_game->getRoom());
 	std::list<user*> & userList = _room->getUserList();
+	std::vector<int> v1;
 	for(auto item : userList) {
 		auto scoreboard = dynamic_cast<gameuser*>(item)->getScoreBoard();
 		printf("|%-16d|",scoreboard.getscore());
+		v1.push_back(scoreboard.getscore());
+	}
+	std::cout<<'\n';
+	for(auto item : v1) {
+		int x = 1;
+		for(auto item2 : v1) {
+			if(item < item2) {
+				x++;
+			}
+		}
+		printf("|%-15d등|",x);
 	}
 	std::cout<<'\n';
 }
