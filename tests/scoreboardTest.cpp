@@ -154,7 +154,7 @@ TEST(scoreboardTest, lockdisplayTest2) {
     dice_game _dice({1,1,1,1,1});
     EXPECT_EQ(3072,a->isScoreLock());
     auto v = a->display(_dice);
-    std::vector<int> res = {5,4,9,0,0,0,0,
+    std::vector<int> res = {5,4,9,0,0,0,13,
                             5,5,0,0,0,50,13};
     EXPECT_EQ(v,res);
 }
@@ -167,7 +167,7 @@ TEST(scoreboardTest, lockdisplayTest3) {
     dice_game _dice({1,1,1,1,1});
     EXPECT_EQ(3104,a->isScoreLock());
     auto v = a->display(_dice);
-    std::vector<int> res = {5,4,9,0,0,0,0,
+    std::vector<int> res = {5,4,9,0,0,0,13,
                             20,5,0,0,0,50,33};
     EXPECT_EQ(v,res);
 }

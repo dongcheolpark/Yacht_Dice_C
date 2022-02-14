@@ -108,7 +108,7 @@ void gamegraphic::score() {
 		scoreShell(index,scoreList1[i],tableList);
 		index++;
 	}
-	scoreShell(index,"|+35 Bonus  |",tableList);
+	scoreShell(index,"|SubTotal   |",tableList);
 	index++;
 	for(int i = 0; i < 6; i++){
 		scoreShell(index,scoreList2[i],tableList);
