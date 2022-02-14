@@ -38,7 +38,7 @@ private:
 	int rollCount; // 남은 주사위 돌리기 횟수를 알려준다.
 	void change_turn();
 public:
-	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople), order(0) {}// 기본적인 생성자
+	gameroom(int ID , char *name, int MaxPeople): room(ID, name, MaxPeople), order(0), rollCount(3) {}// 기본적인 생성자
 	gameroom(room *); // 기본적인 생성자
 
 	//<getter>

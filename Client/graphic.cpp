@@ -27,6 +27,11 @@ void graphic::showChatString() {
 	std::cout<<std::endl;
 }
 
+void graphic::showCount() {
+	auto _room = dynamic_cast<gameroom*>(_game->getRoom());
+	std::cout<<"("<<_room->get_rollCount()<<"/3)\n";
+}
+
 void lobbygraphic::help() {
 	std::cout<<"레디하시려면 r 키를 눌러주세요."<<'\n';
 }
@@ -130,6 +135,7 @@ void gamegraphic::run() {
 	showPeople();
 	score();
 	showchatLists();
+	showCount();
 	dice();
 	order();
 	help();
