@@ -13,6 +13,7 @@ protected:
 	void showchatLists();
 	void showPeople();
 	void showChatString();
+	void showCount();
 public:
 	graphic(game * _game) {
 		this->_game = _game;

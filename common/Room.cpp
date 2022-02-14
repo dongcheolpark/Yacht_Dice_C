@@ -18,7 +18,7 @@ room::room(gameroom * _room) {
 	}
 	this->chatList = _room->getChatList();
 }
-gameroom::gameroom(room * _room) : room(_room->getRoomId(),_room->getRoomName(),_room->getRoomMaxPeople()) {
+gameroom::gameroom(room * _room) : room(_room->getRoomId(),_room->getRoomName(),_room->getRoomMaxPeople()), rollCount(3) {
 	level = 1;
 	order = 0;
 	for(auto item : _room->getUserList()) {
@@ -47,6 +47,10 @@ bool gameroom::is_orderUser(int id) {
 
 void gameroom::change_order() {
 	int size = userList.size()-1;
+	rollCount = 3;
+	for(int i = 0;i<5;i++) {
+		data.set_dice(i,0);
+	}
 	if(order == size){
 		order = 0;
 		change_turn();
@@ -57,4 +61,14 @@ void gameroom::change_order() {
 
 void gameroom::change_turn() {
 	turn++;
+}
+
+int gameroom::get_rollCount() {
+   return rollCount;
+}
+
+void gameroom::set_rollCount() {
+   if(rollCount!=0){
+       rollCount--;
+   }
 }
