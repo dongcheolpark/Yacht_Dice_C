@@ -6,6 +6,8 @@ build/
 
 extern/*
 
+.idea
+
 Client/cmake-build*
 
 cmake-build-debug
