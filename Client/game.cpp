@@ -83,11 +83,14 @@ void input(networkinterface * net,game * _game) {//사용자가 입력하는 정
 				}
 			}
 			else if(_game->getRoom()->getlevel() == 1){
-				if(x == 'z') {
-					dice_game & _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
-					_dice.set_lockinfo(_game->getDiceCursor());
-					std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_lockinfo());
-					net->SendStringToServer(buffer);
+				if(x == 'z') {	
+					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
+					if(_room->is_orderUser(_game->get_userId())){
+						dice_game & _dice = dynamic_cast<gameroom*>(_game->getRoom())->getdata();
+						_dice.set_lockinfo(_game->getDiceCursor());
+						std::string buffer = ydc::format_string("4 3 %d %d",_game->get_roomId(),_dice.get_lockinfo());
+						net->SendStringToServer(buffer);
+					}
 				}
 				if(x == 'r' || x == 'R') {
 					auto _room = dynamic_cast<gameroom*>(_game->getRoom());
