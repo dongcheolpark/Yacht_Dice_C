@@ -262,6 +262,7 @@ void game::graphics() {
 }
 
 void game::set_chatString(int x) {//채팅 문자열 관리
+    if(x == '\r') return;
 	if(x == 127) {
 		if(!(chat_str.empty())) {
 			chat_str.pop_back();
